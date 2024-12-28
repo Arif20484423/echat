@@ -5,7 +5,7 @@ Code needs some secrets and all that is in .env.local file in the local stoarage
 that is in Web folder backendtemplate_login_signup_providers
 
 
-## Routes
+## Routes login/signup
 
 /user/signin -> credentials, providers
 
