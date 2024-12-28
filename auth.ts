@@ -7,8 +7,36 @@ import Github from "next-auth/providers/github";
 import bcrypt from "bcrypt-edge"
 
 export const {handlers,signIn,signOut,auth}=NextAuth({
-    providers:[Google,
-        Github,
+    providers:[Google({
+        clientId:process.env.AUTH_GOOGLE_ID,
+        clientSecret:process.env.AUTH_GOOGLE_SECRET,
+        async profile(profile){
+            const userExist= await User.findOne({email:profile.email});
+            if(userExist){
+                profile._id=userExist._id;
+            }
+            else{
+                const userCreated=await User.create({email:profile.email});
+                profile._id=userCreated._id;
+            }
+            return profile;
+        }
+    }),
+        Github({
+            clientId:process.env.AUTH_GITHUB_ID,
+            clientSecret:process.env.AUTH_GITHUB_SECRET,
+            async profile(profile){
+                const userExist= await User.findOne({email:profile.email});
+                if(userExist){
+                    profile._id=userExist._id;
+                }
+                else{
+                    const userCreated=await User.create({email:profile.email});
+                    profile._id=userCreated._id;
+                }
+                return profile;
+            },
+        }),
         Credentials({
         credentials:{
             email:{},
@@ -41,26 +69,17 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
         signIn:'/signin'
     },
    callbacks:{
-    signIn:async ({user,account})=>{
-        if(account?.provider=='github'){
-            const userexist=await User.findOne({email:user.email})
-            if(userexist){
-                return true
-            }
-            else{
-                const userCreated=await User.create({email:user.email})
-            }
+    jwt({token,user}){
+        if(user ){
+            token.id=user._id
         }
-        if(account?.provider=='google'){
-            const userexist=await User.findOne({email:user.email})
-            if(userexist){
-                return true
-            }
-            else{
-                const userCreated=await User.create({email:user.email})
-            }
-        }
-        return true;
-    }
+        return token;
+    },
+    session({session,token}){
+        session.user.id=token.id;
+        return session;
+
+    },
+    
    }
 })
