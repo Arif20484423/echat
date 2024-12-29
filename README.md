@@ -8,8 +8,11 @@ that is in Web folder backendtemplate_login_signup_providers
 ## Routes login/signup
 
 /user/signin -> credentials, providers
+
 /user/signup  --- email -> otp-> password set
-/user/password  -reset password once logged in 
+
+/user/password  -reset password once logged in
+
 /dashboard --- signout button
 
 
@@ -17,14 +20,19 @@ that is in Web folder backendtemplate_login_signup_providers
 1- Tookup my own backend login/signup template from my own github repository
 
 2- Extended the functionalities to make autheentication return id too(some additional info to session)
+
 3- Started production to resolve production errors beside development
-4- Stuck with a major error of mongoose that was running on edge on auth.ts file took so large to configure how to fix(2 days approx) , 
+
+4- Stuck with a major error of mongoose that was running on edge on auth.ts file took so large to configure how to fix(2 days approx) ,
+
 learnings- Proper database connection  with two sites-
 https://dev.to/thatanjan/2-ways-to-set-up-nextjs-with-mongodb-and-mongoose-4afo
 https://medium.com/@aniruddh622003/setting-up-mongodb-with-mongoose-and-nextjs-13-3a598609c5d1
+
 Major error to fix -
 shift the database work of auth.ts file to api route and making fetch request resolved from
 https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-mongoose-dist-browser-umd-js-in-src-model
+
 5- .......
 
 
