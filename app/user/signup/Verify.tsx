@@ -1,10 +1,10 @@
 "use client"
 import React from 'react'
 import { useFormState } from 'react-dom'
-import { Response } from '@/lib/actions/userActions'
+import { ResponseType } from '@/lib/actions/userActions'
 import { userVerifyOtp } from '@/lib/actions/userActions'
 const Verify = ({step,setStep,email}:{step:number,setStep:Function,email:string}) => {
-    const initialState:Response={message:null}
+    const initialState:ResponseType={message:null}
     const [status,formAction] = useFormState(userVerifyOtp,initialState)
     if(status?.success){
       setStep(step+1)

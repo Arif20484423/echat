@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Mail from './Mail'
 import Verify from './Verify'
 import SetPassword from './SetPassword'
-const page = () => {
+const Page = () => {
   const [step,setStep]=useState(1);
   const [email,setEmail]=useState("");
   console.log(email)
@@ -24,4 +24,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

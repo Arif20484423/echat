@@ -1,10 +1,10 @@
 "use client"
 import React from 'react'
 import { userResetPassword } from '@/lib/actions/userActions'
-import { Response } from '@/lib/actions/userActions'
+import { ResponseType } from '@/lib/actions/userActions'
 import { useFormState } from 'react-dom'
 const ResetPassword = ({email}:{email:string}) => {
-    let initialState:Response={message:null}
+    let initialState:ResponseType={message:null}
     const [status,formAction]=useFormState(userResetPassword,initialState)
   return (
     <form action={formAction}>
