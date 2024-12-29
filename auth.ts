@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Github from "next-auth/providers/github";
-
+import { GitHubProfile } from "next-auth/providers/github";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
@@ -23,7 +23,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Github({
       clientId: process.env.AUTH_GITHUB_ID,
       clientSecret: process.env.AUTH_GITHUB_SECRET,
-      async profile(profile) {
+      async profile(profile):Promise<any> {
+        
         const res = await fetch("http://localhost:3000/api/addprovideruser", {
           method: "POST",
           body: JSON.stringify({ email: profile.email }),
@@ -32,6 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (json.success) {
           profile._id = json.user._id;
           return profile;
+        }
+        else{
+            throw new Error("Error using Github")
         }
       },
     }),
