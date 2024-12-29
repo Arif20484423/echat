@@ -15,6 +15,7 @@ that is in Web folder backendtemplate_login_signup_providers
 
 ## Steps and Resources
 1- Tookup my own backend login/signup template from my own github repository
+
 2- Extended the functionalities to make autheentication return id too(some additional info to session)
 3- Started production to resolve production errors beside development
 4- Stuck with a major error of mongoose that was running on edge on auth.ts file took so large to configure how to fix(2 days approx) , 
