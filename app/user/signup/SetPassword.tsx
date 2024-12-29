@@ -2,11 +2,11 @@
 import React from 'react'
 import { userSetPassword } from '@/lib/actions/userActions'
 import { useFormState } from 'react-dom'
-import { Response } from '@/lib/actions/userActions'
+import { ResponseType } from '@/lib/actions/userActions'
 import { useRouter } from 'next/navigation'
 const SetPassword = ({email}:{email:string}) => {
     const router= useRouter()
-    const initialState:Response={message:null}
+    const initialState:ResponseType={message:null}
     const [status,formAction]=useFormState(userSetPassword,initialState);
     if(status?.success){
         router.push('/dashboard');

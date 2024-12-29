@@ -3,7 +3,7 @@ import ResetPassword from './ResetPassword'
 import { auth } from '@/auth'
 import { redirect} from 'next/navigation';
 
-const page =async  () => {
+const Page =async  () => {
     const session = await auth();
     const email=session?.user?.email
     console.log(session)
@@ -19,4 +19,4 @@ const page =async  () => {
 
 }
 
-export default page
+export default Page

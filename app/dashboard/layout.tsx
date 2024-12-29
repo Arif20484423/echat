@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
-const layout = async ({children}:{children:React.ReactNode}) => {
+const Layout = async ({children}:{children:React.ReactNode}) => {
   // checking push
     const session = await auth()
     if(session==null){
@@ -16,4 +16,4 @@ const layout = async ({children}:{children:React.ReactNode}) => {
   )
 }
 
-export default layout
+export default Layout

@@ -3,11 +3,11 @@ import React from 'react'
 import { useFormState } from 'react-dom'
 import { userSignIn, userSignInGithub, userSignInGoogle } from '@/lib/actions/userActions'
 
-import { Response } from '@/lib/actions/userActions'
+import { ResponseType } from '@/lib/actions/userActions'
 
-const page = () => {
+const Page = () => {
   
-  const initialState:Response={message:null,errors:{}}
+  const initialState:ResponseType={message:null,errors:{}}
   const [state,formAction]=useFormState(userSignIn,initialState);
   
   return (
@@ -33,4 +33,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -3,7 +3,7 @@ import { auth } from '@/auth'
 import { userSignOut } from '@/lib/actions/userActions';
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   
   return (
     <div>dashboard page <br />
@@ -14,4 +14,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
