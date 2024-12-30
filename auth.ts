@@ -9,7 +9,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
       async profile(profile) {
-        const res = await fetch("http://localhost:3000/api/addprovideruser", {
+        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/addprovideruser", {
           method: "POST",
           body: JSON.stringify({ email: profile.email }),
         });
@@ -25,7 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_GITHUB_SECRET,
       async profile(profile):Promise<any> {
         
-        const res = await fetch("http://localhost:3000/api/addprovideruser", {
+        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/addprovideruser", {
           method: "POST",
           body: JSON.stringify({ email: profile.email }),
         });
@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        const res = await fetch("http://localhost:3000/api/verifyuser", {
+        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/verifyuser", {
           method: "POST",
           body: JSON.stringify({
             email: credentials.email,
