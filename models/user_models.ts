@@ -9,7 +9,7 @@ const userSchema=new mongoose.Schema({
     description:String,
     
 })
-const User=mongoose.models?.User  || mongoose.model('User',userSchema)
+const User=mongoose.models?.user  || mongoose.model('user',userSchema)
 
 const userunverifiedSchema= new mongoose.Schema({
     email:{type:String,required:true,unique:true},
@@ -17,6 +17,6 @@ const userunverifiedSchema= new mongoose.Schema({
     validdate:{type:Date,required:true},
 })
 
-const Userunverified= mongoose.models?.Userunverified || mongoose.model('Userunverified',userunverifiedSchema)
+const Userunverified= mongoose.models?.userunverified || mongoose.model('userunverified',userunverifiedSchema)
 
 export {User,Userunverified};
