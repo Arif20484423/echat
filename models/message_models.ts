@@ -26,5 +26,7 @@ export const Message = mongoose.models?.message || mongoose.model("message",mess
 const groupSchema = new Schema({
     groupname:String,
     description:String,
-    
+
 })
+export const Group= mongoose.models?.group || mongoose.model("group",groupSchema);
+
