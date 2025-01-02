@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(){
     const session = await auth();
     if(session){
-        return NextResponse.json({success:true})
+        return NextResponse.json({success:true,id:session.user?.id})
     }
     
     else{

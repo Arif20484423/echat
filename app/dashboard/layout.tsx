@@ -7,6 +7,10 @@ const Layout =async   ({children}:{children:React.ReactNode}) => {
   if(session==null){
     redirect("/user/signin")
   }
+  else{
+    console.log(session);
+  
+  }
    
   return (
     <>{children}</> 
