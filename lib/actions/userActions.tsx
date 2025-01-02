@@ -2,6 +2,7 @@
 import { User, Userunverified } from "@/models/user_models";
 import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
+import {auth} from "@/auth"
 import z from "zod";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt-edge";
@@ -249,4 +250,16 @@ export async function userSignOut() {
     redirect: false,
   });
   redirect("/");
+}
+
+
+export async function userLoggedIn(){
+  const session = await auth();
+  if(session){
+    return true;
+  }
+  else{
+    return false;
+  }
+
 }

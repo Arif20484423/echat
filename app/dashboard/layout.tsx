@@ -1,18 +1,15 @@
-import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
+import {auth } from "@/auth"
+import { redirect } from 'next/navigation';
+const Layout =async   ({children}:{children:React.ReactNode}) => {
 
-const Layout = async ({children}:{children:React.ReactNode}) => {
-  // checking push
-    const session = await auth()
-    if(session==null){
-        redirect('/user/signin');
-    }
-    else{
-      console.log(session)
-    }
+  const session = await auth();
+  if(session==null){
+    redirect("/user/signin")
+  }
+   
   return (
-    <>{children}</>
+    <>{children}</> 
   )
 }
 
