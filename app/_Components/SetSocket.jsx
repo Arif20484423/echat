@@ -12,16 +12,18 @@ const SetSocket = () => {
       })
       .then((data) => {
         if (data.success) {
+          console.log("Connecting");
           let sock = io(process.env.NEXT_PUBLIC_SOCKET_URL);
           setSocket(sock);
+
           sock.on("connect", () => {
             console.log("Connected");
           });
           sock.emit("join_room", { room: data.id });
-          sock.on("message",(data)=>{
-            alert("message")
-            setMessageNotification(data.message)
-          })
+          sock.on("message", (data) => {
+            alert("message");
+            setMessageNotification(data.message);
+          });
         }
       });
   }, []);
