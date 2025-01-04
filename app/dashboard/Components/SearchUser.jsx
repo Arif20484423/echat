@@ -1,6 +1,6 @@
 "use client"
 import { Context } from '@/app/_context/NoteContext';
-import { createChannel } from '@/lib/actions/channelActions';
+import { createChannel } from '@/lib/actions/chatActions';
 import React, { useContext, useEffect, useState } from 'react'
 
 const SearchUser = ({setShowConnected}) => {
@@ -24,8 +24,8 @@ const SearchUser = ({setShowConnected}) => {
         
         {users.map((e)=>{
             return <p key={e._id} onClick={async ()=>{
-                await createChannel(user.id,e._id)
-                setToUser({id:e._id,email:e.email})                
+                const channelid=await createChannel(user.id,e._id)
+                setToUser({id:e._id,email:e.email,channelid:channelid})                
                 setShowConnected(t=>!t)
             }}>{e.email}</p>
         })}

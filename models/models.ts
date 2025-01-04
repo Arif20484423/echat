@@ -40,7 +40,7 @@ export const Channel= mongoose.models?.channel || mongoose.model("channel",chann
 
 const messageSchema= new Schema({
     message:{type:String,required:true},
-    user:{type:Schema.Types.ObjectId,required:true},
+    user:{type:Schema.Types.ObjectId,ref:"user",required:true},
     channel:{type:Schema.Types.ObjectId,required:true},
     time:Date,
     deleted:{type:Boolean,default:false},

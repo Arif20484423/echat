@@ -8,7 +8,7 @@ const Connected = ({showConnected}) => {
     const {setToUser} = useContext(Context)
     useEffect(()=>{
       fetch("/api/connectedcontacts").then(d=>d.json()).then((d)=>{
-        console.log(d.data)
+        // console.log(d.data)
         setConnected(d.data)
       });
     },[])

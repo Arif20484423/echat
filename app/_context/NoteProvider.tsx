@@ -5,15 +5,15 @@ import { Context } from "./NoteContext";
 
 export default function NoteProvider({children}:{children:React.ReactNode}){
     const [socket,setSocket]= useState(null)
-    const [message,setMessage]=useState(null);
+    const [messageNotification,setMessageNotification]=useState(null);
     const [toUser,setToUser]= useState(null);
     const [user,setUser]= useState(null);
+  
     useEffect(()=>{
-        console.log("Provider")
-        console.log(toUser)
-        console.log(user)
-    },[toUser,user])
-    return <Context.Provider value={{socket,setSocket,message,setMessage,toUser, setToUser,user,setUser}}>
+        console.log(socket)
+    },[socket])
+    
+    return <Context.Provider value={{socket,setSocket,messageNotification,setMessageNotification,toUser, setToUser,user,setUser}}>
         {children}
     </Context.Provider>
 }
