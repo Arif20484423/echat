@@ -1,5 +1,5 @@
 "use server";
-import { User, Userunverified } from "@/models/user_models";
+import { User, Userunverified } from "@/models/models";
 import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import {auth} from "@/auth"

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import {User} from '../../../models/user_models';
+import {User} from '../../../models/models';
 import bcrypt from "bcrypt-edge"
 export async function POST(request:NextRequest){
     const req= await request.json()

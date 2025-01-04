@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/_Components/SetSocket.jsx", "app/dashboard/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/_Components/SetSocket.jsx", "app/dashboard/page.jsx", "app/dashboard/Components/SearchUser.jsx", "app/dashboard/Components/Connected.jsx"],
   "exclude": ["node_modules"]
 }

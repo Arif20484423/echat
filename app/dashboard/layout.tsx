@@ -13,7 +13,9 @@ const Layout =async   ({children}:{children:React.ReactNode}) => {
   }
    
   return (
-    <>{children}</> 
+    <>
+    <p>{session.user?.email}</p>
+    {children} </> 
   )
 }
 
