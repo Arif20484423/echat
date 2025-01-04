@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
-// import { showmodels } from "@/models/user";
+import SetSocket from "./_Components/SetSocket";
+import NoteProvider from "./_context/NoteProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -14,11 +16,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+ 
   
-  // showmodels();
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        
+        <NoteProvider>
+            <SetSocket/>
+          {children}</NoteProvider>
+      </body>
     </html>
   );
 }
