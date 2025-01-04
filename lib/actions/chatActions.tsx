@@ -4,10 +4,19 @@ import { Channel, Message } from "@/models/models"
 
 export async function createChannel(user:String,toUser:String){
 
-    // update needed to make boundaries
+    
+    const channelexists= await Channel.find({user:user}).populate("user").populate({path:"connections",match:{user:toUser}})
+    
+    for(let i=0;i<channelexists.length;i++){
+        if(channelexists[i].connections.length>0){
+            return channelexists[i].channelid+""
+        }
+    }
+    
     const ch = new Channel({
         user:user
     });
+    
     ch.channelid=ch.id;
     await ch.save();
     const ch2= new Channel({

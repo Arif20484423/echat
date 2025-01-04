@@ -13,7 +13,6 @@ const Chat = () => {
                 method:"POST",
                 body:JSON.stringify({channelid:toUser.channelid})
             }).then(d=>d.json()).then(d=>{
-                // console.log(d.data); 
                 setMessages(d.data)
             })
         }
