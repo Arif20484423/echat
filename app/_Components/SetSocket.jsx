@@ -12,7 +12,7 @@ const SetSocket = () => {
       })
       .then((data) => {
         if (data.success) {
-          console.log("Connecting");
+          console.log("Connecting",process.env.NEXT_PUBLIC_SOCKET_URL);
           let sock = io(process.env.NEXT_PUBLIC_SOCKET_URL);
           setSocket(sock);
 
