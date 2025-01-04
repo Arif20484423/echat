@@ -35,7 +35,9 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 5- Performed Imp changes for production from backendtemplate readme file
 
-6- 
+6- Added socket in a client component called in root layout to let the socket work in every location througout the web app, (once the socket is being loaded it is asssigned to a state socket via setSocket function of use State)
+
+7- 
 
 
 ## Getting Started
