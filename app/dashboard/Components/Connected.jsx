@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 const Connected = ({showConnected}) => {
     const [connected,setConnected]=useState([]);
+    
     const {setToUser} = useContext(Context)
     useEffect(()=>{
       fetch("/api/connectedcontacts").then(d=>d.json()).then((d)=>{

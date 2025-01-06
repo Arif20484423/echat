@@ -4,11 +4,13 @@ import { addMessage } from '@/lib/actions/chatActions'
 import React, { useContext , useEffect, useState} from 'react'
 var cryptojs= require("crypto-js")
 const Chat = () => {
-    const {toUser,messageNotification,setMessageNotification,socket} = useContext(Context)
+    const {toUser,user,messageNotification,setMessageNotification,socket} = useContext(Context)
     const [message,setMessage]= useState("");
     const [messages,setMessages]= useState([]);
     useEffect(()=>{
-        if(toUser){
+        
+        if(toUser ){
+            
             fetch("/api/getmessages",{
                 method:"POST",
                 body:JSON.stringify({channelid:toUser.channelid})
@@ -18,6 +20,23 @@ const Chat = () => {
         }
         
     },[messageNotification,toUser]);
+    useEffect(()=>{ 
+        if(!toUser){
+            alert("mesage")
+            // refetch contacts
+        }
+        if(messageNotification && messageNotification.from){
+            if(messageNotification.from!==toUser.id){
+                alert("mesage")
+                // refetch contacts
+            }
+            else{
+                alert("same")
+                
+            }
+        }
+
+    },[messageNotification])
   return (
     <div><p>Chat</p>
     <p>{toUser && toUser.email}</p>
@@ -25,7 +44,7 @@ const Chat = () => {
         setMessage(e.target.value)
     }}/>
     <button onClick={async ()=>{
-        await addMessage(toUser.channelid,toUser.id,message)
+        await addMessage(toUser.channelid,user.id,message)
         socket.emit("message",{to:toUser.id,message:message})
         setMessageNotification(message)
     }}>send</button>

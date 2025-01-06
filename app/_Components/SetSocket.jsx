@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../_context/NoteContext";
 import { io } from "socket.io-client";
 const SetSocket = () => {
-  const { socket, setSocket, setMessageNotification } = useContext(Context);
+  const {  setSocket, setMessageNotification,toUser } = useContext(Context);
 
   useEffect(() => {
     fetch("/api/userlogged")
@@ -21,8 +21,7 @@ const SetSocket = () => {
           });
           sock.emit("join_room", { room: data.id });
           sock.on("message", (data) => {
-            alert("message");
-            setMessageNotification(data.message);
+            setMessageNotification(data);
           });
         }
       });
