@@ -2,7 +2,7 @@
 import { Context } from '@/app/_context/NoteContext'
 import { addMessage } from '@/lib/actions/chatActions'
 import React, { useContext , useEffect, useState} from 'react'
-
+var cryptojs= require("crypto-js")
 const Chat = () => {
     const {toUser,messageNotification,setMessageNotification,socket} = useContext(Context)
     const [message,setMessage]= useState("");
@@ -33,10 +33,12 @@ const Chat = () => {
 
     {
         messages.map((e)=>{
+            const bytes=cryptojs.AES.decrypt(e.message,process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY);
+            const decryptedMessage=bytes.toString(cryptojs.enc.Utf8)
             return (
                 <div key={e._id}>
                     <p>{e.user.email}</p>
-                    <p>{e.message}</p>
+                    <p>{decryptedMessage}</p>
                     <br />
                 </div>
             )

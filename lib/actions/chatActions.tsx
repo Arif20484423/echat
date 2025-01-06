@@ -1,6 +1,6 @@
 "use server"
 import { Channel, Message } from "@/models/models"
-
+var cryptojs= require("crypto-js")
 
 export async function createChannel(user:String,toUser:String){
 
@@ -29,8 +29,9 @@ export async function createChannel(user:String,toUser:String){
 
 export async function addMessage(channel:String,user:String,message:String){
     
+    const ciphertext=cryptojs.AES.encrypt(message,process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY).toString();
     const msg= new Message({
-        message:message,
+        message:ciphertext,
     user:user,
     channel:channel,
     time: new Date(),
