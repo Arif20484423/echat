@@ -8,11 +8,11 @@ export default function NoteProvider({children}:{children:React.ReactNode}){
     const [messageNotification,setMessageNotification]=useState(null);
     const [toUser,setToUser]= useState(null);
     const [user,setUser]= useState(null);
-    
+    const [connectedRefetch,setConnectedRefetch]= useState(true);
     
 
     
-    return <Context.Provider value={{socket,setSocket,messageNotification,setMessageNotification,toUser, setToUser,user,setUser}}>
+    return <Context.Provider value={{socket,setSocket,messageNotification,setMessageNotification,toUser, setToUser,user,setUser,connectedRefetch,setConnectedRefetch}}>
         {children}
     </Context.Provider>
 }

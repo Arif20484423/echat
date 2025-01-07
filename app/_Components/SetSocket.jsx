@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../_context/NoteContext";
 import { io } from "socket.io-client";
 const SetSocket = () => {
-  const {  setSocket, setMessageNotification,toUser } = useContext(Context);
+  const {  setSocket, setMessageNotification } = useContext(Context);
 
   useEffect(() => {
     fetch("/api/userlogged")
