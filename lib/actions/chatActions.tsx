@@ -8,10 +8,12 @@ export async function createChannel(user:String,toUser:String){
     // checking for if channel exists between the two users 
     const channelexists= await Channel.find({user:user}).populate("user").populate({path:"connections",match:{user:toUser}})
     
+    console.log(channelexists)
     for(let i=0;i<channelexists.length;i++){
-        if(channelexists[i].connections.length>0){
-            await Channel.findByIdAndUpdate(channelexists[i]._id,{deleted:false})
+        if(!channelexists[i].isgroup && channelexists[i].connections.length>0){
+            await Channel.findByIdAndUpdate(channelexists[i].id,{deleted:false})
             // if exists return the channel
+            console.log("found")
             return channelexists[i].channelid+""
         }
     }

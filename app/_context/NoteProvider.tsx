@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Context } from "./NoteContext";
 
 export default function NoteProvider({
@@ -14,6 +14,11 @@ export default function NoteProvider({
   const [user, setUser] = useState(null);
   const [connectedRefetch, setConnectedRefetch] = useState(true);
 
+
+  useEffect(()=>{
+    console.log("toUser",toUser)
+    console.log("user",user)
+  },[toUser,user])
   return (
     <Context.Provider
       value={{

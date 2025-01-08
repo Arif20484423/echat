@@ -12,6 +12,7 @@ const Connected = ({}) => {
     fetch("/api/connectedcontacts")
       .then((d) => d.json())
       .then((d) => {
+        console.log(d.data)
         setConnected(d.data);
       });
   }, [connectedRefetch]);
