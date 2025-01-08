@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Connected from "./Components/Connected";
 import SearchUser from "./Components/SearchUser";
 import { Context } from "../_context/NoteContext";
+import CreateGroup from "./Components/CreateGroup"
 import Chat from './Components/Chat'
 const Page = () => {
   const {setUser} = useContext(Context)
@@ -25,15 +26,23 @@ const Page = () => {
       </button>
 <br />
       <button onClick={()=>{
-        setShowConnected(c=>!c);
+        setShowConnected(()=>2);
       }}>new</button>
+      <button onClick={()=>{
+        setShowConnected(()=>3);
+      }}>new group</button>
       <div className="grid grid-cols-2" >
       
         <div className=" bg-slate-400">
           {
-            showConnected?<Connected showConnected={showConnected}/>:<SearchUser setShowConnected={setShowConnected}/>
+            showConnected==1 && <Connected showConnected={showConnected}/>
           }
-          
+          {
+            showConnected==2 && <SearchUser setShowConnected={setShowConnected}/>
+          }
+          {
+            showConnected==3 && <CreateGroup setShowConnected={setShowConnected}/>
+          }
         </div>
         <div className=" bg-blue-400">
           <Chat/>
