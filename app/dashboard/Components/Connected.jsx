@@ -4,7 +4,7 @@ import { Context } from "@/app/_context/NoteContext";
 import { deleteChat } from "@/lib/actions/chatActions";
 import React, { useContext, useEffect, useState } from "react";
 
-const Connected = ({ showConnected }) => {
+const Connected = ({ }) => {
   const [connected, setConnected] = useState([]);
 
   const { setToUser, user, connectedRefetch, setConnectedRefetch } =
@@ -13,6 +13,7 @@ const Connected = ({ showConnected }) => {
     fetch("/api/connectedcontacts")
       .then((d) => d.json())
       .then((d) => {
+        console.log(d.data)
         setConnected(d.data);
       });
   }, [connectedRefetch]);
@@ -28,12 +29,12 @@ const Connected = ({ showConnected }) => {
               onClick={() => {
                 setToUser({
                   isgroup:true,
-                  email: e.group[0].name,
+                  email: e.group[0].groupname,
                   channelid: e.channelid,
                 });
               }}
             >
-              {e.group[0].name}
+              {e.group[0].groupname}
             </p>
             <button
               onClick={async () => {

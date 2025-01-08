@@ -26,7 +26,7 @@ const SearchUser = ({setShowConnected}) => {
             return <p key={e._id} onClick={async ()=>{
                 const channelid=await createChannel(user.id,e._id)
                 setToUser({id:e._id,email:e.email,channelid:channelid})                
-                setShowConnected(t=>!t)
+                setShowConnected(()=>1)
             }}>{e.email}</p>
         })}
 
