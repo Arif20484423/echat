@@ -61,7 +61,8 @@ const Chat = () => {
       />
       <button
         onClick={async () => {
-            console.log(toUser)
+
+            console.log("toUser",toUser)
           if (toUser.isgroup) {
             console.log("group one")
             //for group adding different method to add messages
