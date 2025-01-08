@@ -61,7 +61,9 @@ const Chat = () => {
       />
       <button
         onClick={async () => {
+            console.log(toUser)
           if (toUser.isgroup) {
+            console.log("group one")
             //for group adding different method to add messages
             fetch("/api/getchannelusers", {
               method: "POST",
@@ -82,6 +84,7 @@ const Chat = () => {
                 socket.emit("groupmessage", { to: d.data, message: message });      //mesagenotification to other to reload chats
               });
           } else {
+            console.log("instance one")
             await addMessage(toUser.channelid, user.id, toUser.id, message);
             setMessageNotification(message);    //mesagenotification to self to reload chats
             socket.emit("message", { to: toUser.id, message: message });    //mesagenotification to other to reload chats
