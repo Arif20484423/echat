@@ -99,7 +99,7 @@ const Chat = () => {
             e.message.message,
             process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
           );
-          const decryptedMessage = bytes.toString(cryptojs.enc.Utf8);
+          const decryptedMessage  = bytes.toString(cryptojs.enc.Utf8);
             // self to get own message or others message for each separate message 
           const self = user.id == e.message.user._id;
 
