@@ -37,7 +37,10 @@ export async function createChannel(user:String,toUser:String){
 
 export async function addMessage(channel:String,user:String,touser:String,message:String){
     // creating message and adding to all the users current user and toUser
+    console.log("encryption")
+    console.log("key",process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY)
     const ciphertext=cryptojs.AES.encrypt(message,process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY).toString();
+    console.log("ciphertetxted")
     const msg= new Message({
         message:ciphertext,
     user:user,

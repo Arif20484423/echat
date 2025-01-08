@@ -87,6 +87,7 @@ const Chat = () => {
           } else {
             console.log("instance one")
             await addMessage(toUser.channelid, user.id, toUser.id, message);
+            console.log("addmessage done")
             setMessageNotification(message);    //mesagenotification to self to reload chats
             socket.emit("message", { to: toUser.id, message: message });    //mesagenotification to other to reload chats
           }
