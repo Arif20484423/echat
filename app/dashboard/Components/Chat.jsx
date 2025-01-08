@@ -7,6 +7,7 @@ import {
   deleteForEveryoneMesssage,
   deleteForEveryoneMesssageGroup,
   deleteMesssage,
+  test,
 } from "@/lib/actions/chatActions";
 var cryptojs = require("crypto-js");
 
@@ -90,10 +91,12 @@ const Chat = () => {
             console.log(user.id)
             console.log(toUser.id)
             console.log(message)
-            await addMessage(toUser.channelid, user.id, toUser.id, message);
+            // await addMessage(toUser.channelid, user.id, toUser.id, message);
+            await test("hello");
+            
             console.log("addmessage done")
-            setMessageNotification(message);    //mesagenotification to self to reload chats
-            socket.emit("message", { to: toUser.id, message: message });    //mesagenotification to other to reload chats
+            // setMessageNotification(message);    //mesagenotification to self to reload chats
+            // socket.emit("message", { to: toUser.id, message: message });    //mesagenotification to other to reload chats
           }
         }}
       >

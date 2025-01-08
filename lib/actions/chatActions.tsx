@@ -35,6 +35,9 @@ export async function createChannel(user:String,toUser:String){
     return ch.id;
 }
 
+export async function test(x:string){
+    console.log(x)
+}
 export async function addMessage(channel:String,user:String,touser:String,message:String){
     // creating message and adding to all the users current user and toUser
     console.log("encryption")
