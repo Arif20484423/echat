@@ -25,15 +25,18 @@ const CreateGroup = ({setShowConnected}) => {
         
         {users.map((e)=>{
             return <p key={e._id} onClick={async ()=>{
+                // adding users  for the group
                 setGroupMember([...groupMembers,e._id]);
             }}>{e.email}</p>
         })}
 
         <input type="text" onChange={(e)=>{
+            // setting group name
             setName(e.target.value)
         }} />
         <button onClick={async ()=>{
             console.log(groupMembers)
+            // creating group
             const channel=await createGroupChannel(user.id,groupMembers,name)
             setToUser({isgroup:true,channelid:channel,email:name})
             setShowConnected(1)

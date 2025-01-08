@@ -24,6 +24,7 @@ const SearchUser = ({setShowConnected}) => {
         
         {users.map((e)=>{
             return <p key={e._id} onClick={async ()=>{
+                // selecting touser  new user if needed else created channelid will be assisigned and chat will be opened
                 const channelid=await createChannel(user.id,e._id)
                 setToUser({id:e._id,email:e.email,channelid:channelid})                
                 setShowConnected(()=>1)
