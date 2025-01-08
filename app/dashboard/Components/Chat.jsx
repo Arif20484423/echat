@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "@/app/_context/NoteContext";
 import {
-  addMessage,
+    addMessage,
   addMessageGroup,
   deleteForEveryoneMesssage,
   deleteForEveryoneMesssageGroup,
@@ -93,7 +93,8 @@ const Chat = () => {
             console.log(message)
             // await addMessage(toUser.channelid, user.id, toUser.id, message);
             await test("hello");
-            
+            await addMessage(toUser.channelid,user.id,toUser.id,message)
+
             console.log("addmessage done")
             // setMessageNotification(message);    //mesagenotification to self to reload chats
             // socket.emit("message", { to: toUser.id, message: message });    //mesagenotification to other to reload chats
