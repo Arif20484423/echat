@@ -100,17 +100,13 @@ const Chat = () => {
             process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
           );
           const decryptedMessage = bytes.toString(cryptojs.enc.Utf8);
-          {
-            /* self to get own message or others message for each separate message */
-          }
+            // self to get own message or others message for each separate message 
           const self = user.id == e.message.user._id;
 
           if (!e.delete) {
-            {
-              /* if not deleted then only continue adding message to chat */
-            }
+            //if not deleted then only continue adding message to chat
             return (
-              <div>
+              <div key={e._id}>
                 <p>{e.message.user.email}</p>
                 <p>{decryptedMessage}</p>
                 <button
@@ -119,7 +115,7 @@ const Chat = () => {
                     setMessageNotification(e._id);
                   }}
                 >
-                  delete
+                  delete 
                 </button>
                 {self && (
                   <button
