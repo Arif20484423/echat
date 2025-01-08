@@ -86,6 +86,10 @@ const Chat = () => {
               });
           } else {
             console.log("instance one")
+            console.log(toUser.channelid)
+            console.log(user.id)
+            console.log(toUser.id)
+            console.log(message)
             await addMessage(toUser.channelid, user.id, toUser.id, message);
             console.log("addmessage done")
             setMessageNotification(message);    //mesagenotification to self to reload chats
