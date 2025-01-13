@@ -13,7 +13,7 @@ export default function Home() {
     console.log("uploading");
     const { data, error } = await supabase.storage
       .from("echat public")
-      .upload("public/p1.pdf", file);
+      .upload("public/p2.pdf", file);
     console.log("data", data);
     console.log("error", error);
     console.log("uploaded");
