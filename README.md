@@ -51,7 +51,11 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 9-Implemented server actions and api route to handle the creation of connection, group connection, messsage transfer, message delete 
 
-10-media implementation remaining
+10- For media storage used supabase storage bucket 
+
+11- Implemented upload functionalities for uploading to supabase storage 
+
+
 
 
 ## Getting Started
