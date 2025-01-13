@@ -17,6 +17,14 @@ that is in Web folder backendtemplate_login_signup_providers
 
 
 ## Steps and Resources
+
+Links
+
+database design- https://app.diagrams.net/#G15HfFKoVb7JMASQf8YkSKYo6MRhmcwnuY#%7B%22pageId%22%3A%22dWDINIOhN6ajU6t8rEm0%22%7D
+
+figma design - https://www.figma.com/design/kwJA70CWswiRDP4yCWVBXu/echat?node-id=0-1&p=f&t=YUC3nB5TUUeyq0jZ-0
+
+
 1- Tookup my own backend login/signup template from my own github repository
 
 2- Extended the functionalities to make autheentication return id too(some additional info to session)
@@ -37,7 +45,13 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 6- Added socket in a client component called in root layout to let the socket work in every location througout the web app, (once the socket is being loaded it is asssigned to a state socket via setSocket function of use State)
 
-7- 
+7- Designed a database model for our chat application , er diagram link https://app.diagrams.net/#G15HfFKoVb7JMASQf8YkSKYo6MRhmcwnuY#%7B%22pageId%22%3A%22dWDINIOhN6ajU6t8rEm0%22%7D
+
+8-Implemented models accordingly via mongoose schema
+
+9-Implemented server actions and api route to handle the creation of connection, group connection, messsage transfer, message delete 
+
+10-media implementation remaining
 
 
 ## Getting Started
