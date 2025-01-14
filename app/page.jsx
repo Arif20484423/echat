@@ -10,13 +10,14 @@ export default function Home() {
   async function submit(e) {
     e.preventDefault();
     const file = e.target.filess.files[0];
+    console.log(file)
     console.log("uploading");
-    const { data, error } = await supabase.storage
-      .from("echat public")
-      .upload("public/p2.pdf", file);
-    console.log("data", data);
-    console.log("error", error);
-    console.log("uploaded");
+    // const { data, error } = await supabase.storage
+    //   .from("echat public")
+    //   .upload("public/p2.pdf", file);
+    // console.log("data", data);
+    // console.log("error", error);
+    // console.log("uploaded");
 
     
     // console.log("uploading")
