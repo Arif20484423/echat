@@ -111,10 +111,10 @@ export async function addMessage(
   }
 
   //adding to user
-  createUserMessage(user, channel, message, file, "upload");
+  await createUserMessage(user, channel, message, file, "upload");
 
   //adding to other users
-  createUserMessage(touser, channel, message, file, "received");
+  await createUserMessage(touser, channel, message, file, "received");
 
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
@@ -142,10 +142,10 @@ export async function addMessage(
     }
 
     //adding to user
-    createUserMessage(user, channel, message, file, "upload");
+    await createUserMessage(user, channel, message, file, "upload");
 
     //adding to other users
-    createUserMessage(touser, channel, message, file, "received");
+    await createUserMessage(touser, channel, message, file, "received");
   }
 }
 export async function addMessageGroup(
@@ -181,11 +181,11 @@ export async function addMessageGroup(
   }
 
   //adding to user
-  createUserMessage(user, channel, message, file, "upload");
+  await createUserMessage(user, channel, message, file, "upload");
 
   //adding to other users
   for (let i = 0; i < tousers.length; i++) {
-    createUserMessage(tousers[i], channel, message, file, "received");
+    await createUserMessage(tousers[i], channel, message, file, "received");
   }
 
   //if multiple files
@@ -214,11 +214,11 @@ export async function addMessageGroup(
     }
 
     //adding to user
-    createUserMessage(user, channel, message, file, "upload");
+    await createUserMessage(user, channel, message, file, "upload");
 
     //adding to other users
     for (let i = 0; i < tousers.length; i++) {
-      createUserMessage(tousers[i], channel, message, file, "received");
+      await createUserMessage(tousers[i], channel, message, file, "received");
     }
   }
 }
