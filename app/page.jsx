@@ -10,14 +10,23 @@ export default function Home() {
   async function submit(e) {
     e.preventDefault();
     const file = e.target.filess.files[0];
-    console.log(file)
+    // const file1 = e.target.filess.files[1];
+    // const file2 = e.target.filess.files[2];
+    // const fd= new FormData();
+    // fd.append("image",file)
+    // fd.append("image1",file1)
+    // fd.append("image2",file2)
+    // fd.append("text","Hellow j")
+    // console.log(fd.getAll())
+    // uploadfile(fd);
+    // console.log(file)
     console.log("uploading");
-    // const { data, error } = await supabase.storage
-    //   .from("echat public")
-    //   .upload("public/p2.pdf", file);
-    // console.log("data", data);
-    // console.log("error", error);
-    // console.log("uploaded");
+    const { data, error } = await supabase.storage
+      .from("echat public")
+      .upload("public/p10.pdf", file);
+    console.log("data", data);
+    console.log("error", error);
+    console.log("uploaded");
 
     
     // console.log("uploading")
@@ -45,7 +54,7 @@ export default function Home() {
       <img src={fil} alt="no img" />
       {m && m}
       <form onSubmit={submit}>
-        <input type="file" name="filess" />
+        <input type="file" name="filess" multiple/>
         <button type="submit">open</button>
       </form>
     </div>
