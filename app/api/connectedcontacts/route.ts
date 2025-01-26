@@ -11,5 +11,6 @@ export async function GET() {
       populate: { path: "user" },
     })
     .populate("group");
+    console.log(data)
   return NextResponse.json({ data: data, success: true });
 }
