@@ -18,16 +18,14 @@ export async function createChannel(user: String, toUser: String) {
     .populate("user")
     .populate({ path: "connections", match: { user: toUser } });
 
-  console.log(channelexists);
   for (let i = 0; i < channelexists.length; i++) {
     if (!channelexists[i].isgroup && channelexists[i].connections.length > 0) {
       await Channel.findByIdAndUpdate(channelexists[i].id, { deleted: false });
       // if exists return the channel
-      console.log("found");
       return channelexists[i].channelid + "";
     }
   }
-  //  if channel dows not exists create the channel and assign channel to both users
+  //  if channel does not exists create the channel and assign channel to both users
   const ch = new Channel({
     user: user,
     starttime: new Date(),
@@ -65,14 +63,15 @@ export async function createUserMessage(
     file = userFile.id;
   }
 
-  console.log("created");
-  const userCreated = await ChannelMessage.create({
+  // creating channelmessage for user with channel assigining message and file
+  const channelMessage = await ChannelMessage.create({
     user: user,
     channel: channel,
     message: message,
     file: file,
     time: new Date(),
   });
+  // Contact if deleted at users side it should be resumed once new message comes in 
   await Channel.updateOne(
     { user: user, channelid: channel },
     { deleted: false }
@@ -118,6 +117,7 @@ export async function addMessage(
 
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
+    // creating free message with user to know user of the file for current channelmessage
     let message = null;
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -131,7 +131,7 @@ export async function addMessage(
     await msg.save();
     message = msg.id;
 
-    // creating file
+    // creating file 
     let file = null;
 
     const fileUpload = await getFileId(formData.getAll("files")[i] as File);
@@ -190,6 +190,7 @@ export async function addMessageGroup(
 
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
+    // creating free message with user to know user of the file for current channelmessage
     let message = null;
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -265,7 +266,6 @@ export async function createGroupChannel(
   await user1.save();
   // crating other user with same channel id
   for (let i = 0; i < toUsers.length; i++) {
-    console.log("hdbc");
     const toUser = new Channel({
       user: toUsers[i],
       channelid: user1._id,
@@ -290,7 +290,6 @@ export async function deleteForEveryoneMesssageGroup(
 ) {
   // setting delete true for  each user with this channel and message
   await ChannelMessage.findByIdAndUpdate(id, { delete: true }); // for current user we get the id of the doc having user channel and message so used id to faster find and deletion
-  console.log("users", toUsers);
   for (let i = 0; i < toUsers.length; i++) {
     await ChannelMessage.updateOne(
       { channel: channel, user: toUsers[i], message: messageid },
@@ -301,22 +300,28 @@ export async function deleteForEveryoneMesssageGroup(
 }
 
 export async function getFileId(file: File) {
+  // extracting file type details
   const ftype = file.type.split("/");
+  //creating file except the file link
   const f = new Files({
     name: file.name,
     time: new Date(),
     type: ftype[0],
     extension: ftype[1],
   });
+  // uploading file to supabase
   const { data, error } = await supabase.storage
     .from("echat public")
     .upload("public/" + f.id + "." + ftype[1], file);
   if (data) {
+    // if file uploaded successfully  creating file link
     const filelink =
       "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
       f.id +
       "." +
       ftype[1];
+
+      // adding file link to file created
     f.file = filelink;
     await f.save();
     return {
@@ -332,10 +337,13 @@ export async function getFileId(file: File) {
 }
 
 export async function getUserFolder(user: String, foldername: String) {
+  // fetching folder 
   const folder = await UserFolder.findOne({ user: user, name: foldername });
   if (folder) {
+    //if found return folder id
     return folder.id;
   } else {
+    // else create the default folders  root, upload, received
     const root = await UserFolder.create({
       user: user,
       name: "root",
@@ -354,6 +362,7 @@ export async function getUserFolder(user: String, foldername: String) {
       parentfolder: root.id,
       changeallowed: false,
     });
+    // returning folder id as required
     if (foldername === "upload") {
       return upload.id;
     } else if (foldername == "received") {
@@ -369,8 +378,7 @@ export async function forwardMessage(
   tousers: { user: String; channel: String }[],
   user: String
 ) {
-  console.log(channelmessages)
-  console.log(tousers)
+  // for each message
   for (let i = 0; i < channelmessages.length; i++) {
     // fetching current message (channelmessage for current chat selected)
     const channelMessage = await ChannelMessage.findById(
@@ -384,12 +392,10 @@ export async function forwardMessage(
       user: user,
       time: new Date(),
     });
-    console.log("messacpy created")
     // for eah user to be forwarded
     for (let j = 0; j < tousers.length; j++) {
       //checking if there is a file to be forwarded
       let file = null;
-      console.log("checking file")
       if (channelMessage.file) {
         // checking file exists on user side to whom file is to be forwarded else created and assigned id of that userfile to file
         const fileExists = await UserFile.findOne({
@@ -397,14 +403,10 @@ export async function forwardMessage(
           file: channelMessage.file.file,
         });
         if(fileExists) {
-          console.log("checking file exists")
           await UserFile.findByIdAndUpdate(fileExists._id,{delete:false})
           file=fileExists._id;
-          console.log("file exists")
         }
         else{
-          console.log("cerating fiel")
-          console.log(tousers[j].user);
           const userFolder=await getUserFolder(tousers[j].user,"received");
           const fileCreated=await UserFile.create({
             user:tousers[j].user,
@@ -414,11 +416,9 @@ export async function forwardMessage(
 
           })
           file=fileCreated._id;
-          console.log("file created")
         }
       }
       //creating ChannelMessage with new message whose user is sender and new file(UserFile) which is at that user side who is to be forwrded the file
-      console.log("newchannelmessage")
       //user side
       const channelMessageNewUser = await ChannelMessage.create({
         user: user,
@@ -436,7 +436,6 @@ export async function forwardMessage(
         file:file,
         time: new Date(),
       });
-      console.log(channelMessageNew)
     }
   }
 }
