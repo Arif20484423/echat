@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Context } from '../_context/NoteContext';
 
-const page = () => {
+const Page = () => {
     const {user}= useContext(Context)
     const [folder,setFolder]= useState([]);
     useEffect(()=>{
