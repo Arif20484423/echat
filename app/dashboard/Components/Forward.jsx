@@ -14,7 +14,7 @@ useEffect(()=>{
   return (
     <div>
         {contacts && contacts.map((e)=>{
-            return <div onClick={()=>{
+            return <div key={e._id} onClick={()=>{
                 setToUsers((u)=>[...u,{user:e.connections[0].user._id,channel:e.channelid}])
             }}>
                 {e.isgroup?(<>{e.group[0].groupname}</>):(<>{e.connections[0].user.email}</>)}

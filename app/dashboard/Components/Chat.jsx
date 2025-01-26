@@ -36,7 +36,6 @@ const Chat = () => {
         .then((d) => d.json())
         .then((d) => {
           setMessages(d.data);
-          console.log(d.data);
         });
     }
   }, [messageNotification, toUser]);
