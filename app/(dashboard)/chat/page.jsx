@@ -1,19 +1,13 @@
 "use client";
 
 import { userSignOut } from "@/lib/actions/userActions";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Connected from "./Components/Connected";
 import SearchUser from "./Components/SearchUser";
-import { Context } from "../_context/NoteContext";
 import CreateGroup from "./Components/CreateGroup"
 import Chat from './Components/Chat'
 const Page = () => {
-  const {setUser} = useContext(Context)
   const [showConnected,setShowConnected]=useState(true);
-  
-  useEffect(()=>{
-    fetch("/api/userlogged").then(d=>d.json()).then(d=>setUser({id:d.id,email:d.email}));
-  },[])
   return (
     <div>
       dashboard page<br />
