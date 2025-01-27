@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
 import "./globals.css";
 import SetSocket from "./_Components/SetSocket";
 import NoteProvider from "./_context/NoteProvider";
