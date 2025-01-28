@@ -13,7 +13,7 @@ const Page = () => {
   
   return (
     <>
-    {/* <form action={formAction}>
+    <form action={formAction}>
         {state?.message}
         <label htmlFor="email">Email</label>
         <input type="text"  id='email' name='email'/>
@@ -27,7 +27,7 @@ const Page = () => {
     }}>  Google</button>
     <button onClick={()=>{
       userSignInGithub()
-    }}>  Github</button> */}
+    }}>  Github</button>
     <Login />
     </>
     
