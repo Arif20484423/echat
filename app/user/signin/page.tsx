@@ -4,6 +4,7 @@ import { useFormState } from 'react-dom'
 import { userSignIn, userSignInGithub, userSignInGoogle } from '@/lib/actions/userActions'
 
 import { ResponseType } from '@/lib/actions/userActions'
+import Login from './_Components/Login'
 
 const Page = () => {
   
@@ -27,6 +28,7 @@ const Page = () => {
     <button onClick={()=>{
       userSignInGithub()
     }}>  Github</button>
+    <Login />
     </>
     
     
