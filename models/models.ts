@@ -47,7 +47,7 @@ export const Channel= mongoose.models?.channel || mongoose.model("channel",chann
 
 
 const messageSchema= new Schema({
-    message:{type:String,required:true},
+    message:{type:String},
     user:{type:Schema.Types.ObjectId,ref:"user",required:true},
     time:Date
 
@@ -67,8 +67,39 @@ export const Group= mongoose.models?.group || mongoose.model("group",groupSchema
 const channelmessageSchema= new Schema({
     user:{type:Schema.Types.ObjectId,required:true,ref:"user"},
     channel:{type:Schema.Types.ObjectId,required:true},
-    message:{type:Schema.Types.ObjectId,required:true,ref:"message"},
+    message:{type:Schema.Types.ObjectId,ref:"message"},
+    file:{type:Schema.Types.ObjectId,ref:"userfile"},
+    time:{type:Date,required:true},
     delete:{type:Boolean,default:false}
 })
 
 export const ChannelMessage= mongoose.models?.channelmessage || mongoose.model("channelmessage",channelmessageSchema)
+
+const fileSchema= new Schema({
+    file:String,
+    name:String,
+    time:Date,
+    type:String,
+    extension:String
+})
+export const Files= mongoose.models?.file || mongoose.model("file",fileSchema);
+
+const userFileSchema= new Schema({
+    user:{type:Schema.Types.ObjectId,required:true,ref:"user"},
+    file:{type:Schema.Types.ObjectId,required:true,ref:"file"},
+    time:Date,
+    delete:{type:Boolean,default:false},
+    folder:{type:Schema.Types.ObjectId,required:true}
+
+})
+
+export const UserFile= mongoose.models?.userfile || mongoose.model("userfile",userFileSchema)
+
+const userFolderSchema= new Schema({
+    user:{type:Schema.Types.ObjectId,required:true},
+    name:{type:String,required:true},
+    parentfolder:{type:Schema.Types.ObjectId},
+    changeallowed:{type:Boolean,default:true},
+})
+
+export const UserFolder= mongoose.models?.userfolder || mongoose.model("userfolder",userFolderSchema)
