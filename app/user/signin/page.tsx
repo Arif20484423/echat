@@ -4,6 +4,7 @@ import { useFormState } from 'react-dom'
 import { userSignIn, userSignInGithub, userSignInGoogle } from '@/lib/actions/userActions'
 
 import { ResponseType } from '@/lib/actions/userActions'
+import Login from './_Components/Login'
 
 const Page = () => {
   
@@ -12,7 +13,7 @@ const Page = () => {
   
   return (
     <>
-    <form action={formAction}>
+    {/* <form action={formAction}>
         {state?.message}
         <label htmlFor="email">Email</label>
         <input type="text"  id='email' name='email'/>
@@ -26,7 +27,8 @@ const Page = () => {
     }}>  Google</button>
     <button onClick={()=>{
       userSignInGithub()
-    }}>  Github</button>
+    }}>  Github</button> */}
+    <Login />
     </>
     
     

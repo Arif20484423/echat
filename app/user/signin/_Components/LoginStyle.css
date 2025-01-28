@@ -25,6 +25,8 @@
     border-radius: 5px;
 }
 #loginContainer input[type="text"], input[type="password"]{
+    box-sizing: border-box;
+    padding-left: 10px;
     margin-bottom: 20px;
     border: 1px solid var(--grey);
     background-color: var(--white);
