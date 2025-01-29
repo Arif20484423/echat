@@ -15,10 +15,10 @@ export default function NoteProvider({
   const [connectedRefetch, setConnectedRefetch] = useState(true);
 
 
-  useEffect(()=>{
-    console.log("toUser",toUser)
-    console.log("user",user)
-  },[toUser,user])
+  // useEffect(()=>{
+  //   console.log("toUser",toUser)
+  //   console.log("user",user)
+  // },[toUser,user])
   return (
     <Context.Provider
       value={{
