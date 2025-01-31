@@ -6,33 +6,43 @@ import { userSignIn, userSignInGithub, userSignInGoogle } from '@/lib/actions/us
 import { ResponseType } from '@/lib/actions/userActions'
 import Login from './_Components/Login'
 
+
+
 const Page = () => {
   
   const initialState:ResponseType={message:null,errors:{}}
   const [state,formAction]=useFormState(userSignIn,initialState);
   
+  // return (
+  //   <>
+  //   <form action={formAction}>
+  //       {state?.message}
+  //       <label htmlFor="email">Email</label>
+  //       <input type="text"  id='email' name='email'/>
+  //       <label htmlFor="password">Password</label>
+  //       <input type="text" id='password' name='password'/>
+  //       <button type='submit'>Signin</button>
+  //   </form>
+  //   <button onClick={()=>{
+  //     userSignInGoogle()
+
+  //   }}>  Google</button>
+  //   <button onClick={()=>{
+  //     userSignInGithub()
+  //   }}>  Github</button>
+  //   </>
+    
+    
+  // )
+
   return (
     <>
-    <form action={formAction}>
-        {state?.message}
-        <label htmlFor="email">Email</label>
-        <input type="text"  id='email' name='email'/>
-        <label htmlFor="password">Password</label>
-        <input type="text" id='password' name='password'/>
-        <button type='submit'>Signin</button>
-    </form>
-    <button onClick={()=>{
-      userSignInGoogle()
 
-    }}>  Google</button>
-    <button onClick={()=>{
-      userSignInGithub()
-    }}>  Github</button>
-    <Login />
+    
+
     </>
-    
-    
-  )
+  );
+  
 }
 
 export default Page
