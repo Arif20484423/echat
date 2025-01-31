@@ -43,7 +43,7 @@ const Page = () => {
           <Chat/>
         </div>
       </div>
-         <SelectFiles/>
+         {/* <SelectFiles/> */}
     </div>
   );
 };
