@@ -46,7 +46,7 @@ export async function createUserMessage(
   user: String,
   channel: String,
   message: String,
-  file: String,
+  file: any,
   folder: String
 ) {
   if (file != null) {
@@ -54,13 +54,7 @@ export async function createUserMessage(
     const userFolder = await getUserFolder(user, folder);
 
     // saving file to user in upload or received folder as to be saved
-    const userFile = await UserFile.create({
-      user: user,
-      file: file,
-      time: new Date(),
-      folder: userFolder,
-    });
-    file = userFile.id;
+    file = await getUserFileId(file.file,file.filename,user,userFolder);
   }
 
   // creating channelmessage for user with channel assigining message and file
@@ -103,7 +97,7 @@ export async function addMessage(
   if (formData.getAll("files").length > 0) {
     const fileUpload = await getFileId(formData.getAll("files")[0] as File);
     if (fileUpload.success) {
-      file = fileUpload.file;
+      file = fileUpload;
     } else {
       return fileUpload;
     }
@@ -136,7 +130,7 @@ export async function addMessage(
 
     const fileUpload = await getFileId(formData.getAll("files")[i] as File);
     if (fileUpload.success) {
-      file = fileUpload.file;
+      file = fileUpload;
     } else {
       return fileUpload;
     }
@@ -174,7 +168,7 @@ export async function addMessageGroup(
   if (formData.getAll("files").length > 0) {
     const fileUpload = await getFileId(formData.getAll("files")[0] as File);
     if (fileUpload.success) {
-      file = fileUpload.file;
+      file = fileUpload;
     } else {
       return fileUpload;
     }
@@ -209,7 +203,7 @@ export async function addMessageGroup(
 
     const fileUpload = await getFileId(formData.getAll("files")[i] as File);
     if (fileUpload.success) {
-      file = fileUpload.file;
+      file = fileUpload;
     } else {
       return fileUpload;
     }
@@ -327,6 +321,7 @@ export async function getFileId(file: File) {
     return {
       success: true,
       file: f._id,
+      filename:f.name
     };
   } else {
     return {
@@ -335,7 +330,17 @@ export async function getFileId(file: File) {
     };
   }
 }
+export async function getUserFileId(fileid:String,filename:String,user:String,folder:String){
 
+  const userFile = await UserFile.create({
+    user: user,
+    file: fileid,
+    name:filename,
+    time: new Date(),
+    folder: folder,
+  });
+  return userFile._id;
+}
 export async function getUserFolder(user: String, foldername: String) {
   // fetching folder 
   const folder = await UserFolder.findOne({ user: user, name: foldername });
@@ -373,6 +378,29 @@ export async function getUserFolder(user: String, foldername: String) {
   }
 }
 
+export async function checkUserFile(file:String,user:String){
+  let userfile=null;
+  const fileExists = await UserFile.findOne({
+    user: user,
+    file: file,
+  });
+  if(fileExists) {
+    await UserFile.findByIdAndUpdate(fileExists._id,{delete:false})
+    userfile=fileExists._id;
+  }
+  else{
+    const userFolder=await getUserFolder(user,"received");
+    const fileCreated=await UserFile.create({
+      user:user,
+      file:file,
+      time:new Date(),
+      folder:userFolder
+
+    })
+    userfile=fileCreated._id;
+  }
+  return userfile;
+}
 export async function forwardMessage(
   channelmessages: String[],
   tousers: { user: String; channel: String }[],
@@ -398,25 +426,8 @@ export async function forwardMessage(
       let file = null;
       if (channelMessage.file) {
         // checking file exists on user side to whom file is to be forwarded else created and assigned id of that userfile to file
-        const fileExists = await UserFile.findOne({
-          user: tousers[j].user,
-          file: channelMessage.file.file,
-        });
-        if(fileExists) {
-          await UserFile.findByIdAndUpdate(fileExists._id,{delete:false})
-          file=fileExists._id;
-        }
-        else{
-          const userFolder=await getUserFolder(tousers[j].user,"received");
-          const fileCreated=await UserFile.create({
-            user:tousers[j].user,
-            file:channelMessage.file.file,
-            time:new Date(),
-            folder:userFolder
-
-          })
-          file=fileCreated._id;
-        }
+        file=await checkUserFile(channelMessage.file.file,tousers[j].user)
+        
       }
       //creating ChannelMessage with new message whose user is sender and new file(UserFile) which is at that user side who is to be forwrded the file
       //user side

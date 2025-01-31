@@ -150,7 +150,7 @@ const Chat = () => {
                   >
                     <p>{e.message.user.email}</p>
                     <p>{decryptedMessage}</p>
-                    {e.file && <img src={e.file.file.file} alt="hjd" />}
+                    {e.file && !e.file.delete && <img src={e.file.file.file} alt="hjd" />}
                     <button
                       onClick={async () => {
                         await deleteMesssage(e._id);
