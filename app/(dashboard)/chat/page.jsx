@@ -6,6 +6,7 @@ import Connected from "./Components/Connected";
 import SearchUser from "./Components/SearchUser";
 import CreateGroup from "./Components/CreateGroup"
 import Chat from './Components/Chat'
+import SelectFiles from "./Components/SelectFiles"
 const Page = () => {
   const [showConnected,setShowConnected]=useState(true);
   return (
@@ -42,7 +43,7 @@ const Page = () => {
           <Chat/>
         </div>
       </div>
-
+         <SelectFiles/>
     </div>
   );
 };

@@ -87,6 +87,7 @@ export const Files= mongoose.models?.file || mongoose.model("file",fileSchema);
 const userFileSchema= new Schema({
     user:{type:Schema.Types.ObjectId,required:true,ref:"user"},
     file:{type:Schema.Types.ObjectId,required:true,ref:"file"},
+    name:{type:String},
     time:Date,
     delete:{type:Boolean,default:false},
     folder:{type:Schema.Types.ObjectId,required:true}
@@ -100,6 +101,7 @@ const userFolderSchema= new Schema({
     name:{type:String,required:true},
     parentfolder:{type:Schema.Types.ObjectId},
     changeallowed:{type:Boolean,default:true},
+    delete:{type:Boolean,default:false}
 })
 
 export const UserFolder= mongoose.models?.userfolder || mongoose.model("userfolder",userFolderSchema)
