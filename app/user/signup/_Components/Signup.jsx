@@ -7,10 +7,9 @@ export default function Login() {
   return (
     <>
       <FormContainer>
-        <h2 className={styles.head}>Login to eChat</h2>
+        <h2 className={styles.head}>Signup to eChat</h2>
         <InputLabel tag="Email" />
-        <InputLabel tag="Password" />
-        <Button tag="Submit" />
+        <Button tag="Get Otp" />
         <div className={styles.icons}>
         <FaGoogle size={25}/>
         <FaGithub size={25}/>
