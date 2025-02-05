@@ -1,8 +1,9 @@
 "use client";
 
+import Login from "./user/signin/_Components/Login";
 export default function Home() {
-  return <div>home
-
+  return <div>
+  <Login/>
     
   </div>;
 }

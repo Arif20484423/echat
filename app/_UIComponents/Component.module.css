@@ -1,0 +1,13 @@
+.formcontainer{
+    width: 410px;
+    border: 2px solid var(--blueBorder);
+    /* border-radius: ; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:  translate(-50%,-50%);
+
+
+
+
+}
