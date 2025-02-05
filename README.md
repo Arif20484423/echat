@@ -16,6 +16,7 @@ that is in Web folder backendtemplate_login_signup_providers
 /dashboard --- signout button
 
 
+
 ## Steps and Resources
 
 Links
@@ -55,7 +56,11 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 11- Implemented upload functionalities for uploading to supabase storage 
 
+12- Updated database models for storing files and also folder management.  
 
+13- Also the major functions for uploading, sending and managing files are completed , remaining will be completed parallely with frontend development.
+
+14- Started with the frontend part currently developing UI's. 
 
 
 ## Getting Started
