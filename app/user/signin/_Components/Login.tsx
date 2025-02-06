@@ -3,7 +3,9 @@ import styles from "../../User.module.css";
 import FormContainer from "../../../_UIComponents/FormContainer";
 import InputLabel from "../../../_UIComponents/InputLabel";
 import Button from "../../../_UIComponents/Button";
+import ErrorMessage from "../../../_UIComponents/ErrorMessage";
 import { useFormState } from "react-dom";
+
 import { userSignIn ,userSignInGoogle,userSignInGithub} from "@/lib/actions/userActions";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -25,7 +27,7 @@ export default function Login() {
           <InputLabel tag="Email" name="email" />
           <InputLabel tag="Password" name="password" />
 
-          {error && state?.message}
+          {error && <ErrorMessage message={state?.message}/>}
 
           <Button tag="Submit" type="submit" />
           <div className={styles.icons}>

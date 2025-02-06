@@ -42,6 +42,12 @@
     margin-bottom: 13px;
     color: white;
     font-weight: bold;
+    cursor:pointer; 
+}
+.button:disabled{
+    background-color: var(--lightBlue);
+    cursor:auto;
+    
 }
 
 .errormessage{

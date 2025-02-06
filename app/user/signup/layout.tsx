@@ -5,7 +5,7 @@ import React from 'react'
 const Layout =async  ({children}:{children:React.ReactNode}) => {
   const session=await auth()
   if(session){
-    redirect('/dashboard')
+    redirect('/chat')
   }
   return (
     <>{children}</>

@@ -183,6 +183,7 @@ export async function userVerifyOtp(
   prevResponse: ResponseType| undefined,
   formData: FormData
 ): Promise<ResponseType| undefined> {
+  console.log("reaching")
   const email = formData.get("email")?.toString();
   const otp = formData.get("otp");
   const userunverified = await Userunverified.findOne({ email: email });
@@ -200,7 +201,7 @@ export async function userVerifyOtp(
       };
     }
   } else {
-    console.log("nounverified");
+    console.log("nonverified");
     redirect("/user/signup");
   }
 }
