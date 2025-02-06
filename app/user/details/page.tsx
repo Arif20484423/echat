@@ -1,8 +1,8 @@
 import React from 'react'
-
+import Details from './_Components/Details'
 const Page = () => {
   return (
-    <div>details</div>
+    <Details/>
   )
 }
 

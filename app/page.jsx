@@ -1,9 +1,11 @@
 "use client";
 
-import Login from "./user/details/_Components/Details";
+import { userSignOut } from "@/lib/actions/userActions";
 export default function Home() {
-  return <div>
-  <Login/>
-    
-  </div>;
+  return (
+    <div>
+      Home
+      
+    </div>
+  );
 }

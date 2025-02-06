@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from "./Component.module.css"
-const Button = ({tag}) => {
+const Button = ({tag,type}) => {
   return (
-    <button className={styles.button}>
+    <button className={styles.button} type={type}>
         {tag}
     </button>
   )

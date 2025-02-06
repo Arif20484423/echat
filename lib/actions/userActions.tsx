@@ -235,7 +235,7 @@ export const userSignIn = async (
       success: false,
     };
   }
-  redirect("/dashboard");
+  redirect("/chat");
 };
 
 export async function userSignInGoogle() {

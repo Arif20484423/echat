@@ -43,3 +43,7 @@
     color: white;
     font-weight: bold;
 }
+
+.errormessage{
+    color: red;
+}
