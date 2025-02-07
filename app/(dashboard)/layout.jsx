@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {auth } from "@/auth"
 import { redirect } from 'next/navigation';
 import SetUser from "../_Components/SetUser"
-const Layout =async   ({children}:{children:React.ReactNode}) => {
+const Layout =async   ({children}) => {
 
   const session = await auth();
   if(session==null){

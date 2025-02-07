@@ -5,8 +5,6 @@ import { Context } from "./NoteContext";
 
 export default function NoteProvider({
   children,
-}: {
-  children: React.ReactNode;
 }) {
   const [socket, setSocket] = useState(null);
   const [messageNotification, setMessageNotification] = useState(null);

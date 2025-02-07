@@ -212,9 +212,19 @@ export const userDetails = async (
   prevResponse: ResponseType | undefined,
   formData: FormData
 ): Promise<ResponseType | undefined> => {
-    return {
-      success:true,
-      message:"jh"
+    const session= await auth();
+    const id=session?.user?.id;
+    try{
+      await User.findByIdAndUpdate(id,{name:formData.get("name"),description:formData.get("description")})
+      return {
+        success:true,
+        message:"Information updated successfully"
+      }
+    }catch (error){
+        return {
+          success:false,
+          message:"error updating information"
+        }
     }
 };
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Component.module.css'
-const InputLabel = ({tag,name,setValue}:{tag:string,name?:string,setValue?:Function}) => {
+const InputLabel = ({tag,name,setValue=null}) => {
   return (
     <>
         <label htmlFor={tag} className={styles.label}>{tag}</label>

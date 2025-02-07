@@ -9,7 +9,7 @@ import {FaGoogle,FaGithub}  from "react-icons/fa"
 import { userEmailOtp, userSignInGithub, userSignInGoogle } from '@/lib/actions/userActions'
 import { useFormState } from 'react-dom'
 import { useEffect, useState } from "react";
-export default function Login({step,setStep,setEmail}:{step:number,setStep:Function,setEmail:Function}) {
+export default function Login({step,setStep,setEmail}) {
   const initialState={message:null,errors:{},success:false}
     const [state,formAction] = useFormState(userEmailOtp,initialState);
     if(state?.success){
@@ -28,7 +28,7 @@ export default function Login({step,setStep,setEmail}:{step:number,setStep:Funct
         <form action={formAction}>
         <h2 className={styles.head}>Signup to eChat</h2>
         <InputLabel tag="Email" name="email" setValue={setEmail}/>
-        {error &&  <ErrorMessage message={state?.message}/>}
+        {error &&  <ErrorMessage message={state?.message?state?.message:""}/>}
         <Button tag="Get Otp" type="submit" />
         <p className={styles.formlink}>New User, <Link href="/user/signin">Signin</Link> </p>
         <div className={styles.icons}>

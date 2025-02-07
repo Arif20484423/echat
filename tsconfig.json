@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/_Components/SetSocket.jsx", "app/dashboard/page.jsx", "app/dashboard/Components/SearchUser.jsx", "app/dashboard/Components/Connected.jsx", "app/page.jsx", "lib/actions/mediaactions.tjs", "app/(dashboard)/storage/@usersmodal/(.)users/page.jsx", "app/_UIComponents/Button.jsx", "app/user/details/_Components/Details.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/_Components/SetSocket.jsx", "app/dashboard/page.jsx", "app/dashboard/Components/SearchUser.jsx", "app/dashboard/Components/Connected.jsx", "app/page.jsx", "lib/actions/mediaactions.tjs", "app/(dashboard)/storage/@usersmodal/(.)users/page.jsx", "app/_UIComponents/Button.jsx", "app/user/details/_Components/Details.jsx", "app/_context/NoteContext.jsx", "app/_context/NoteProvider.jsx", "app/_UIComponents/ErrorMessage.jsx", "app/_UIComponents/FormContainer.jsx", "app/_UIComponents/InputLabel.jsx", "app/user/details/layout.jsx", "app/user/details/page.jsx", "app/layout.tsx", "app/user/password/layout.jsx", "app/user/password/page.jsx", "app/user/signin/_Components/Login.jsx", "app/user/signin/layout.jsx", "app/user/signin/page.jsx", "app/user/signup/_Components/Otp.jsx", "app/user/signup/_Components/Password.jsx", "app/user/signup/_Components/Signup.jsx", "app/user/signup/layout.jsx", "app/user/signup/page.jsx", "app/(dashboard)/layout.jsx"],
   "exclude": ["node_modules"]
 }

@@ -27,7 +27,7 @@ export default function Login() {
           <InputLabel tag="Email" name="email" />
           <InputLabel tag="Password" name="password" />
 
-          {error && <ErrorMessage message={state?.message}/>}
+          {error && <ErrorMessage message={state?.message?state?.message:""}/>}
 
           <Button tag="Submit" type="submit" />
           <p className={styles.formlink}>New User, <Link href="/user/signup">Signup</Link> </p>

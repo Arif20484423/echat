@@ -9,9 +9,9 @@ import { useFormState } from 'react-dom'
 import { ResponseType } from '@/lib/actions/userActions'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
-export default function Password({email}:{email:string}) {
+export default function Password({email}) {
   const router= useRouter()
-    const initialState:ResponseType={message:null}
+    const initialState={message:null}
     const [state,formAction]=useFormState(userSetPassword,initialState);
 
  const [error, setError] = useState(false);
@@ -41,7 +41,7 @@ export default function Password({email}:{email:string}) {
         <input type="hidden" name='email' value={email}/>
         <InputLabel tag="Password" name="password" setValue={setPassword}/>
         <InputLabel tag="Confirm Password" name="passwordcheck" setValue={setPasswordCheck}/>
-        {error &&  <ErrorMessage message={state?.message}/>}
+        {error &&  <ErrorMessage message={state?.message?state?.message:""}/>}
         <Button tag="Signup" type="submit" disabled={disabled}/>
         </form>
       </FormContainer>

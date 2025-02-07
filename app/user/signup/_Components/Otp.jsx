@@ -8,8 +8,8 @@ import { useFormState } from 'react-dom'
 import { ResponseType } from '@/lib/actions/userActions'
 import { userVerifyOtp } from '@/lib/actions/userActions'
 import { useEffect, useState } from "react";
-export default function Otp({step,setStep,email}:{step:number,setStep:Function,email:string}) {
-  const initialState:ResponseType={message:null}
+export default function Otp({step,setStep,email}) {
+  const initialState={message:null}
       const [state,formAction] = useFormState(userVerifyOtp,initialState)
        const [error, setError] = useState(false);
             useEffect(() => {
@@ -29,7 +29,7 @@ export default function Otp({step,setStep,email}:{step:number,setStep:Function,e
         <h2 className={styles.head}>Signup to eChat</h2>
         <input type="hidden" name='email' value={email}/>
         <InputLabel tag="Otp" name="otp"/>
-        {error && <ErrorMessage message={state?.message}/>}
+        {error && <ErrorMessage message={state?.message?state?.message:""}/>}
         <Button tag="Confirm" type="submit"/>
         </form>
       </FormContainer>
