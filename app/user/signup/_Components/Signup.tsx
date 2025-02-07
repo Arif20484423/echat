@@ -4,8 +4,9 @@ import FormContainer from "../../../_UIComponents/FormContainer";
 import InputLabel from "../../../_UIComponents/InputLabel";
 import Button from "../../../_UIComponents/Button";
 import ErrorMessage from "../../../_UIComponents/ErrorMessage";
+import Link from "next/link";
 import {FaGoogle,FaGithub}  from "react-icons/fa"
-import { userEmailOtp } from '@/lib/actions/userActions'
+import { userEmailOtp, userSignInGithub, userSignInGoogle } from '@/lib/actions/userActions'
 import { useFormState } from 'react-dom'
 import { useEffect, useState } from "react";
 export default function Login({step,setStep,setEmail}:{step:number,setStep:Function,setEmail:Function}) {
@@ -29,10 +30,15 @@ export default function Login({step,setStep,setEmail}:{step:number,setStep:Funct
         <InputLabel tag="Email" name="email" setValue={setEmail}/>
         {error &&  <ErrorMessage message={state?.message}/>}
         <Button tag="Get Otp" type="submit" />
+        <p className={styles.formlink}>New User, <Link href="/user/signin">Signin</Link> </p>
         <div className={styles.icons}>
 
-        <FaGoogle size={25}/>
-        <FaGithub size={25}/>
+        <FaGoogle size={25} onClick={()=>{
+          userSignInGoogle();
+        }}/>
+        <FaGithub size={25} onClick={()=>{
+          userSignInGithub()
+        }}/>
         </div>
         </form>
       </FormContainer>

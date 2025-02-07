@@ -5,7 +5,7 @@ import InputLabel from "../../../_UIComponents/InputLabel";
 import Button from "../../../_UIComponents/Button";
 import ErrorMessage from "../../../_UIComponents/ErrorMessage";
 import { useFormState } from "react-dom";
-
+import Link from "next/link";
 import { userSignIn ,userSignInGoogle,userSignInGithub} from "@/lib/actions/userActions";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -30,6 +30,7 @@ export default function Login() {
           {error && <ErrorMessage message={state?.message}/>}
 
           <Button tag="Submit" type="submit" />
+          <p className={styles.formlink}>New User, <Link href="/user/signup">Signup</Link> </p>
           <div className={styles.icons}>
             <FaGoogle size={25} onClick={()=>{
               userSignInGoogle()
