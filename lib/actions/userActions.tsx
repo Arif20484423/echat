@@ -16,7 +16,7 @@ export type ResponseType = {
   errors?: {
     email?: string[];
     password?: string[];
-  };
+  } ;
   message?: string | null;
   success?: boolean;
 };
@@ -146,33 +146,33 @@ export async function userResetPassword(
   prevResponse: ResponseType | undefined,
   formData: FormData
 ): Promise<ResponseType | undefined> {
-  const validateduser = userValidation.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
-
+  const session= await auth();
+  const email=session?.user?.email;
+  const passwordSchema= z.string().min(3, { message: "Password length should be greater than 3" });
+  const validateduser = passwordSchema.safeParse(formData.get("password"));
   if (!validateduser.success) {
     return {
       message: "Password  length should be greater than 3",
-      errors: validateduser.error.flatten().fieldErrors,
       success: false,
     };
   }
   const userregistered = await User.findOne({
-    email: validateduser.data.email,
+    email: email,
   });
 
-  console.log(userregistered);
   const value = formData.get("currentpassword");
   const currentpassword = value ? value.toString() : "";
   // const currentpassword=formData.get('currentpassword')?.toString()==null || formData.get('currentpassword')?.toString()==undefined ?formData.get('currentpassword')?.toString():"na"
   if (bcrypt.compareSync(currentpassword, userregistered.password)) {
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(validateduser.data.password, salt);
+    const hash = bcrypt.hashSync(validateduser.data, salt);
     const usercreated = await User.findByIdAndUpdate(userregistered.id, {
       password: hash,
     });
-    redirect(`/dashboard`);
+    return {
+      success:true,
+      message:"Updated successfully"
+    }
   } else {
     return {
       message: "password didn't matched",
