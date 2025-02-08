@@ -2,15 +2,17 @@
 import { User, Userunverified } from "@/models/models";
 import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
-import {auth} from "@/auth"
+import { auth } from "@/auth";
 import z from "zod";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt-edge";
 const userValidation = z.object({
   email: z.string().email({ message: "Invalid Email" }),
-  password: z.string().min(3, { message: "Password length should be greater than 3" }),
+  password: z
+    .string()
+    .min(3, { message: "Password length should be greater than 3" }),
 });
-export type ResponseType= {
+export type ResponseType = {
   errors?: {
     email?: string[];
     password?: string[];
@@ -20,9 +22,9 @@ export type ResponseType= {
 };
 
 export async function userEmailOtp(
-  prevResponse: ResponseType| undefined,
+  prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType| undefined> {
+): Promise<ResponseType | undefined> {
   //validate email
   const validatedemail = z
     .object({
@@ -112,9 +114,9 @@ export async function userRegistered(email: string) {
 }
 
 export async function userSetPassword(
-  prevResponse: ResponseType| undefined,
+  prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType| undefined> {
+): Promise<ResponseType | undefined> {
   const validateduser = userValidation.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -141,9 +143,9 @@ export async function userSetPassword(
 }
 
 export async function userResetPassword(
-  prevResponse: ResponseType| undefined,
+  prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType| undefined> {
+): Promise<ResponseType | undefined> {
   const validateduser = userValidation.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -180,9 +182,10 @@ export async function userResetPassword(
 }
 //set----------bcrypt
 export async function userVerifyOtp(
-  prevResponse: ResponseType| undefined,
+  prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType| undefined> {
+): Promise<ResponseType | undefined> {
+  console.log("reaching");
   const email = formData.get("email")?.toString();
   const otp = formData.get("otp");
   const userunverified = await Userunverified.findOne({ email: email });
@@ -200,15 +203,35 @@ export async function userVerifyOtp(
       };
     }
   } else {
-    console.log("nounverified");
+    console.log("nonverified");
     redirect("/user/signup");
   }
 }
 
-export const userSignIn = async (
-  prevResponse: ResponseType| undefined,
+export const userDetails = async (
+  prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType| undefined> => {
+): Promise<ResponseType | undefined> => {
+    const session= await auth();
+    const id=session?.user?.id;
+    try{
+      await User.findByIdAndUpdate(id,{name:formData.get("name"),description:formData.get("description")})
+      return {
+        success:true,
+        message:"Information updated successfully"
+      }
+    }catch (error){
+        return {
+          success:false,
+          message:"error updating information"
+        }
+    }
+};
+
+export const userSignIn = async (
+  prevResponse: ResponseType | undefined,
+  formData: FormData
+): Promise<ResponseType | undefined> => {
   const validateduser = userValidation.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -235,7 +258,7 @@ export const userSignIn = async (
       success: false,
     };
   }
-  redirect("/dashboard");
+  redirect("/chat");
 };
 
 export async function userSignInGoogle() {
@@ -252,14 +275,11 @@ export async function userSignOut() {
   redirect("/");
 }
 
-
-export async function userLoggedIn(){
+export async function userLoggedIn() {
   const session = await auth();
-  if(session){
+  if (session) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
-
 }

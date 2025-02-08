@@ -5,8 +5,6 @@ import { Context } from "./NoteContext";
 
 export default function NoteProvider({
   children,
-}: {
-  children: React.ReactNode;
 }) {
   const [socket, setSocket] = useState(null);
   const [messageNotification, setMessageNotification] = useState(null);
@@ -15,10 +13,10 @@ export default function NoteProvider({
   const [connectedRefetch, setConnectedRefetch] = useState(true);
 
 
-  // useEffect(()=>{
-  //   console.log("toUser",toUser)
-  //   console.log("user",user)
-  // },[toUser,user])
+  useEffect(()=>{
+    console.log("toUser",toUser)
+    console.log("user",user)
+  },[toUser,user])
   return (
     <Context.Provider
       value={{

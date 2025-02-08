@@ -1,0 +1,55 @@
+.formcontainer{
+    width: 300px;
+    border: 2px solid var(--blueBorder);
+    border-radius: 7px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:  translate(-50%,-50%);
+
+
+
+
+}
+.input{
+    border: 1.2px solid var(--labelcolor);
+    border-radius: 4px;
+    font-size: medium;
+    margin-top: 5px;    
+    margin-bottom: 15px;    
+    padding: 7px;
+    display: block;
+    width: 90%;
+
+}
+.input:focus-visible{
+    border: 1px solid var(--blueBorder);
+    outline: 1px solid var(--blueBorder);
+    
+}
+.label{
+    color: rgb(76, 76, 76);
+}
+
+.button{
+    width: 95%;
+    padding: 10px;
+    background-color: var(--blue);
+    border: 0px;
+    border-radius: 4px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    color: white;
+    font-weight: bold;
+    cursor:pointer; 
+}
+.button:disabled{
+    background-color: var(--lightBlue);
+    cursor:auto;
+    
+}
+
+.errormessage{
+    color: red;
+}

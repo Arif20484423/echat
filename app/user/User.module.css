@@ -1,0 +1,16 @@
+.icons{
+    text-align: center;
+}
+
+.icons *{
+    margin: 10px 20px;
+    cursor:pointer;    
+}
+.head{
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.formlink{
+    text-align: center;
+    margin-top: 0px;
+}
