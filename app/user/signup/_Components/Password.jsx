@@ -37,7 +37,7 @@ export default function Password({email}) {
     <>
       <FormContainer>
         <form action={formAction}>
-        <h2 className={styles.head}>Login to eChat</h2>
+        <h2 className={styles.head}>Signup to eChat</h2>
         <input type="hidden" name='email' value={email}/>
         <InputLabel tag="Password" name="password" setValue={setPassword}/>
         <InputLabel tag="Confirm Password" name="passwordcheck" setValue={setPasswordCheck}/>
