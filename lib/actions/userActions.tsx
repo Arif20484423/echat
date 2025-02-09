@@ -24,7 +24,7 @@ export type ResponseType = {
 export async function userEmailOtp(
   prevResponse: ResponseType | undefined,
   formData: FormData
-): Promise<ResponseType | undefined> {
+) {
   //validate email
   const validatedemail = z
     .object({

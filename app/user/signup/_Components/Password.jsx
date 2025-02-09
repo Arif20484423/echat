@@ -5,14 +5,14 @@ import InputLabel from "../../../_UIComponents/InputLabel";
 import Button from "../../../_UIComponents/Button";
 import ErrorMessage from "../../../_UIComponents/ErrorMessage";
 import { userSetPassword } from '@/lib/actions/userActions'
-import { useFormState } from 'react-dom'
+import { useActionState } from "react";
 import { ResponseType } from '@/lib/actions/userActions'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 export default function Password({email}) {
   const router= useRouter()
     const initialState={message:null}
-    const [state,formAction]=useFormState(userSetPassword,initialState);
+    const [state,formAction,pending]=useActionState(userSetPassword,initialState);
 
  const [error, setError] = useState(false);
  const [password, setPassword] = useState("");
@@ -39,10 +39,10 @@ export default function Password({email}) {
         <form action={formAction}>
         <h2 className={styles.head}>Signup to eChat</h2>
         <input type="hidden" name='email' value={email}/>
-        <InputLabel tag="Password" name="password" setValue={setPassword}/>
-        <InputLabel tag="Confirm Password" name="passwordcheck" setValue={setPasswordCheck}/>
+        <InputLabel tag="Password" name="password" type="password" setValue={setPassword}/>
+        <InputLabel tag="Confirm Password" name="passwordcheck" type="password" setValue={setPasswordCheck}/>
         {error &&  <ErrorMessage message={state?.message?state?.message:""}/>}
-        <Button tag="Signup" type="submit" disabled={disabled}/>
+        <Button tag={pending?"Setting Password":"Set Password"} type="submit" disabled={disabled }/>
         </form>
       </FormContainer>
     </>

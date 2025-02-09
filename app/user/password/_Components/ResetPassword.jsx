@@ -6,10 +6,10 @@ import Button from "../../../_UIComponents/Button";
 import ErrorMessage from "@/app/_UIComponents/ErrorMessage";
 import { userResetPassword } from "@/lib/actions/userActions";
 import { useEffect, useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 export default function ResetPassword() {
   let initialState={message:null}
-      const [state,formAction]=useFormState(userResetPassword,initialState)
+      const [state,formAction,pending]=useActionState(userResetPassword,initialState)
        const [error, setError] = useState(false);
         useEffect(() => {
           console.log(state)
@@ -26,7 +26,7 @@ export default function ResetPassword() {
         <InputLabel tag="Current Password" name="currentpassword"/>
         <InputLabel tag="New Password" name="password"/>
         {error && <ErrorMessage message={state?.message?state?.message:""}/>}
-        <Button tag="Update" type="submit"/></form>
+        <Button tag="Update" type="submit" disabled={pending}/></form>
       </FormContainer>
     </>
   );
