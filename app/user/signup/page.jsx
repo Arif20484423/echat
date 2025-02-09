@@ -7,13 +7,16 @@ import Password from "./_Components/Password"
 const Page = () => {
   const [step,setStep]=useState(1);
   const [email,setEmail]=useState("");
+  function next(){
+    setStep((s)=>s+1);
+  }
   return (
     <div>
       {step===1 && (
-        <Signup  step={step} setStep={setStep} setEmail={setEmail}/>
+        <Signup  next={next} setEmail={setEmail}/>
       )}
       {step===2 && (
-        <Otp step={step} setStep={setStep} email={email}/>
+        <Otp next={next} email={email}/>
       )}
       {step===3 && (
         <Password  email={email} />
