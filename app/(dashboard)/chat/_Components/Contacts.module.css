@@ -1,0 +1,45 @@
+.contactbox{
+    background-color: var(--blueBorder);
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+.contactbox *{
+    margin: 0;
+    
+}
+.contactbox img{
+    margin-left: 10px;
+}
+.contactbox p{
+    font-weight: 600;
+}
+
+.profilepic{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: 20% 30%;
+    
+    
+    border-radius: 100%;
+
+
+}
+
+
+.search{
+    
+    padding: 13px 10px;
+    margin: 0 0 5px;
+    width: 92%;
+    border-radius: 30px;
+    border: 2px var(--blueBorder) solid;
+    outline: none;
+
+    
+}

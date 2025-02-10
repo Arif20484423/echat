@@ -1,11 +1,8 @@
 "use client";
 
-import { userSignOut } from "@/lib/actions/userActions";
+import  PageLayout from "@/app/(dashboard)/chat/_Components/PageLayout";
 export default function Home() {
   return (
-    <div>
-      Home
-      
-    </div>
+    <PageLayout/>
   );
 }

@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import Storage from "../../storage/_Components/Storage"
-import styles from "./Component.module.css"
+import styles from "./Menu.module.css"
 const SelectFiles = () => {
     function fileClick(){
         alert("eyye")
