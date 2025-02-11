@@ -1,0 +1,69 @@
+.contacts{
+    height: calc( 100vh - 100px);
+    overflow-y: scroll;
+}
+.contacts::-webkit-scrollbar{
+    display: none;
+}
+
+.contactbox{
+    background-color: var(--blueBorder);
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3px;
+}
+.contactbox:hover{
+    background-color: var(--lightBlue);
+}
+.contactbox *{
+    margin: 0;
+    
+}
+.contactbox img{
+    margin-left: 10px;
+}
+.contactbox p{
+    font-weight: 480;
+}
+
+.profilepic{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: 20% 30%;
+    
+    
+    border-radius: 100%;
+
+
+}
+
+.searchbox{
+    position: relative;
+    height: 50px;
+    /* background-color: yellow; */
+}
+.searchinput{
+    
+    padding: 13px 10px;
+    margin: 0 0 5px;
+    width: 92%;
+    border-radius: 30px;
+    border: 2px var(--blueBorder) solid;
+    outline: none;
+    
+    
+}
+
+.searchbutton{
+    position: absolute;
+    top: 11px;
+    right: 20px;
+    
+
+    
+}

@@ -14,10 +14,17 @@
     --blueBorder:#D4E4FF;
     --white: #ffffff;
     --labelcolor:#4c4c4c;
+    --lightGrey:E5E5E5;
   }
 
   body{
     font-size: 16px;
+    margin: 0;
+    padding: 0;
   }
 
+  html{
+    margin: 0;
+    padding: 0;
+  }
   

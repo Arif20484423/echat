@@ -2,11 +2,11 @@
 
 import { userSignOut } from "@/lib/actions/userActions";
 import React, { useState } from "react";
-import Connected from "./Components/Connected";
-import SearchUser from "./Components/SearchUser";
-import CreateGroup from "./Components/CreateGroup"
-import Chat from './Components/Chat'
-import SelectFiles from "./Components/SelectFiles"
+import Connected from "./_Components/Connected";
+import SearchUser from "./_Components/SearchUser";
+import CreateGroup from "./_Components/CreateGroup"
+import Chat from './_Components/Chat'
+import SelectFiles from "./_Components/SelectFiles"
 const Page = () => {
   const [showConnected,setShowConnected]=useState(true);
   return (
