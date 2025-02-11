@@ -1,0 +1,40 @@
+.header h2 {
+    margin: 0;
+    
+  
+}
+.header {
+  /* background-color: yellow; */
+  display: flex;
+  align-items: center;
+  height: 50px;
+}
+.container {
+  display: flex;
+}
+.menu {
+  width: 50px;
+  /* height: 100vh; */
+  /* background-color: green; */
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+.contacts {
+  width: 280px;
+  /* background-color: orange; */
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.chat {
+  width: calc(100vw - 50px - 280px);
+  /* height: 100vh; */
+  padding-left: 15px;
+  /* background-color: red; */
+}
+
+.headiconbox {
+  display: inline-block;
+  width: 50px;
+  position: relative;
+}

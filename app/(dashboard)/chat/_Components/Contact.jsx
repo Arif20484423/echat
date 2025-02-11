@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <div className={styles.contactbox}>
             <img src="/profile.jpg" alt="profile" className={styles.profilepic}/>
-            <p>Arif</p>
+            <p>Jaid Ansari</p>
         </div>
   )
 }

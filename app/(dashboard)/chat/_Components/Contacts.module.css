@@ -1,3 +1,11 @@
+.contacts{
+    height: calc( 100vh - 100px);
+    overflow-y: scroll;
+}
+.contacts::-webkit-scrollbar{
+    display: none;
+}
+
 .contactbox{
     background-color: var(--blueBorder);
     width: 100%;
@@ -8,6 +16,9 @@
     gap: 10px;
     margin-bottom: 3px;
 }
+.contactbox:hover{
+    background-color: var(--lightBlue);
+}
 .contactbox *{
     margin: 0;
     
@@ -16,7 +27,7 @@
     margin-left: 10px;
 }
 .contactbox p{
-    font-weight: 600;
+    font-weight: 480;
 }
 
 .profilepic{
@@ -31,8 +42,12 @@
 
 }
 
-
-.search{
+.searchbox{
+    position: relative;
+    height: 50px;
+    /* background-color: yellow; */
+}
+.searchinput{
     
     padding: 13px 10px;
     margin: 0 0 5px;
@@ -40,6 +55,15 @@
     border-radius: 30px;
     border: 2px var(--blueBorder) solid;
     outline: none;
+    
+    
+}
+
+.searchbutton{
+    position: absolute;
+    top: 11px;
+    right: 20px;
+    
 
     
 }
