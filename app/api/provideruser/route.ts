@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     if (userExist) {
       return NextResponse.json({ success: true, user: userExist });
     } else {
-      const userCreated = await User.create({ email: req.email });
+      const userCreated = await User.create({ email: req.email, name:req.name });
       return NextResponse.json({ success: true, user: userCreated });
     }
   } catch (error) {

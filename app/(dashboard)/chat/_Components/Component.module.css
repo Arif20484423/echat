@@ -4,3 +4,15 @@
     top: 50%;
     transform: translate(-50%,-50%);
 }
+
+.input{
+    
+    padding: 13px 10px;
+    
+    width: 92%;
+    border-radius: 30px;
+    border: 2px var(--blueBorder) solid;
+    outline: none;
+    
+    
+}

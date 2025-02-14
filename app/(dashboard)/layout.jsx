@@ -2,6 +2,7 @@ import React from 'react'
 import {auth } from "@/auth"
 import { redirect } from 'next/navigation';
 import SetUser from "../_Components/SetUser"
+import SetSocket from '../_Components/SetSocket';
 const Layout =async   ({children}) => {
 
   const session = await auth();
@@ -15,8 +16,10 @@ const Layout =async   ({children}) => {
    
   return (
     <>
+    
     <SetUser/>
-    <p>{session.user?.email}</p>
+    <SetSocket/>
+    {/* <p>{session.user?.email}</p> */}
     {children} </> 
   )
 }

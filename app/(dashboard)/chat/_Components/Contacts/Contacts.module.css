@@ -17,8 +17,13 @@
     margin-bottom: 3px;
 }
 .contactbox:hover{
-    background-color: var(--blue);
+    background-color: var(--blueBorder);
+    
 }
+/* .contactbox:hover *{
+    color: white;
+    
+} */
 .contactbox *{
     margin: 0;
     
@@ -48,7 +53,6 @@
     object-fit: cover;
     object-position: 20% 30%;
     margin-left: 10px;
-    
     border-radius: 100%;
 
 
@@ -59,7 +63,7 @@
     height: 50px;
     /* background-color: yellow; */
 }
-.searchinput{
+.input{
     
     padding: 13px 10px;
     margin: 0 0 5px;

@@ -6,7 +6,7 @@ const SetSocket = () => {
   const { setSocket, setMessageNotification } = useContext(Context);
 // component for connecting and setting up socket 
   useEffect(() => {
-    fetch("/api/userlogged")
+    fetch("/api/user")
       .then((data) => {
         return data.json();
       })

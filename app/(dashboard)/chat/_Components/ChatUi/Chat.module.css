@@ -6,7 +6,7 @@
        
 }
 .messages{
-    height: calc( 100% - 70px);
+    height: calc( 100% - 120px);
     overflow-y: scroll;
     font-size: 14px;
 }
@@ -76,9 +76,17 @@
     
 }
 .sentbox *{
-    padding: 10px;
+    padding: 0px;
     margin:0;
 }
+.sentbox > div{
+    padding: 10px;
+}
+.sentbox > div :first-child{
+    font-weight: 600;
+}
+
+
 .received{
     display: flex;
     margin: 10px;
@@ -94,6 +102,30 @@
     
 }
 .receivedbox *{
-    padding: 10px;
+    padding: 0px;
     margin: 0;
+}
+.receivedbox > div{
+    padding: 10px;
+}
+.receivedbox > div :first-child{
+    font-weight: 600;
+}
+
+
+
+.messagebox{
+    height: 50px;
+    display: flex;
+    align-items:center;
+    justify-content: space-around;
+    background-color: none;
+
+}
+.messagebox *{
+    cursor:pointer;
+}
+
+.file{
+    display: none;
 }

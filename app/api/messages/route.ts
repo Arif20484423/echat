@@ -13,9 +13,9 @@ export async function POST(req: NextRequest) {
     channel: body.channelid,
     user: body.user,
     time:{$gte:time[0].starttime}
-  }).populate({
+  },"file message delete").populate({
     path: "message",
-    populate: { path: "user" },
+    populate: { path: "user" ,select:"name"},
   }).populate({
     path:"file",
     populate:{path : "file"}

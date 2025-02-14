@@ -4,11 +4,12 @@ import { Channel } from "@/models/models";
 
 export async function GET() {
   const session = await auth();
-  const data = await Channel.find({ user: session?.user?.id , deleted : false })
+  const data = await Channel.find({ user: session?.user?.id , deleted : false },"user isgroup deleted channelid")
     .populate({
       path: "connections",
       match: { user: { $ne: session?.user?.id } },
-      populate: { path: "user" },
+      select:"user channelid",
+      populate: { path: "user",select:"email name description" },
     })
     .populate("group");
     console.log(data)

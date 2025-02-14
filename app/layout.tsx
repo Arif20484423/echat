@@ -17,7 +17,7 @@ export default async function RootLayout({ children }:{children:React.ReactNode}
     <html lang="en">
       <body className={inter.className}>
         <NoteProvider>
-          <SetSocket />
+          
           {children}
         </NoteProvider>
       </body>
