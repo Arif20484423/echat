@@ -234,16 +234,16 @@ export const userDetails = async (
       description: formData.get("description"),
       image:imagelink
     });
-    return {
-      success: true,
-      message: "Information updated successfully",
-    };
+    await signOut({
+      redirect: false,
+    });
   } catch (error) {
     return {
       success: false,
       message: "error updating information",
     };
   }
+  redirect("/user/signin")
 };
 
 export const userSignIn = async (

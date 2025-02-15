@@ -4,14 +4,12 @@ import bcrypt from "bcrypt-edge"
 export async function POST(request:NextRequest){
     const req= await request.json()
     console.log(req.email)
-    let userToAuth=await User.findOne({email:req.email})
+    let userToAuth=await User.findOne({email:req.email},"password")
                 if(!userToAuth){
                     return NextResponse.json({success:false})
                 }
                 else{
                     if(bcrypt.compareSync(req.password,userToAuth.password)){
-                        userToAuth.password=null;
-                        console.log("verifyuser",userToAuth)
                         return NextResponse.json({success:true,user:userToAuth})
                     }
                     else{

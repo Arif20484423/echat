@@ -7,7 +7,7 @@ const SetUser = () => {
     const {setUser}= useContext(Context)
     useEffect(()=>{
         fetch("/api/user").then(d=>d.json()).then(d=>{
-            setUser({id:d.id,email:d.email,name:d.name})
+            setUser({id:d.user._id,email:d.user.email,name:d.user.name,image:d.user.image,description:d.user.description})
         });
       },[])
       return <></>;
