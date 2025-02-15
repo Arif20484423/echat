@@ -8,14 +8,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
       async profile(profile) {
+
         const res = await fetch(process.env.DOMAIN_URL_BASE+"api/provideruser", {
           method: "POST",
-          body: JSON.stringify({ email: profile.email ,name:profile.name}),
+          body: JSON.stringify({ email: profile.email ,name:profile.name,image:profile.picture}),
         });
         const json = await res.json();
         if (json.success) {
           profile._id = json.user._id;
           profile.name=json.user.name;
+          profile.image=json.user.image;
           return profile;
         }
       },
@@ -25,14 +27,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_GITHUB_SECRET,
       async profile(profile):Promise<any> {
         
+        console.log(profile)
         const res = await fetch(process.env.DOMAIN_URL_BASE+"api/provideruser", {
           method: "POST",
-          body: JSON.stringify({ email: profile.email,name:profile.name }),
+          body: JSON.stringify({ email: profile.email,name:profile.name,image:profile.avatar_url }),
         });
         const json = await res.json();
         if (json.success) {
           profile._id = json.user._id;
           profile.name=json.user.name;
+          profile.image=json.user.image;
           return profile;
         }
         else{
@@ -55,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         const json = await res.json();
         if (json.success) {
+          console.log("cred",json.user)
           return json.user;
         } else {
           throw new Error("Invalid Username or Password");
@@ -68,16 +73,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     jwt({ token, user }) {
       if (user) {
+        console.log("jwt",user)
         token.name = (user as {name?:string}).name;
         token.id = (user as {_id?:string})._id;
+        token.image = (user as {image?:string}).image;
       }
       return token;
     },
     session({ session, token }) {
+      console.log("session",token)
         session.user = {
+          
             ...(session.user || {}),
             id: token.id as string, // Add `id` with a type assertion
             name: token.name as string, 
+            image:token.image as string,
           };
           return session;
     },

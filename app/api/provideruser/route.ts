@@ -3,11 +3,11 @@ import { User } from "../../../models/models";
 export async function POST(request: NextRequest) {
   const req = await request.json();
   try {
-    const userExist = await User.findOne({ email: req.email });
+    const userExist = await User.findOne({ email: req.email },"name email image description");
     if (userExist) {
       return NextResponse.json({ success: true, user: userExist });
     } else {
-      const userCreated = await User.create({ email: req.email, name:req.name });
+      const userCreated = await User.create({ email: req.email, name:req.name, image:req.image });
       return NextResponse.json({ success: true, user: userCreated });
     }
   } catch (error) {

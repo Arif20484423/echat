@@ -3,12 +3,12 @@ import React, { useContext } from 'react'
 import styles from "./Contacts.module.css"
 import { VscKebabVertical } from "react-icons/vsc";
 import { Context } from '@/app/_context/NoteContext';
-const Contact = ({name,email,id,channelid}) => {
+const Contact = ({name,email,id,channelid,description}) => {
   const {setToUser} = useContext(Context)
 
   return (
     <div className={styles.contactbox} onClick={()=>{
-        setToUser({id:id,email:email,channelid:channelid})
+        setToUser({id:id,email:email,channelid:channelid,description:description,name:name})
     }}>
             <img src="/profile.jpg" alt="profile" className={styles.profilepic}/>
             <div className={styles.detailbox}>

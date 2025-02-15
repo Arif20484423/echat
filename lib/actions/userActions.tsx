@@ -4,6 +4,7 @@ import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import z from "zod";
+import { supabase } from "@/app/_Components/SupabaseClient";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt-edge";
 const userValidation = z.object({
@@ -16,7 +17,7 @@ export type ResponseType = {
   errors?: {
     email?: string[];
     password?: string[];
-  } ;
+  };
   message?: string | null;
   success?: boolean;
 };
@@ -146,9 +147,11 @@ export async function userResetPassword(
   prevResponse: ResponseType | undefined,
   formData: FormData
 ): Promise<ResponseType | undefined> {
-  const session= await auth();
-  const email=session?.user?.email;
-  const passwordSchema= z.string().min(3, { message: "Password length should be greater than 3" });
+  const session = await auth();
+  const email = session?.user?.email;
+  const passwordSchema = z
+    .string()
+    .min(3, { message: "Password length should be greater than 3" });
   const validateduser = passwordSchema.safeParse(formData.get("password"));
   if (!validateduser.success) {
     return {
@@ -170,9 +173,9 @@ export async function userResetPassword(
       password: hash,
     });
     return {
-      success:true,
-      message:"Updated successfully"
-    }
+      success: true,
+      message: "Updated successfully",
+    };
   } else {
     return {
       message: "password didn't matched",
@@ -212,20 +215,35 @@ export const userDetails = async (
   prevResponse: ResponseType | undefined,
   formData: FormData
 ): Promise<ResponseType | undefined> => {
-    const session= await auth();
-    const id=session?.user?.id;
-    try{
-      await User.findByIdAndUpdate(id,{name:formData.get("name"),description:formData.get("description")})
-      return {
-        success:true,
-        message:"Information updated successfully"
-      }
-    }catch (error){
-        return {
-          success:false,
-          message:"error updating information"
-        }
+  const session = await auth();
+  const id = session?.user?.id;
+  // uploading file to supabase
+  const { data, error } = await supabase.storage
+    .from("echat public")
+    .upload("public/" + id , formData.get("image") as File);
+  const imagelink = "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +id;
+  if(error){
+    return {
+      success:false,
+      message:"Error uploading image"
     }
+  }
+  try {
+    await User.findByIdAndUpdate(id, {
+      name: formData.get("name"),
+      description: formData.get("description"),
+      image:imagelink
+    });
+    return {
+      success: true,
+      message: "Information updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "error updating information",
+    };
+  }
 };
 
 export const userSignIn = async (

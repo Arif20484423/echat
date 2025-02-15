@@ -31,7 +31,8 @@ export default function Details() {
         <form action={formAction}>
         <h2 className={styles.head}>Personal Infromation</h2>
         <InputLabel tag="Name" name="name"/>
-        <InputLabel tag="Description" name="description"/> 
+        <InputLabel tag="Description" name="description"/>
+        <input type="file" name="image" accept=".jpg, .jpeg, .png"/> 
         {error &&  <ErrorMessage message={!state?.success?state?.message:""}/>}
          <Button tag="Update" type="submit" disabled={pending}/>
          

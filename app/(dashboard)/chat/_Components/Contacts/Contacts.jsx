@@ -13,6 +13,7 @@ const Contacts = () => {
     fetch("/api/connections")
       .then((d) => d.json())
       .then((d) => {
+        console.log(d.data)
         setConnected(d.data);
       });
   }, [connectedRefetch]);
@@ -28,7 +29,7 @@ const Contacts = () => {
       </div>
       <div className={styles.contacts}>
         {connected.map((e, i) => {
-          return <Contact key={e._id} name={e.connections[0].user.name} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} />;
+          return <Contact key={e._id} name={e.connections[0].user.name} description={e.connections[0].user.description} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} />;
         })}
       </div>
     </>

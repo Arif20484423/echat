@@ -10,6 +10,8 @@ export async function POST(request:NextRequest){
                 }
                 else{
                     if(bcrypt.compareSync(req.password,userToAuth.password)){
+                        userToAuth.password=null;
+                        console.log("verifyuser",userToAuth)
                         return NextResponse.json({success:true,user:userToAuth})
                     }
                     else{

@@ -69,8 +69,11 @@ export default function Chat(){
                 <div className={styles.userinfo}>
                     <img src="/profile.jpg" alt="img" className={styles.userimage}/>
                     <div>
-                    <p className={styles.name}>Sudip Das</p>
-                    <p className={styles.desc}>This may be users description</p>
+                    {
+                      toUser && 
+                      <><p className={styles.name}>{toUser.name}</p>
+                      <p className={styles.desc}>{toUser.description}</p></>
+                    }
                     </div>
                 </div>
                 
