@@ -1,13 +1,15 @@
-"use client";
-import React from "react";
+"use client"
+import React,{useState} from "react";
 import Menu from "./Menu.jsx";
 import Contacts from "./Contacts/Contacts.jsx";
 import Chat from "./ChatUi/ChatUi.jsx";
 import ChatProfile from "./ChatProfile/ChatProfile.jsx";
 import styles from "./PageLayout.module.css";
+import NewContacts from "./NewContacts/Contacts.jsx"
 import compStyles from "./Component.module.css";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 const PageLayout = () => {
+  const [page,setPage]= useState(1);
   return (
     <>
       <div className={styles.container}>
@@ -20,12 +22,14 @@ const PageLayout = () => {
           </div>
           <div className={styles.navs}>
             <div className={styles.menu}>
-              {" "}
-              <Menu></Menu>{" "}
+              
+              <Menu setPage={setPage}></Menu>
             </div>
             <div className={styles.contacts}>
-              {" "}
-              <Contacts />{" "}
+              
+                {page===1 && <Contacts />}
+                {page===3 && <NewContacts setPage={setPage}/>}
+              
             </div>
           </div>
         </div>

@@ -16,9 +16,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const json = await res.json();
         if (json.success) {
           profile._id = json.user._id;
-          // profile.name=json.user.name;
-          // profile.image=json.user.image;
-          // profile.description=json.user.description
           return profile;
         }
       },
@@ -36,9 +33,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const json = await res.json();
         if (json.success) {
           profile._id = json.user._id;
-          // profile.name=json.user.name;
-          // profile.image=json.user.image;
-          // profile.description=json.user.description
           return profile;
         }
         else{
@@ -75,23 +69,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        // console.log("jwt",user)
-        // token.name = (user as {name?:string}).name;
         token.id = (user as {_id?:string})._id;
-        // token.image = (user as {image?:string}).image;
-        // token.description = (user as {description?:string}).description;
       }
       return token;
     },
     session({ session, token }) {
-      // console.log("session",token)
         session.user = {
           
             ...(session.user || {}),
             id: token.id as string, // Add `id` with a type assertion
-            // name: token.name as string, 
-            // image:token.image as string,
-            // description:token.description as string,
           };
           return session;
     },

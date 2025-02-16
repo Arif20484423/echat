@@ -3,8 +3,9 @@ import { useContext, useEffect } from "react";
 import { Context } from "../_context/NoteContext";
 import { io } from "socket.io-client";
 const SetSocket = () => {
-  const { setSocket, setMessageNotification } = useContext(Context);
-// component for connecting and setting up socket 
+  const { setSocket, socket, setMessageNotification } = useContext(Context);
+  // component for connecting and setting up socket
+
   useEffect(() => {
     fetch("/api/user")
       .then((data) => {
@@ -18,15 +19,20 @@ const SetSocket = () => {
           sock.on("connect", () => {
             console.log("Connected");
           });
-          sock.emit("join_room", { room: data.id });
+          sock.on("disconnect", () => {
+            console.log("Disconnected");
+          });
+
+          sock.emit("join_room", { room: data.user._id });
           sock.on("message", (data) => {
             // messagenotification to reload chat and connected as needed
+            console.log("message");
             setMessageNotification(data);
           });
         }
       });
   }, []);
-  return null;
+  return <></>;
 };
 
 export default SetSocket;

@@ -215,35 +215,48 @@ export const userDetails = async (
   prevResponse: ResponseType | undefined,
   formData: FormData
 ): Promise<ResponseType | undefined> => {
-  const session = await auth();
-  const id = session?.user?.id;
-  // uploading file to supabase
-  const { data, error } = await supabase.storage
-    .from("echat public")
-    .upload("public/" + id , formData.get("image") as File);
-  const imagelink = "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +id;
-  if(error){
-    return {
-      success:false,
-      message:"Error uploading image"
+  
+  
+  const id = formData.get("id");
+  let imagelink=null;
+  const file=formData.get("image") as File;
+  if(file.size>0){
+    const imageid=Math.random()*1000000;
+    // uploading file to supabase
+    const { data, error } = await supabase.storage
+      .from("echat public")
+      .upload("public/" + imageid, formData.get("image") as File);
+     imagelink =
+      "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
+      imageid;
+    if (error) {
+      console.log(error);
+      return {
+        success: false,
+        message: "Error uploading image",
+      };
     }
   }
   try {
     await User.findByIdAndUpdate(id, {
       name: formData.get("name"),
-      description: formData.get("description"),
-      image:imagelink
+      description: formData.get("description")
     });
-    await signOut({
-      redirect: false,
-    });
+    if(imagelink){
+      await User.findByIdAndUpdate(id, {
+        image:imagelink
+      });
+    }
   } catch (error) {
     return {
       success: false,
       message: "error updating information",
     };
   }
-  redirect("/user/signin")
+  await signOut({
+    redirect: false,
+  });
+  redirect("/user/signin");
 };
 
 export const userSignIn = async (

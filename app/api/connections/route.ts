@@ -9,7 +9,7 @@ export async function GET() {
       path: "connections",
       match: { user: { $ne: session?.user?.id } },
       select:"user channelid",
-      populate: { path: "user",select:"email description name" },
+      populate: { path: "user",select:"email description name image" },
     })
     .populate("group");
     console.log(data)

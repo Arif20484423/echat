@@ -24,7 +24,7 @@ export default function Login() {
       <FormContainer>
         <form action={formAction}>
           <h2 className={styles.head}>Login to eChat</h2>
-          <InputLabel tag="Email" name="email" />
+          <InputLabel tag="Email" name="email"/>
           <InputLabel tag="Password" name="password" />
 
           {error && <ErrorMessage message={state?.message?state?.message:""}/>}

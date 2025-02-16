@@ -1,16 +1,19 @@
-"use client";
+// "use client";
 
-import { userSignOut } from "@/lib/actions/userActions";
-import React, { useState } from "react";
-import Connected from "./_Components/Connected";
-import SearchUser from "./_Components/SearchUser";
-import CreateGroup from "./_Components/CreateGroup"
-import Chat from './_Components/Chat'
-import SelectFiles from "./_Components/SelectFiles"
+// import { userSignOut } from "@/lib/actions/userActions";
+import React from "react";
+// import Connected from "./_Components/Connected";
+// import SearchUser from "./_Components/SearchUser";
+// import CreateGroup from "./_Components/CreateGroup"
+// import Chat from './_Components/Chat'
+// import SelectFiles from "./_Components/SelectFiles"
 import PageLayout from "./_Components/PageLayout";
 const Page = () => {
     return (
-      <PageLayout/>
+      <>
+        <PageLayout/>
+      </>
+      
     );
 //   const [showConnected,setShowConnected]=useState(true);
 //   return (

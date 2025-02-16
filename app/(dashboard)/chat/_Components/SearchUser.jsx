@@ -9,7 +9,7 @@ const SearchUser = ({setShowConnected}) => {
     const [users,setUsers]= useState([]);
 
     useEffect(()=>{
-        fetch("/api/searchuser",{
+        fetch("/api/users",{
             method:"POST",
             body:JSON.stringify({key:key})
         }).then(d=>d.json()).then(d=>setUsers(d));

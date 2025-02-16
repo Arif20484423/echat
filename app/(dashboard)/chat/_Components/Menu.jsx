@@ -1,16 +1,24 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { PiChatsTeardropFill } from "react-icons/pi";
 import { TiGroup } from "react-icons/ti";
 import { TiUserAdd } from "react-icons/ti";
 import { MdGroupAdd } from "react-icons/md";
+import Image from "next/image";
 import { FaFolder } from "react-icons/fa";
 import styles from "./Menu.module.css";
 import compStyles from "./Component.module.css";
-const Menu = () => {
+import { Context } from "@/app/_context/NoteContext";
+const Menu = ({ setPage }) => {
+  const { user } = useContext(Context);
   return (
     <>
-      <div className={styles.iconbox}>
+      <div
+        className={styles.iconbox}
+        onClick={() => {
+          setPage(1);
+        }}
+      >
         <svg
           className={compStyles.icon}
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +31,12 @@ const Menu = () => {
           <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM17 14H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1zm0-3H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1zm0-3H7c-.55 0-1-.45-1-1s.45-1 1-1h10c.55 0 1 .45 1 1s-.45 1-1 1z" />
         </svg>
       </div>
-      <div className={styles.iconbox}>
+      <div
+        className={styles.iconbox}
+        onClick={() => {
+          setPage(2);
+        }}
+      >
         <svg
           className={compStyles.icon}
           xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +51,12 @@ const Menu = () => {
           </g>
         </svg>
       </div>
-      <div className={styles.iconbox}>
+      <div
+        className={styles.iconbox}
+        onClick={() => {
+          setPage(3);
+        }}
+      >
         <svg
           className={compStyles.icon}
           xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +69,12 @@ const Menu = () => {
           <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V8c0-.55-.45-1-1-1s-1 .45-1 1v2H2c-.55 0-1 .45-1 1s.45 1 1 1h2v2c0 .55.45 1 1 1s1-.45 1-1v-2h2c.55 0 1-.45 1-1s-.45-1-1-1H6zm9 4c-2.67 0-8 1.34-8 4v1c0 .55.45 1 1 1h14c.55 0 1-.45 1-1v-1c0-2.66-5.33-4-8-4z" />
         </svg>
       </div>
-      <div className={styles.iconbox}>
+      <div
+        className={styles.iconbox}
+        onClick={() => {
+          setPage(4);
+        }}
+      >
         <svg
           className={compStyles.icon}
           xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +100,7 @@ const Menu = () => {
       </div>
       <div className={styles.iconbox}>
         <svg
-        className={compStyles.icon}
+          className={compStyles.icon}
           xmlns="http://www.w3.org/2000/svg"
           height="26px"
           viewBox="0 0 24 24"
@@ -87,6 +110,9 @@ const Menu = () => {
           <path d="M0 0h24v24H0V0z" fill="none" />
           <path d="M10.59 4.59C10.21 4.21 9.7 4 9.17 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-1.41-1.41z" />
         </svg>
+      </div>
+      <div className={styles.iconbox}>
+        <img src={user ? user.image : "/profile.jpg"} alt="user" width={50} />
       </div>
     </>
   );
