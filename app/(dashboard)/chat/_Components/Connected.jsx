@@ -9,7 +9,7 @@ const Connected = ({}) => {
   const { setToUser, user, connectedRefetch, setConnectedRefetch } =
     useContext(Context);
   useEffect(() => {
-    fetch("/api/connectedcontacts")
+    fetch("/api/connections")
       .then((d) => d.json())
       .then((d) => {
         setConnected(d.data);

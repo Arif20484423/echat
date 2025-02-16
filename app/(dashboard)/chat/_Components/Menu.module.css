@@ -9,8 +9,13 @@
 }
 
 .iconbox{
-    width: 100%;
+    width: 90%;
     height: 45px;
     position: relative;
+    margin: 2px;
+    border-radius: 10px;
+}
+.iconbox:hover{
+    background-color: var(--blue);
 }
 

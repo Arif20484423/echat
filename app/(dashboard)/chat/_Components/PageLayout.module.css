@@ -12,6 +12,10 @@
 .container {
   display: flex;
 }
+
+.navs {
+    display: flex;
+  }
 .menu {
   width: 50px;
   /* height: 100vh; */

@@ -1,0 +1,58 @@
+
+.chatprofile{
+    height: 100vh;
+    /* background-color: yellow; */
+    overflow-y: scroll;
+}
+.chatprofile > div{
+    margin: 0;
+    padding: 15px 5px;
+    /* background-color: yellow; */
+}
+.nav{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.profile{
+    text-align: center;
+    justify-content: center;
+}
+
+.profile *{
+    margin: 2px;
+}
+
+.profilepic{
+    height:200px;
+    width: 200px;
+    border-radius: 100%;
+    object-fit:cover;
+    object-position: 20% 30%;
+}
+/* .name{
+    text-align: center;
+    margin: 0; */
+/* } */
+
+
+.document{
+    /* text-align: center; */
+    margin: 10px;
+    width: 100px;
+    display: inline-block;
+    
+}
+.document > img{
+    width: 100px;
+}
+.document > p{
+    
+    text-wrap: wrap ;
+    word-break: break-all;
+    padding: 0;
+     margin: 0;
+     /* background-color: yellow; */
+     text-align: center;
+}

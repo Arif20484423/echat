@@ -1,10 +1,12 @@
 import {auth} from "@/auth"
+import { User } from "@/models/models";
 import { NextResponse } from "next/server";
 
 export async function GET(){
     const session = await auth();
+    const user=await User.findById(session?.user?.id,"name email description image");
     if(session){
-        return NextResponse.json({success:true,id:session.user?.id,email:session.user?.email})
+        return NextResponse.json({success:true,user:user})
     }
     
     else{

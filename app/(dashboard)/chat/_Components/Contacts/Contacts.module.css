@@ -7,7 +7,7 @@
 }
 
 .contactbox{
-    background-color: var(--blueBorder);
+    background-color: var(--lightBlue_10);
     width: 100%;
     height: 50px;
     border-radius: 10px;
@@ -17,17 +17,34 @@
     margin-bottom: 3px;
 }
 .contactbox:hover{
-    background-color: var(--lightBlue);
+    background-color: var(--blueBorder);
+    
 }
+/* .contactbox:hover *{
+    color: white;
+    
+} */
 .contactbox *{
     margin: 0;
     
 }
-.contactbox img{
-    margin-left: 10px;
+
+.detailbox{
+    display: flex;
+    align-items: center;
+    /* background-color: red; */
+    width: calc( 100% - 70px);
+    justify-content: space-between;
 }
-.contactbox p{
-    font-weight: 480;
+
+
+.name{
+    font-weight: 600;
+
+}
+.email{
+    font-size:10px;
+    color: var(--grey);
 }
 
 .profilepic{
@@ -35,8 +52,7 @@
     height: 40px;
     object-fit: cover;
     object-position: 20% 30%;
-    
-    
+    margin-left: 10px;
     border-radius: 100%;
 
 
@@ -47,7 +63,7 @@
     height: 50px;
     /* background-color: yellow; */
 }
-.searchinput{
+.input{
     
     padding: 13px 10px;
     margin: 0 0 5px;

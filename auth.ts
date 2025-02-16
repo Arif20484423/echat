@@ -8,9 +8,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
       async profile(profile) {
-        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/addprovideruser", {
+
+        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/provideruser", {
           method: "POST",
-          body: JSON.stringify({ email: profile.email }),
+          body: JSON.stringify({ email: profile.email ,name:profile.name,image:profile.picture}),
         });
         const json = await res.json();
         if (json.success) {
@@ -24,9 +25,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_GITHUB_SECRET,
       async profile(profile):Promise<any> {
         
-        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/addprovideruser", {
+        console.log(profile)
+        const res = await fetch(process.env.DOMAIN_URL_BASE+"api/provideruser", {
           method: "POST",
-          body: JSON.stringify({ email: profile.email }),
+          body: JSON.stringify({ email: profile.email,name:profile.name,image:profile.avatar_url }),
         });
         const json = await res.json();
         if (json.success) {
@@ -53,6 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         const json = await res.json();
         if (json.success) {
+          console.log("cred",json.user)
           return json.user;
         } else {
           throw new Error("Invalid Username or Password");
@@ -72,6 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session({ session, token }) {
         session.user = {
+          
             ...(session.user || {}),
             id: token.id as string, // Add `id` with a type assertion
           };

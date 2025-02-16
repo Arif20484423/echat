@@ -6,8 +6,8 @@ import {Context} from '../_context/NoteContext'
 const SetUser = () => {
     const {setUser}= useContext(Context)
     useEffect(()=>{
-        fetch("/api/userlogged").then(d=>d.json()).then(d=>{
-            setUser({id:d.id,email:d.email})
+        fetch("/api/user").then(d=>d.json()).then(d=>{
+            setUser({id:d.user._id,email:d.user.email,name:d.user.name,image:d.user.image,description:d.user.description})
         });
       },[])
       return <></>;
