@@ -5,7 +5,7 @@ import compStyles from "../Component.module.css"
 import Messages from "./Messages"
 import { Context } from "@/app/_context/NoteContext"
 import { addMessage } from "@/lib/actions/chatActions"
-export default function Chat(){
+export default function Chat({setChatPage}){
     const [message, setMessage] = useState("");
     const fileref = useRef(null);
     const {
@@ -65,14 +65,16 @@ export default function Chat(){
     }
     return (
         <div className={styles.chatbox}>
-            <div className={styles.chatheader}>
+            <div className={styles.chatheader}  onClick={()=>{
+              setChatPage(2);
+            }}>
                 <div className={styles.userinfo}>
-                    <img src="/profile.jpg" alt="img" className={styles.userimage}/>
+                    <img src={toUser ? toUser.image:"/profile.jpg"} alt="img" className={styles.userimage}/>
                     <div>
                     {
                       toUser && 
                       <><p className={styles.name}>{toUser.name}</p>
-                      <p className={styles.desc}>{toUser.description}</p></>
+                      <p className={styles.desc}>{toUser.email}</p></>
                     }
                     </div>
                 </div>
