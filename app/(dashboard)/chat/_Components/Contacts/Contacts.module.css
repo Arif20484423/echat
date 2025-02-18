@@ -35,6 +35,7 @@
     /* background-color: red; */
     width: calc( 100% - 70px);
     justify-content: space-between;
+    position: relative;
 }
 
 

@@ -10,6 +10,7 @@ import compStyles from "./Component.module.css";
 import { TbMessageChatbotFilled } from "react-icons/tb";
 const PageLayout = () => {
   const [page,setPage]= useState(1);
+  const [chatPage,setChatPage]=useState(1);
   return (
     <>
       <div className={styles.container}>
@@ -34,8 +35,13 @@ const PageLayout = () => {
           </div>
         </div>
         <div className={styles.chat}>
-          <Chat />
-          {/* <ChatProfile/>           */}
+        {
+          chatPage==1 && <Chat setChatPage={setChatPage}/>
+        }
+        {
+          chatPage==2 && <ChatProfile setChatPage={setChatPage}/>
+        } 
+          {/*            */}
         </div>
       </div>
     </>
