@@ -7,7 +7,7 @@ export default function NoteProvider({
   children,
 }) {
   const [socket, setSocket] = useState(null);
-  const [messageNotification, setMessageNotification] = useState(null);
+  const [messageNotification, setMessageNotification] = useState(false);
   const [toUser, setToUser] = useState(null);
   const [user, setUser] = useState(null);
   const [connectedRefetch, setConnectedRefetch] = useState(true);

@@ -56,13 +56,12 @@
 .dropdown{
     width: max-content;
     border-radius: 10px;
-    position: absolute;
     background-color: white;
     padding: 5px;
-    right: 15px;
-    top: 1b  0px;
     z-index: 1;
+    border: 1px solid var(--grey);
 }
 .dropdown > div{
     padding: 8px;
+    cursor: pointer;
 }

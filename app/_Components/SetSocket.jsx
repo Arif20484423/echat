@@ -26,8 +26,13 @@ const SetSocket = () => {
           sock.emit("join_room", { room: data.user._id });
           sock.on("message", (data) => {
             // messagenotification to reload chat and connected as needed
-            console.log("message");
+            
             setMessageNotification(data);
+          });
+          sock.on("delete", (data) => {
+            // messagenotification to reload chat and connected as needed
+            console.log("deleted")    
+            setMessageNotification((m)=>!m);
           });
         }
       });

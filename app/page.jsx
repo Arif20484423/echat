@@ -1,13 +1,17 @@
 "use client";
 
-import PageLayout from "@/app/(dashboard)/chat/_Components/PageLayout";
+
+import data from "@emoji-mart/data"
+import Picker from "@emoji-mart/react"
 
 export default function Home() {
   return (
     <>
       
-
-      <PageLayout />
+      <Picker data={data} onEmojiSelect={(e)=>{
+        console.log(e.native)
+      }} theme="light" previewPosition="none"/>
+      
     </>
   );
 }

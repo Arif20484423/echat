@@ -9,6 +9,8 @@ import { FaFolder } from "react-icons/fa";
 import styles from "./Menu.module.css";
 import compStyles from "./Component.module.css";
 import { Context } from "@/app/_context/NoteContext";
+import { userSignOut } from "@/lib/actions/userActions";
+
 const Menu = ({ setPage }) => {
   const { user } = useContext(Context);
   return (
@@ -111,8 +113,20 @@ const Menu = ({ setPage }) => {
           <path d="M10.59 4.59C10.21 4.21 9.7 4 9.17 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-1.41-1.41z" />
         </svg>
       </div>
-      <div className={styles.user }>
-        <img src={user ? user.image : "/profile.jpg"}  alt="user" width={50} />
+      <div className={styles.user}>
+        <svg
+        onClick={() => {
+            userSignOut();
+          }}
+          xmlns="http://www.w3.org/2000/svg"
+          height="30px"
+          viewBox="0 -960 960 960"
+          width="26px"
+          fill="#00000"
+        >
+          <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-160q100 0 170-70t70-170q0-51-19-94.5T650-650l-57 57q22 22 34.5 51t12.5 62q0 66-47 113t-113 47q-66 0-113-47t-47-113q0-33 12.5-62t34.5-51l-57-57q-32 32-51 75.5T240-480q0 100 70 170t170 70Zm-40-240h80v-240h-80v240Z" />
+        </svg>
+        <img src={user ? user.image : "/profile.jpg"} alt="user" width={50} />
       </div>
     </>
   );

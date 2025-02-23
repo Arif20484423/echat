@@ -5,7 +5,7 @@ import Sent from "./Sent";
 import Received from "./Received";
 import styles from "./Chat.module.css";
 import { Context } from "@/app/_context/NoteContext";
-import ScrollDown from "./ScrollDown"
+import ScrollDown from "./ScrollDown";
 var cryptojs = require("crypto-js");
 const Messages = () => {
   const {
@@ -15,7 +15,7 @@ const Messages = () => {
     setMessageNotification,
     setConnectedRefetch,
   } = useContext(Context);
- const [down,setDown]= useState(false);
+  const [down, setDown] = useState(false);
   const [forward, setForward] = useState(false);
   const [messages, setMessages] = useState([]);
   const [selectedmsg, setSelectedMsg] = useState([]);
@@ -29,6 +29,7 @@ const Messages = () => {
       })
         .then((d) => d.json())
         .then((d) => {
+          console.log(d.data);
           setMessages(d.data);
         });
     }
@@ -46,7 +47,7 @@ const Messages = () => {
       }
     }
   }, [messageNotification]);
-  
+
   // useEffect(()=>{
   //   alert("op")
   //   ref.current.scrollTop=ref.current.scrollHeight;
@@ -54,8 +55,7 @@ const Messages = () => {
 
   return (
     <div className={styles.messages} ref={ref}>
-      {messages.map((e,i) => {
-      
+      {messages.map((e, i) => {
         if (e.message) {
           // if message exists (after deleteion message is not populated else populated)
           // then decrypt and print message also related ing=fo like if group group name else email and users related to message
@@ -69,37 +69,66 @@ const Messages = () => {
 
           if (!e.delete) {
             //if not deleted then only continue adding message to chat
-            if(i==messages.length-1){
+            if (i == messages.length - 1) {
               if (self) {
-              return <React.Fragment key={e._id}>
-              <Sent key={e._id} user={user.name} message={decryptedMessage} />
-              <ScrollDown/>
-              </React.Fragment>;
+                return (
+                  <React.Fragment key={e._id}>
+                    <Sent
+                      id={e._id}
+                      messageid={e.message._id}
+                      user={user.name}
+                      message={decryptedMessage}
+                      file={e.file ? e.file.file.file : null}
+                      type={e.file ? e.file.file.type:null}
+                    extension={e.file ? e.file.file.extension: null}
+                    />
+                    <ScrollDown />
+                  </React.Fragment>
+                );
+              } else {
+                return (
+                  <React.Fragment key={e._id}>
+                    <Received
+                    id={e._id}
+                      user={e.message.user.name}
+                      message={decryptedMessage}
+                      file={e.file ? e.file.file.file : null}
+                      type={e.file ? e.file.file.type:null}
+                      extension={e.file ? e.file.file.extension: null}
+                    />
+                    <ScrollDown />
+                  </React.Fragment>
+                );
+              }
             } else {
-              return (
-                <React.Fragment key={e._id}>
-                <Received 
-                  user={e.message.user.name}
-                  message={decryptedMessage}
-                />
-                <ScrollDown/>
-                </React.Fragment>
-              );
-            }
-            }
-            else{
               if (self) {
-              return <Sent key={e._id} user={user.name} message={decryptedMessage} />;
-            } else {
-              return (
-                <Received key={e._id}
-                  user={e.message.user.name}
-                  message={decryptedMessage}
-                />
-              );
+                return (
+                  <Sent
+                    key={e._id}
+                    id={e._id}
+                    messageid={e.message._id}
+                    user={user.name}
+                    message={decryptedMessage}
+                    file={e.file ? e.file.file.file : null}
+                    type={e.file ? e.file.file.type:null}
+                    extension={e.file ? e.file.file.extension: null}
+                  />
+                );
+              } else {
+                return (
+                  <Received
+                    key={e._id}
+                    id={e._id}
+                    user={e.message.user.name}
+                    message={decryptedMessage}
+                    file={e.file ? e.file.file.file : null}
+                    type={e.file ? e.file.file.type:null}
+                    extension={e.file ? e.file.file.extension: null}
+                  />
+                );
+              }
             }
-            }
-            
+
             {
               /* return (
                       <div
@@ -158,16 +187,10 @@ const Messages = () => {
                       </div>
              
                     ); */
-
-
-                    
             }
           }
         }
       })}
-
-      
-        
     </div>
   );
 };
