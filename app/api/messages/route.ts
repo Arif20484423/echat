@@ -1,7 +1,7 @@
 import { Channel, ChannelMessage, Message } from "@/models/models";
 import { NextRequest, NextResponse } from "next/server";
 import { timeLog } from "node:console";
-import { addMessage } from "../_ChatFunctions/addMessage";
+import { addMessage } from "../_chatfunctions/chatfunctions";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();

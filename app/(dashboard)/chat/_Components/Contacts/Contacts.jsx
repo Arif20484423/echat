@@ -7,14 +7,20 @@ import { IoIosSearch } from "react-icons/io";
 import { Context } from "@/app/_context/NoteContext";
 const Contacts = () => {
   const [connected, setConnected] = useState([]);
-  const { setToUser, user, connectedRefetch, setConnectedRefetch } =
+  const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch } =
     useContext(Context);
   useEffect(() => {
     fetch("/api/connections")
-      .then((d) => d.json())
+      .then(async (d) => {
+        console.log("res",d)
+        const res=await d.json();
+        return res;
+      })
       .then((d) => {
-        console.log(d.data)
         setConnected(d.data);
+        if(toUser==null && sessionStorage.getItem("toUser")){
+          setToUser(()=>JSON.parse(sessionStorage.getItem("toUser")))
+        }
       });
   }, [connectedRefetch]);
   return (

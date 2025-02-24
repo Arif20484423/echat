@@ -8,7 +8,9 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { Context } from "@/app/_context/NoteContext";
 import { addMessage } from "@/lib/actions/chatActions";
+import { useRouter } from "next/navigation";
 export default function Chat({ setChatPage }) {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   let [selectedFiles, setSelectedFiles] = useState([]);
   const [emojiSelect, setEmojiSelect] = useState(false);
@@ -53,8 +55,19 @@ export default function Chat({ setChatPage }) {
         }
         if (message.length > 0) formData.append("message", message);
 
-        await addMessage(toUser.channelid, user.id, toUser.id, formData);
+        formData.append("channel", toUser.channelid);
+        formData.append("user", user.id);
+        formData.append("touser", toUser.id);
+        const res = await fetch("/api/message", {
+          method: "POST",
+          body: formData,
+        });
+        if(res.redirected){
+          router.replace(res.url)
+        }
+        const d= await res.json()
         setMessageNotification((m) => !m); //mesagenotification to self to reload chats
+        setSelectedFiles([]);
         socket.emit("message", { to: toUser.id, message: message }); //mesagenotification to other to reload chats
       }
     }

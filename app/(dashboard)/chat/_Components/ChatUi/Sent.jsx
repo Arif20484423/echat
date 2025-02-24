@@ -63,7 +63,7 @@ const Sent = ({ user, message, file , id, messageid,type, extension}) => {
         <div>
           
           <p>{user}</p>
-          {file && <FileUi link={file} alt="file" type={type} extension={extension} width={300}/>}
+          {file && <FileUi link={file} alt="file" type={type} extension={extension} width={type=="image"?300:150}/>}
           <p>{message}</p>
         </div>
       </div>

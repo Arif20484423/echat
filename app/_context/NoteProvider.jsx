@@ -12,11 +12,20 @@ export default function NoteProvider({
   const [user, setUser] = useState(null);
   const [connectedRefetch, setConnectedRefetch] = useState(true);
 
-
+  
+  useEffect(()=>{
+    if(user){
+      sessionStorage.setItem("user",JSON.stringify(user))
+    }
+  },[user])
   useEffect(()=>{
     console.log("toUser",toUser)
     console.log("user",user)
-  },[toUser,user])
+    if(toUser){
+      sessionStorage.setItem("toUser",JSON.stringify(toUser));
+    console.log(JSON.parse(sessionStorage.getItem("toUser")))
+    }
+  },[toUser])
   return (
     <Context.Provider
       value={{

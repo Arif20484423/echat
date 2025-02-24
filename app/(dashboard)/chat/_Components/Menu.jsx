@@ -116,6 +116,8 @@ const Menu = ({ setPage }) => {
       <div className={styles.user}>
         <svg
         onClick={() => {
+          sessionStorage.setItem("user",JSON.stringify(null))
+          sessionStorage.setItem("toUser",JSON.stringify(null))
             userSignOut();
           }}
           xmlns="http://www.w3.org/2000/svg"
@@ -133,3 +135,4 @@ const Menu = ({ setPage }) => {
 };
 
 export default Menu;
+
