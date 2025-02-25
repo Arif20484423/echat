@@ -248,7 +248,9 @@ export async function deleteChat(id: String) {
 export async function createGroupChannel(
   user: String,
   toUsers: String[],
-  name: String
+  name: String,
+  description:String,
+  formData:FormData
 ) {
   //creating channel at once side
   const user1 = new Channel({
@@ -268,10 +270,16 @@ export async function createGroupChannel(
     });
     await toUser.save();
   }
+
+  // const fileUpload=await getFileId(formData.get("image") as File);
+  // if(!fileUpload.success){
+  //   return 
+  // }
   // adding group details associated to this specific group channel
   await Group.create({
     channel: user1._id,
     groupname: name,
+    description:description
   });
   return user1._id + "";
 }

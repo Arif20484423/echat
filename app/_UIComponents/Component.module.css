@@ -65,3 +65,15 @@
     padding: 8px;
     cursor: pointer;
 }
+.functionbutton{
+
+        background-color: var(--blue);
+        color: white;
+        border: 0px;
+        border-radius: 5px;
+        margin: 10px;
+        float: right;
+        padding: 10px;
+        cursor: pointer;
+    
+}

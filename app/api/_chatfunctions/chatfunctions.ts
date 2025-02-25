@@ -151,13 +151,12 @@ export async function addMessage(
   
 }
 export async function addMessageGroup(
-  user: String,
-  tousers: String[],
-  channel: String,
   formData: FormData
 ) {
   // creating message
-
+  const user=formData.get("user") as string;
+  const channel=formData.get("channelid") as string;
+  const tousers=formData.getAll("toUsers") as  string[];
   let message = null;
   const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
@@ -224,6 +223,8 @@ export async function addMessageGroup(
       await createUserMessage(tousers[i], channel, message, file, "received");
     }
   }
+
+  return {success:true};
 }
 
 export async function deleteMesssage(id: String) {
@@ -254,11 +255,13 @@ export async function deleteChat(id: String) {
 }
 
 export async function createGroupChannel(
-  user: String,
-  toUsers: String[],
-  name: String
+  formData:FormData
 ) {
   //creating channel at once side
+    const user = formData.get("user");
+  const toUsers = formData.getAll("toUsers");
+  const name= formData.get("name")
+  const description= formData.get("description")
   const user1 = new Channel({
     user: user,
     starttime: new Date(),
@@ -276,12 +279,20 @@ export async function createGroupChannel(
     });
     await toUser.save();
   }
+  console.log(formData.get("image"))
+  const fileUpload=await getFileId(formData.get("image") as File);
+  if(!fileUpload.success){
+    return fileUpload;
+  }
   // adding group details associated to this specific group channel
-  await Group.create({
+  const group = await Group.create({
     channel: user1._id,
-    groupname: name,
+    name: name,
+    description:description,
+    image:fileUpload.file
   });
-  return user1._id + "";
+  return {success:true}
+  
 }
 
 export async function deleteForEveryoneMesssageGroup(

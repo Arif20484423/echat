@@ -18,6 +18,7 @@ const Contacts = () => {
       })
       .then((d) => {
         setConnected(d.data);
+        console.log(d.data);
         if(toUser==null && sessionStorage.getItem("toUser")){
           setToUser(()=>JSON.parse(sessionStorage.getItem("toUser")))
         }
@@ -35,7 +36,14 @@ const Contacts = () => {
       </div>
       <div className={styles.contacts}>
         {connected.map((e, i) => {
-          return <Contact key={e._id} name={e.connections[0].user.name} description={e.connections[0].user.description} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} image={e.connections[0].user.image}/>;
+          if(e.isgroup){
+            {/* image={e.connections[0].user.image} */}
+            return <Contact key={e._id} isgroup={true} name={e.group[0].name} description={e.group[0].description}  channelid={e.channelid}  image={e.group[0].image.file}/>;
+          }
+          else{
+            return <Contact key={e._id} isgroup={false} name={e.connections[0].user.name} description={e.connections[0].user.description} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} image={e.connections[0].user.image}/>;
+          }
+          
         })}
       </div>
     </>

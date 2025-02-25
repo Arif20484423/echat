@@ -7,7 +7,6 @@ import FileUi from "./FileUi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { Context } from "@/app/_context/NoteContext";
-import { addMessage } from "@/lib/actions/chatActions";
 import { useRouter } from "next/navigation";
 export default function Chat({ setChatPage }) {
   const router = useRouter();
@@ -22,32 +21,35 @@ export default function Chat({ setChatPage }) {
       if (toUser.isgroup) {
         console.log("group");
         //for group adding different method to add messages
-        fetch("/api/getchannelusers", {
+        const res = await fetch("/api/channel/users", {
           method: "POST",
-          body: JSON.stringify({
-            channel: toUser.channelid,
-            user: user.id,
-          }),
-        })
-          .then((d) => d.json())
-          .then(async (d) => {
-            const formData = new FormData();
-            for (let i = 0; i < fileref.current.files.length; i++) {
-              formData.append("files", fileref.current.files[i]);
-            }
-            if (message.length > 0) formData.append("message", message);
-            await addMessageGroup(
-              user.id, // for message creation and addition of message at users side in channelmessage (channelmessage comntains user channel specific message instance)
-              d.data, // for adding message to other group members in channelmessage
-              toUser.channelid,
-              formData
-            );
-            setMessageNotification(message); //mesagenotification to self to reload chats
-            socket.emit("groupmessage", {
-              to: d.data,
-              message: message,
-            }); //mesagenotification to other to reload chats
-          });
+          body: JSON.stringify({ user: user.id, channelid: toUser.channelid }),
+        });
+        const data = await res.json();
+        const formData = new FormData();
+        for (let i = 0; i < selectedFiles.length; i++) {
+          formData.append("files", selectedFiles[i].file);
+        }
+        for (let i = 0; i < data.data.length; i++) {
+          formData.append("toUsers", data.data[i]);
+        }
+        if (message.length > 0) formData.append("message", message);
+        formData.append("user", user.id);
+        formData.append("channelid", toUser.channelid);
+        const resmessage = await fetch("/api/group/message", {
+          method: "POST",
+          body: formData,
+        });
+        if (resmessage.redirected) {
+          router.replace(resmessage.url);
+        }
+
+        setMessageNotification((f) => !f); //mesagenotification to self to reload chats
+        setSelectedFiles([]);
+        socket.emit("groupmessage", {
+          to: data.data,
+          message: message,
+        }); //mesagenotification to other to reload chats
       } else {
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
@@ -62,10 +64,10 @@ export default function Chat({ setChatPage }) {
           method: "POST",
           body: formData,
         });
-        if(res.redirected){
-          router.replace(res.url)
+        if (res.redirected) {
+          router.replace(res.url);
         }
-        const d= await res.json()
+        const d = await res.json();
         setMessageNotification((m) => !m); //mesagenotification to self to reload chats
         setSelectedFiles([]);
         socket.emit("message", { to: toUser.id, message: message }); //mesagenotification to other to reload chats
@@ -159,6 +161,7 @@ export default function Chat({ setChatPage }) {
               onEmojiSelect={(e) => {
                 setMessage((m) => m + e.native);
               }}
+              emojiSize={30}
               theme="light"
               previewPosition="none"
               onClickOutside={() => {

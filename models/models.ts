@@ -60,8 +60,9 @@ export const Message = mongoose.models?.message || mongoose.model("message",mess
 
 const groupSchema = new Schema({
     channel:{type:Schema.Types.ObjectId,required:true},
-    groupname:String,
+    name:String,
     description:String,
+    image:{type:String,ref:"file"}
 
 })
 export const Group= mongoose.models?.group || mongoose.model("group",groupSchema);

@@ -3,8 +3,8 @@ import React, { useRef, useEffect, useState } from "react";
 import styles from "./Chat.module.css";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import Dropdown from "@/app/_UIComponents/Dropdown";
-
-const Received = ({ user, message, file , id}) => {
+import FileUi from "./FileUi"
+const Received = ({ user, message, file , id,type, extension}) => {
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
@@ -27,7 +27,7 @@ const Received = ({ user, message, file , id}) => {
       <div className={styles.receivedbox}>
         <div>
           <p>{user}</p>
-          {file && <img src={file} alt="file"></img>}
+          {file && <FileUi link={file} alt="file" type={type} extension={extension} width={type=="image"?300:150}/>}
           <p>{message}</p>
         </div>
       </div>
