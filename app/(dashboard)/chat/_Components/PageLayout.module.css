@@ -35,6 +35,7 @@
   width: calc(100vw - 50px - 280px);
   /* height: 100vh; */
   padding-left: 15px;
+  position: relative;
   /* background-color: red; */
 }
 

@@ -1,0 +1,11 @@
+
+.groupinfo{
+    border: 1.5px solid var(--lightGrey);
+    border-radius: 10px;
+    width: 300px;
+    padding: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}

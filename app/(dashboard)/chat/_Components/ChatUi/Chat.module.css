@@ -66,6 +66,7 @@
     align-items: center;
     gap: 5px;
 
+    /* background-color: yellow; */
     position: relative;
 }
 .sentbox{
@@ -92,6 +93,7 @@
     margin: 10px;
     align-items: center;
     gap: 5px;
+    position: relative;
 }
 .receivedbox{
     
@@ -114,12 +116,14 @@
 
 
 
+
 .messagebox{
     height: 50px;
     display: flex;
     align-items:center;
     justify-content: space-around;
     background-color: none;
+    position: relative;
 
 }
 .messagebox *{
@@ -128,4 +132,45 @@
 
 .file{
     display: none;
+}
+.dropdowncontainer{
+    /* background-color: red; */
+    /* position: absolute; */
+    /* left: 10px; */
+    height: 0px;
+    z-index: 1;
+    overflow: visible;
+}
+
+.selectedfiles{
+    max-width: 330px;
+    max-height: 300px;
+    overflow: scroll;
+    background-color: white;
+    box-shadow: 1px 1px var(--grey),-1px -1px var(--grey),-1px 1px var(--grey),1px -1px var(--grey);
+    border-radius: 10px;
+    position: absolute;
+    left: 0px;
+    bottom: 60px;
+}
+.selectedfiles::-webkit-scrollbar{
+    display: none;
+}
+.selectedfiles *{
+    margin: 10px;
+}
+
+/* Fileui  */
+.image{
+    border-radius: 5px;
+    border: 1px solid var(--grey);
+}
+
+.emojibox{
+    position: absolute;
+    bottom: 60px;
+    left: 0px;
+    
+    
+
 }

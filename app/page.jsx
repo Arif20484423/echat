@@ -1,13 +1,24 @@
 "use client";
 
-import PageLayout from "@/app/(dashboard)/chat/_Components/PageLayout";
+import { useEffect, useRef } from "react";
 
 export default function Home() {
+  const fref = useRef(null);
+  function handle() {
+    const f = new FormData();
+    for (let i = 0; i < fref.current.files.length; i++) {
+      f.append("file", fref.current.files[i]);
+    }
+    fetch("/api/message", {
+      method: "POST",
+      body: f,
+    });
+  }
   return (
     <>
-      
-
-      <PageLayout />
+      hello
+      <input type="file" ref={fref} multiple />
+      <button onClick={handle}>sub</button>
     </>
   );
 }

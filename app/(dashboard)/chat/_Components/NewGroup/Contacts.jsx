@@ -5,10 +5,11 @@ import styles from "../Contacts/Contacts.module.css";
 import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
 import { Context } from "@/app/_context/NoteContext";
-const Contacts = ({setPage}) => {
+const Contacts = ({setPage,selectedUsers, setSelectedUsers}) => {
   const { setToUser, user } = useContext(Context);
   const [key, setKey] = useState("");
   const [users, setUsers] = useState([]);
+  
 
   useEffect(() => {
     fetch("/api/users", {
@@ -35,11 +36,14 @@ const Contacts = ({setPage}) => {
         <IoIosSearch className={styles.searchbutton} size={20} />
       </div>
       <div className={styles.contacts}>
+      
         {users.map((e, i) => {
           {
-             return <Contact key={e._id} name={e.name} id={e._id}  email={e.email} image={e.image} setPage={setPage}/>; 
+             return <Contact key={e._id} name={e.name} id={e._id}  email={e.email} image={e.image} setPage={setPage} setSelectedUsers={setSelectedUsers} selectedUsers={selectedUsers}/>; 
           }
+          
         })}
+
       </div>
     </>
   );

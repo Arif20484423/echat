@@ -11,7 +11,6 @@ export async function GET() {
       select:"user channelid",
       populate: { path: "user",select:"email description name image" },
     })
-    .populate("group");
-    console.log(data)
+    .populate({path:"group",populate:{path:"image"}});
   return NextResponse.json({ data: data, success: true });
 }

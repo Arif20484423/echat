@@ -8,11 +8,20 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "overrides": {
+    "@emoji-mart/react": {
+      "react": "19.0.0",
+      "react-dom": "19.0.0"
+    }
+  },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@supabase/supabase-js": "^2.47.12",
     "bcrypt": "^5.1.1",
     "bcrypt-edge": "^0.1.0",
     "crypto-js": "^4.2.0",
+    "emoji-mart": "^5.6.0",
     "mongoose": "^8.5.1",
     "next": "^15.1.6",
     "next-auth": "^5.0.0-beta.20",
@@ -25,16 +34,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss":"^8",
     "eslint": "^9",
     "eslint-config-next": "^15.1.6",
-    "@eslint/eslintrc": "^3",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
