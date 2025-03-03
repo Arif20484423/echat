@@ -59,29 +59,24 @@ const ChatProfile = ({ setChatPage }) => {
 
         <h3>Media</h3>
 
-
-        
         <div className={styles.files}>
           {files.map((e) => {
             return (
-              <div>
+              <div key={e._id}>
                 <FileUi
-                  key={e._id}
                   type={e.file.file.type}
                   link={e.file.file.file}
                   extension={e.file.file.extension}
                   width={100}
                   height={100}
                 />
-                <p className={styles.filename}>{e.file.name.substring(0,15)}</p>
-                <br />
+                <p className={styles.filename}>
+                  {e.file.name.substring(0, 15)}
+                </p>
               </div>
             );
           })}
         </div>
-
-
-       
       </div>
     </div>
   );
