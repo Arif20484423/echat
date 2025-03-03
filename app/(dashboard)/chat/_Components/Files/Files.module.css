@@ -1,0 +1,11 @@
+/* Fileui  */
+.image{
+    border-radius: 5px;
+    border: 1px solid var(--grey);
+    object-fit: cover;
+    background-color: grey;
+    
+    /* width: fit-content;
+    height: fit-content; */
+    /* display: inline; */
+}

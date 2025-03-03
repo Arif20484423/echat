@@ -3,7 +3,7 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import styles from "./Chat.module.css";
 import compStyles from "../Component.module.css";
 import Messages from "./Messages";
-import FileUi from "./FileUi";
+import FileUi from "../Files/FileUi";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { Context } from "@/app/_context/NoteContext";

@@ -36,23 +36,22 @@
     margin: 0; */
 /* } */
 
-
-.document{
-    /* text-align: center; */
-    margin: 10px;
-    width: 100px;
+ .files{
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.filename{
+    margin-top: 0;
+    font-size: 13px;
+} 
+.file{
     display: inline-block;
-    
+    background-color: yellow;
 }
-.document > img{
-    width: 100px;
-}
-.document > p{
-    
-    text-wrap: wrap ;
-    word-break: break-all;
-    padding: 0;
-     margin: 0;
-     /* background-color: yellow; */
-     text-align: center;
-}
+
+/* .file{
+    display: block;
+    background-color: yellow;
+} */

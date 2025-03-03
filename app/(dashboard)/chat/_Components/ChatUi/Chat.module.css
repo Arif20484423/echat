@@ -160,11 +160,7 @@
     margin: 10px;
 }
 
-/* Fileui  */
-.image{
-    border-radius: 5px;
-    border: 1px solid var(--grey);
-}
+
 
 .emojibox{
     position: absolute;
@@ -173,4 +169,29 @@
     
     
 
+}
+
+.filewrapper{
+    /* background-color: yellow; */
+    padding: 5px;
+    display: flex;
+    /* overflow: hidden; */
+    /* overflow-y: hidden; */
+    gap: 10px;
+    align-items: center;
+    width: 250px;
+    word-break: break-all;
+    word-wrap: break-word;
+    border: 1px solid var(--grey);
+    border-radius: 5px;
+    margin: 5px 0px;
+
+}
+
+
+.time{
+    float: right;
+    color: var(--grey);
+    font-size: 12px;
+    margin-top: 5px;
 }

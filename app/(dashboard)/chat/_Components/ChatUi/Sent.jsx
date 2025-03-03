@@ -2,17 +2,24 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styles from "./Chat.module.css";
 import Dropdown from "@/app/_UIComponents/Dropdown";
-import FileUi from "./FileUi";
+import FileWrapper from "./FileWrapper"
 import { IoIosArrowDropdownCircle } from "react-icons/io";
-import { deleteForEveryoneMesssage, deleteMesssage } from "@/lib/actions/chatActions";
+import {
+  deleteForEveryoneMesssage,
+  deleteForEveryoneMesssageGroup,
+  deleteMesssage,
+} from "@/lib/actions/chatActions";
 
 import { Context } from "@/app/_context/NoteContext";
-const Sent = ({ user, message, file , id, messageid,type, extension}) => {
+const Sent = ({ username, message, file, name="uwedg", id, messageid, type, extension, time }) => {
   const [options, setOptions] = useState(false);
-  const {setMessageNotification,toUser,socket}=useContext(Context);
+  const { setMessageNotification, toUser, user, socket } = useContext(Context);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
 
+
+  let date= new Date(time);
+  
   function handleClick(e) {
     if (
       dropPointerRef.current &&
@@ -24,14 +31,39 @@ const Sent = ({ user, message, file , id, messageid,type, extension}) => {
     }
   }
 
-  async function handleDelete(){
-    await deleteMesssage(id)
-    setMessageNotification((m)=>!m);
+  async function handleDelete() {
+    await deleteMesssage(id);
+    setMessageNotification((m) => !m);
   }
-  async function handleDeleteForAll(){
-    await deleteForEveryoneMesssage(id,toUser.channelid,toUser.id,messageid);
-    setMessageNotification((m)=>!m);
-    socket.emit("delete", { to: toUser.id, message: "message deleted" }); //mesagenotification to other to reload chats
+  async function handleDeleteForAll() {
+    if (toUser.isgroup) {
+      const res = await fetch("/api/channel/users", {
+        method: "POST",
+        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
+      });
+
+      const d = await res.json();
+      await deleteForEveryoneMesssageGroup(
+        id,
+        d.data,
+        toUser.channelid,
+        messageid
+      );
+      setMessageNotification((m) => !m);
+      for (let i = 0; i < d.data.length; i++) {
+        console.log(d.data[i]);
+        socket.emit("delete", { to: d.data[i], message: "message deleted" }); //mesagenotification to other to reload chats
+      }
+    } else {
+      await deleteForEveryoneMesssage(
+        id,
+        toUser.channelid,
+        toUser.id,
+        messageid
+      );
+      setMessageNotification((m) => !m);
+      socket.emit("delete", { to: toUser.id, message: "message deleted" }); //mesagenotification to other to reload chats
+    }
   }
   useEffect(() => {
     document.addEventListener("click", handleClick);
@@ -44,8 +76,8 @@ const Sent = ({ user, message, file , id, messageid,type, extension}) => {
             options={[
               { name: "Select" },
               { name: "Forward" },
-              { name: "Delete",action:handleDelete },
-              { name: "Delete for all", action : handleDeleteForAll },
+              { name: "Delete", action: handleDelete },
+              { name: "Delete for all", action: handleDeleteForAll },
             ]}
           />
         </div>
@@ -61,10 +93,17 @@ const Sent = ({ user, message, file , id, messageid,type, extension}) => {
 
       <div className={styles.sentbox}>
         <div>
-          
-          <p>{user}</p>
-          {file && <FileUi link={file} alt="file" type={type} extension={extension} width={type=="image"?300:150}/>}
+          <p>{username}</p>
+          {file && (
+            <FileWrapper
+              link={file}
+              type={type}
+              extension={extension}
+              name={name.substring(0,50)}
+            />
+          )}
           <p>{message}</p>
+          <p className={styles.time}>{date.getDate()}-{date.getMonth()}-{date.getFullYear()} {date.get} {date.getHours()}:{date.getMinutes()}</p>
         </div>
       </div>
     </div>
