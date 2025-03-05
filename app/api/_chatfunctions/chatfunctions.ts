@@ -312,7 +312,7 @@ export async function deleteForEveryoneMesssageGroup(
   //delete media implementation left
 }
 
-export async function getFileId(file: File) {
+export async function getFileId(file: File) { // used
   // extracting file type details
   const ftype = file.type.split("/");
   //creating file except the file link
@@ -340,13 +340,35 @@ export async function getFileId(file: File) {
     return {
       success: true,
       file: f._id,
-      filename:f.name
+      filename:f.name,
+      link:filelink
     };
   } else {
     return {
       success: false,
       error: "error uploading file",
     };
+  }
+}
+export async function  getFileLink(formData:FormData){
+  let imagelink = null;
+  const imageid=Math.random()*1000000;
+    // uploading file to supabase
+    const { data, error } = await supabase.storage
+      .from("echat public")
+      .upload("public/" + imageid, formData.get("image") as File);
+     imagelink =
+      "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
+      imageid;
+  if(data){
+    return {
+      success:true,link:imagelink
+    }
+  }
+  else{
+    return {
+      success:false
+    }
   }
 }
 export async function getUserFileId(fileid:String,filename:String,user:String,folder:String){
