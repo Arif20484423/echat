@@ -25,7 +25,7 @@ export default function NoteProvider({
       sessionStorage.setItem("toUser",JSON.stringify(toUser));
     console.log(JSON.parse(sessionStorage.getItem("toUser")))
     }
-  },[toUser])
+  },[toUser,user])
   return (
     <Context.Provider
       value={{

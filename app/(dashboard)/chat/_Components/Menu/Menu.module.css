@@ -34,3 +34,57 @@
     object-fit: cover;
     border-radius: 100%;
 }
+
+.userinfo{
+    width: 500px;
+    /* height: 200px; */
+    
+}
+.userinfo img{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+
+
+.image{
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+
+.userinfo label{
+    font-weight: 600;
+}
+.edit{
+    float: right;
+}
+.userinfo input{
+    
+    padding: 7px;
+    display: block;
+    margin-bottom: px;
+    border: 1px solid var(--grey);
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 13px;
+    font-weight: 500;
+    width: 95%;
+    margin-top: 3px;
+}
+.userinfo svg{
+    cursor: pointer;
+}
+.imageedit{
+    background-color: white;
+    position: relative;
+    bottom: 25px;
+    right: 35px;
+
+}
+.info{
+    clear: both;
+}
