@@ -1,9 +1,13 @@
 import React from 'react'
-import Storage from "./_Components/Storage"
+
+import StorageLayout from "./_Components/StorageLayout"
 const page = () => {
   return (
-    <Storage/>
+    <StorageLayout/>
   )
+  // return (
+  //   <Storage/>
+  // )
 }
 
 export default page
