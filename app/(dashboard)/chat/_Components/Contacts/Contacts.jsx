@@ -7,6 +7,8 @@ import { IoIosSearch } from "react-icons/io";
 import { Context } from "@/app/_context/NoteContext";
 const Contacts = () => {
   const [connected, setConnected] = useState([]);
+  const [select,setSelect]= useState(false);
+  const [selectedContacts,setSelectedContacts] = useState([]);
   const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch } =
     useContext(Context);
   useEffect(() => {
@@ -38,10 +40,10 @@ const Contacts = () => {
         {connected.map((e, i) => {
           if(e.isgroup){
             {/* image={e.connections[0].user.image} */}
-            return <Contact key={e._id} isgroup={true} name={e.group[0].name} description={e.group[0].description}  channelid={e.channelid}  image={e.group[0].image.file}/>;
+            return <Contact key={e._id} select={select} setSelect={setSelect} userchatid={e._id} isgroup={true}  name={e.group[0].name} description={e.group[0].description}  channelid={e.channelid}  image={e.group[0].image.file}/>;
           }
           else{
-            return <Contact key={e._id} isgroup={false} name={e.connections[0].user.name} description={e.connections[0].user.description} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} image={e.connections[0].user.image}/>;
+            return <Contact key={e._id} select={select} setSelect={setSelect} userchatid={e._id} isgroup={false} name={e.connections[0].user.name} description={e.connections[0].user.description} id={e.connections[0].user._id} channelid={e.channelid} email={e.connections[0].user.email} image={e.connections[0].user.image}/>;
           }
           
         })}

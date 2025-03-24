@@ -4,11 +4,11 @@ import styles from "../Contacts/Contacts.module.css";
 // import styles2 from "./NewContacts.module.css"
 import { VscKebabVertical } from "react-icons/vsc";
 import { Context } from '@/app/_context/NoteContext';
-import { createChannel } from '@/lib/actions/chatActions';
+import { createChannel, deleteChat } from '@/lib/actions/chatActions';
 const Contact = ({id,name,email,image,setPage,selectedUsers,setSelectedUsers}) => {
   
-  const {setToUser,user} = useContext(Context)
-
+  const {setToUser,user } = useContext(Context)
+  
   return (
     <div className={styles.contactbox} >
             <img src={image} alt="image" className={styles.profilepic}/>

@@ -4,20 +4,34 @@ import styles from "./Contacts.module.css";
 import { VscKebabVertical } from "react-icons/vsc";
 import { Context } from "@/app/_context/NoteContext";
 import Dropdown from "@/app/_UIComponents/Dropdown";
+import { deleteChat } from "@/lib/actions/chatActions";
 const Contact = ({
   name,
   email = "",
   id = "",
+  userchatid,
   channelid,
   description,
   image = "",
   isgroup,
+  select, setSelect
 }) => {
-  const { setToUser } = useContext(Context);
+  const { setToUser ,setMessageNotification} = useContext(Context);
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
 
+
+  async function deletechat(){
+    console.log("DEleting")
+    await deleteChat(userchatid);
+    console.log("DEleted")
+    setMessageNotification((m)=>!m);
+  }
+  async function selectchat(){
+    setSelect((t)=>!t)
+    setOptions(false)
+  }
   function handleClick(e) {
     if (
       dropPointerRef.current &&
@@ -51,16 +65,19 @@ const Contact = ({
             <p className={styles.name}>{name}</p>
             <p className={styles.email}>{email}</p>
           </div>
-          <VscKebabVertical
+          
+          {select ? <input type="checkbox" style={{"transform":"scale(1.3)"}}  onClick={(e) => {
+              e.stopPropagation();
+            }}/>:<VscKebabVertical
             ref={dropPointerRef}
             onClick={(e) => {
               e.stopPropagation();
               setOptions(!options);
             }}
-          />
+          />}
           {options && (
             <div ref={dropRef} className={styles.dropdowncontainer}>
-              <Dropdown options={[{ name: "select" }, { name: "delete" }]} />
+              <Dropdown options={[{ name: "select" ,action:selectchat}, { name: "delete" ,action:deletechat}]} />
             </div>
           )}
         </div>
@@ -87,16 +104,18 @@ const Contact = ({
             <p className={styles.name}>{name}</p>
             <p className={styles.email}>{email}</p>
           </div>
-          <VscKebabVertical
+          {select ?<input type="checkbox" style={{"transform":"scale(1.3)"}}  onClick={(e) => {
+              e.stopPropagation();
+            }}/> :<VscKebabVertical
             ref={dropPointerRef}
             onClick={(e) => {
               e.stopPropagation();
               setOptions(!options);
             }}
-          />
+          />}
           {options && (
             <div ref={dropRef} className={styles.dropdowncontainer}>
-              <Dropdown options={[{ name: "select" }, { name: "delete" }]} />
+              <Dropdown options={[{ name: "select" ,action:selectchat}, { name: "delete" ,action:deletechat}]} />
             </div>
           )}
         </div>
