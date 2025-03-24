@@ -1,0 +1,76 @@
+.page{
+    margin: 0 15px;
+}
+.header{
+    height: 50px;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+}
+
+.body{
+    
+    height: calc( 100vh - 50px );
+    /* background-color: red; */
+    display: flex;
+}
+
+.menu{
+    width: 200px;
+    height: 100%;
+    /* background-color: yellow; */
+}
+.files{
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    /* background-color: green; */
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    /* background-color: green; */
+}
+.files::-webkit-scrollbar{
+    display: none;
+
+}
+
+.itembox{
+    height: 40px;
+    /* background-color: yellow; */
+    display: flex;
+    align-items: center;
+}
+
+.item{
+    height: 35px;
+    width: 90%;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    gap: 5px;
+    cursor: pointer;
+
+}
+.item:hover{
+    background-color: var(--lightBlue_10);
+}
+.selecteditem{
+    background-color: var(--blueBorder);
+    font-weight: bold;
+    
+}
+.item > svg{
+    margin-left: 10px;
+}
+
+.file{
+    margin: 20px;
+    /* background-color: yellow; */
+}
+.file > img{
+    width: 110px;
+    height:130px;
+    object-fit: contain;
+}
