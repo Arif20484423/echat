@@ -1,7 +1,7 @@
 import React from "react";
 import Menu from "./Menu"
-import Files from "./Files"
 import styles from "./Component.module.css";
+import Storage from "./Storage"
 const StorageLayout = ({ children }) => {
   return (
     <div className={styles.page}>
@@ -12,7 +12,7 @@ const StorageLayout = ({ children }) => {
       
       <div className={styles.body}>
         <Menu/>
-        <Files/>
+        <Storage/>
       </div>
     </div>
   );

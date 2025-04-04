@@ -1,0 +1,31 @@
+"use client"
+import React,{useState , useEffect} from 'react'
+import StorageItem from "./StorageItem"
+const Documents = () => {
+    const [docs,setDocs] = useState([]);
+    useEffect(()=>{
+        fetch("http://localhost:3000/api/user/documents",{
+            method:"POST"
+        }).then((d)=>d.json()).then((d)=>{
+            console.log(d.data)
+            setDocs(()=>d.data);
+            // console.log(photos)
+        })
+    },[])
+  return (
+    <>
+        {docs.map((e)=>{
+            
+            if(e.file){
+                console.log(e.file.type)
+                return (
+                <StorageItem key={e._id} type={e.file.type} name={e.name} src={e.file.file}/>  
+            );
+            }
+            
+        })}
+    </>
+  )
+}
+
+export default Documents
