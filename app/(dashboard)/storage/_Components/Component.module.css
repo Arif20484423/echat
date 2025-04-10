@@ -6,7 +6,10 @@
     /* background-color: red; */
     display: flex;
     align-items: center;
+    position: relative;
 }
+
+
 
 .body{
     
@@ -75,6 +78,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
     /* background-color: yellow; */
 }
 .storageitem img{
@@ -110,5 +114,114 @@
     overflow: hidden;
     font-size: 14px;
     text-align: center;
-     background-color: yellow; 
+     /* background-color: yellow;  */
+}
+
+.nav{
+    position: fixed;
+    top: 55px;
+    left: 15px;
+    display: flex;
+    gap: 15px;
+    
+}
+.nav svg{
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 100%;
+}
+.nav svg:hover{
+    background-color: var(--lightGrey);
+}
+
+.path{
+    position: fixed;
+    top: 5px;
+    left: 250px;
+    width: calc( 100% - 550px);
+    background-color: var(--blueBorder);
+    height: 40px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+
+}
+.path p{
+    cursor: pointer;
+}
+.path p:first-child{
+    margin-left: 15px;
+}
+
+.buttons{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    display: flex;
+}
+.buttons button{
+    padding: 10px;
+    cursor: pointer;
+    border: 0px;
+    border-radius:5px;
+    color: white;
+    font-weight: 700;
+    
+
+}
+.createfolder{
+    background-color: #1ED734;
+    display: flex;
+    align-items: center;
+    
+}
+.uploadfile{
+    background-color: #2176FF;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    
+}
+.newfolder{
+    width: auto;
+    height: auto;
+    padding: 30px;
+    border: 1.5px solid var(--lightGrey);
+    border-radius: 5px;
+    position: absolute;
+    right: 10px;
+    background-color: #fff;
+    z-index: 1;
+}
+.newfolder *
+{
+    display: block;
+    
+}
+.newfolder label{
+    
+    font-size: 14px;
+}
+.newfolder input{
+    
+    padding: 7px 5px;
+    font-size: 15px;
+}
+.newfolder button{
+    padding: 10px;
+    cursor: pointer;
+    float: right;
+    background-color: #2176FF;
+    border: 0px;
+    border-radius: 5px;
+    margin-top: 10px;
+    color: white;
+    font-weight: 700;
+}
+.dropdown{
+    position: absolute;
+    left: 90px;
+    top: 70px;
+    z-index: 1;
 }
