@@ -221,7 +221,40 @@
 }
 .dropdown{
     position: absolute;
-    left: 90px;
-    top: 70px;
+    /* left: 90px;
+    top: 70px; */
     z-index: 1;
+}
+
+.contacts{
+    width: 350px;
+    height: 500px;
+    overflow-y:  scroll;
+    background-color: #fff;
+    border: 1.5px solid var(--lightGrey);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.contactbox{
+    width: 350px;
+    position: relative;
+    top: 50%;
+     left: 50%; 
+    transform: translate( -100% , -50% ); 
+}
+.send{
+   float: right;
+   margin-top: 10px;
+    padding: 10px 15px; 
+    background-color: var(--blue);
+    border: 0px;
+    border-radius: 5px;
+    color: white;
+}
+
+.selectedmenu{
+    position: absolute;
+    right: 260px;
+    top: 15px;
 }
