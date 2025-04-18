@@ -1,25 +1,78 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Link from "next/link";
+
 import styles from "../../Component.module.css";
 import File from "./File";
 import Dropdown from "@/app/_UIComponents/Dropdown";
 import OutClick from "@/app/_UIComponents/OutClick";
-const Item = ({ type, src, name, ext, deleteItem, renameFlag=false, editable = true }) => {
+const Item = ({
+  type,
+  src,
+  name,
+  ext,
+  userfileid,
+  fileid,
+  deleteItem,
+  renameItem,
+  sendItem,
+  selectFlag,
+  selected,
+  setSelected,
+  selectItem,
+  editable = true,
+}) => {
   const [drop, setDrop] = useState(false);
   const dropper = useRef(null);
+  const [renameFlag, setRenameFlag] = useState(false);
+
+  function rename() {
+    setRenameFlag(true);
+    setDrop(false);
+  }
+
   return (
     <div className={styles.storageitem}>
-      <Link
-        href={type == "folder" ? "" : src}
-        style={{ color: "black", textDecoration: "none" }}
-        target={type == "folder" ? "" : "_blank"}
-      >
-        <div>
+      {selectFlag && type != "folder" && (
+        <input
+          type="checkbox"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onChange={(e) => {
+            e.stopPropagation();
+            console.log(name);
+            if (e.target.checked) {
+              console.log(name, selected);
+              setSelected((s) => [
+                ...s,
+                { file: fileid, userfile: userfileid },
+              ]);
+            } else {
+              const filtered = selected.filter((e) => {
+                return e.file != fileid;
+              });
+              console.log(filtered);
+              setSelected(filtered);
+            }
+          }}
+        />
+      )}
+      <div>
         <File type={type} src={src} ext={ext}></File>
         <p>{name}</p>
-        </div>
-      </Link>
+        {renameFlag && (
+          <input
+            type="text"
+            style={{ width: "80px" }}
+            onKeyUp={(e) => {
+              if (e.key == "Enter") {
+                renameItem(e.target.value);
+                setRenameFlag(false);
+              }
+            }}
+          />
+        )}
+      </div>
       {editable && (
         <svg
           ref={dropper}
@@ -40,12 +93,20 @@ const Item = ({ type, src, name, ext, deleteItem, renameFlag=false, editable = t
         <OutClick show={drop} setShow={setDrop} caller={dropper}>
           <div className={styles.dropdown}>
             <Dropdown
-              options={[
-                { name: "send" },
-                { name: "delete", action: deleteItem },
-                { name: "rename"},
-                { name: "move" },
-              ]}
+              options={
+                type == "folder"
+                  ? [
+                      { name: "delete", action: deleteItem },
+                      { name: "rename", action: rename },
+                    ]
+                  : [
+                      { name: "select", action: selectItem },
+                      { name: "send", action: sendItem },
+                      { name: "delete", action: deleteItem },
+                      { name: "rename", action: rename },
+                      
+                    ]
+              }
             />
           </div>
         </OutClick>
