@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-
-import styles from "../../Component.module.css";
+import styles from "../Component.module.css";
 import File from "./File";
 import Dropdown from "@/app/_UIComponents/Dropdown";
 import OutClick from "@/app/_UIComponents/OutClick";
@@ -101,10 +100,15 @@ const Item = ({
                     ]
                   : [
                       { name: "select", action: selectItem },
-                      { name: "send", action: sendItem },
-                      { name: "delete", action: deleteItem },
+                      { name: "send", action: ()=>{
+                        setDrop(false)
+                        sendItem()
+                      } },
+                      { name: "delete", action: ()=>{
+                        setDrop(false)
+                        deleteItem()
+                      } },
                       { name: "rename", action: rename },
-                      
                     ]
               }
             />

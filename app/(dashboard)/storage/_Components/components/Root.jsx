@@ -1,7 +1,7 @@
 "use client";
 
 import { Context } from "@/app/_context/NoteContext";
-import { createFolder, uploadMedia } from "@/lib/actions/storageActions";
+import { createFolder} from "@/lib/actions/storageActions";
 import Navigations from "./Navigations";
 import Path from "./Path";
 import Buttons from "./Buttons";

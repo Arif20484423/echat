@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import OutClick from "@/app/_UIComponents/OutClick";
 import Dropdown from "@/app/_UIComponents/Dropdown";
-import styles from "../../Component.module.css";
+import styles from "../Component.module.css";
 const SelectedMenu = ({ setSelectFlag, send, deleteMultiple }) => {
   const [drop, setDrop] = useState(false);
   const dropper = useRef(null);

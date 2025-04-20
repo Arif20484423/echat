@@ -47,7 +47,15 @@
     border-radius: 100%;
 }
 
-
+.profilewrapper{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    z-index: 2;
+    backdrop-filter: blur(1px);
+        
+}
 
 .image{
     text-align: center;

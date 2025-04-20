@@ -235,7 +235,7 @@
 
 .contacts{
     width: 350px;
-    height: 500px;
+    height: 400px;
     overflow-y:  scroll;
     background-color: #fff;
     border: 1.5px solid var(--lightGrey);
@@ -246,7 +246,7 @@
 .contactbox{
     width: 350px;
     position: relative;
-    top: 50%;
+    top: 40%;
      left: 50%; 
     transform: translate( -100% , -50% ); 
 }

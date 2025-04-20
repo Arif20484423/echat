@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from "../../Component.module.css"
 const Image = ({src,name}) => {
   return (
     

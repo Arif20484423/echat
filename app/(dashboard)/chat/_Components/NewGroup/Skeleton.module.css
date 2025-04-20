@@ -1,0 +1,54 @@
+.skeletonContact {
+    display: flex;
+    align-items: center;
+    background-color: var(--lightBlue_10);
+    border-radius: 10px;
+    height: 50px;
+    margin-bottom: 3px;
+    padding: 0 10px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .skeletonImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    flex-shrink: 0;
+  }
+  
+  .skeletonDetails {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    flex-grow: 1;
+  }
+  
+  .skeletonName,
+  .skeletonEmail {
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 5px;
+    margin: 3px 0;
+  }
+  
+  .skeletonName {
+    width: 40%;
+  }
+  
+  .skeletonEmail {
+    width: 25%;
+  }
+  
+  @keyframes pulse {
+    0% {
+      background-color: #ddd;
+    }
+    50% {
+      background-color: #ccc;
+    }
+    100% {
+      background-color: #ddd;
+    }
+  }
+  

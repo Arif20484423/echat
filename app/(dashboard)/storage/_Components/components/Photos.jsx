@@ -3,8 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import StorageItem from "../wrappers/StorageItem";
 import Popup from "@/app/_UIComponents/Popup";
 import Contacts from "@/app/(dashboard)/chat/_Components/Contacts/Contacts";
-import styles from "../../Component.module.css";
-import StorageLayout from "../StorageLayout";
+import styles from "../Component.module.css";
 import { Context } from "@/app/_context/NoteContext";
 import {
   deleteFile,
@@ -65,7 +64,7 @@ const FolderFiles = ({
     setRefetch((t) => !t);
   }
   useEffect(() => {
-    fetch("http://localhost:3000/api/user/videos", {
+    fetch("http://localhost:3000/api/user/photos", {
       method: "POST",
     })
       .then((d) => d.json())
@@ -75,7 +74,6 @@ const FolderFiles = ({
         // console.log(photos)
       });
   }, [refetch]);
-
   useEffect(() => {
     if (check) {
       setChecked(selected);

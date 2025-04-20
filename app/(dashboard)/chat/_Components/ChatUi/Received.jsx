@@ -69,17 +69,28 @@ const Received = ({
         </div>
       </div>
       {selectflag ? (
-        <input type="checkbox" style={{ transform: "scale(1.3)" }} onChange={(e)=>{
-          if(e.target.checked){
-            setSelected((s)=>[...s,{id:id,messageid:messageid,userfileid:userfileid,fileid:fileid}]);
-          }
-          else{
-              const filtered = selected.filter((e)=>{
-                return e.messageid!=messageid
-              })
+        <input
+          type="checkbox"
+          style={{ transform: "scale(1.3)" }}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelected((s) => [
+                ...s,
+                {
+                  id: id,
+                  messageid: messageid,
+                  userfileid: userfileid,
+                  fileid: fileid,
+                },
+              ]);
+            } else {
+              const filtered = selected.filter((e) => {
+                return e.messageid != messageid;
+              });
               setSelected(filtered);
-          }
-        }} />
+            }
+          }}
+        />
       ) : (
         <IoIosArrowDropdownCircle
           ref={dropPointerRef}
@@ -93,23 +104,34 @@ const Received = ({
 
       {options && (
         <OutClick show={options} setShow={setOptions} caller={dropPointerRef}>
-        <div  className={styles.dropdowncontainer}>
-          <Dropdown
-            options={[
-              { name: "Select", action:()=>{
-                setSelectflag(true);
-                setOptions(false)
-              } },
-              { name: "Forward", action:()=>{
-                setSelected((s)=>[...s,{id,messageid,userfileid,fileid}]);
-                          setForward(true);
-                          setSelectflag(false)
-                        }  },
-              { name: "Delete", action: handleDelete },
-            ]}
-            message={"jhsbx"}
-          />
-        </div>
+          <div className={styles.dropdowncontainer}>
+            <Dropdown
+              options={[
+                {
+                  name: "Select",
+                  action: () => {
+                    setSelectflag(true);
+                    setOptions(false);
+                  },
+                },
+                {
+                  name: "Forward",
+                  action: () => {
+                    setSelected((s) => [
+                      ...s,
+                      { id, messageid, userfileid, fileid },
+                    ]);
+                    setOptions(false);
+                    setForward(true);
+                    setSelectflag(false);
+                    
+                  },
+                },
+                { name: "Delete", action: handleDelete },
+              ]}
+              message={"jhsbx"}
+            />
+          </div>
         </OutClick>
       )}
     </div>

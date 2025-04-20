@@ -10,12 +10,14 @@ export async function POST(req:NextRequest){
         const formData = await req.formData();
         try {
         for (let i = 0; i < formData.getAll("files").length; i++) {
-            const uploadedFile = await getFileId(formData.getAll("files")[i] as File);
+            const file = formData.getAll("files")[i] as File;
+            const uploadedFile = await getFileId(file);
             if (uploadedFile.success) {
 
                 const userFile = await UserFile.create({
                   user: formData.get("user"),
                   file: uploadedFile.file,
+                  name:file.name,
                   time: new Date(),
                   folder: formData.get("folder"),
                 });

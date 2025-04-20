@@ -10,7 +10,10 @@ import OutClick from "@/app/_UIComponents/OutClick";
 import Contacts from "../Contacts/Contacts";
 import { Context } from "@/app/_context/NoteContext";
 import ScrollDown from "./ScrollDown";
-import { deleteMultipleMesssage, forwardMessage } from "@/lib/actions/chatActions";
+import {
+  deleteMultipleMesssage,
+  forwardMessage,
+} from "@/lib/actions/chatActions";
 var cryptojs = require("crypto-js");
 const Messages = () => {
   const {
@@ -21,6 +24,7 @@ const Messages = () => {
     setConnectedRefetch,
   } = useContext(Context);
 
+  const [forwarding, setForwarding] = useState(false);
   const [selectflag, setSelectflag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [contacts, setContacts] = useState([]);
@@ -28,10 +32,10 @@ const Messages = () => {
   const menuRef = useRef(null);
   const [forward, setForward] = useState(false);
   const [messages, setMessages] = useState([]);
-  
+
   const ref = useRef(null);
   useEffect(() => {
-    if (toUser) {
+    if (user && toUser) {
       // fetching messages for current user and channel according to second user as it will contain channel info
       fetch("/api/messages", {
         method: "POST",
@@ -43,7 +47,7 @@ const Messages = () => {
           setMessages(d.data);
         });
     }
-  }, [messageNotification, toUser]);
+  }, [messageNotification, user, toUser]);
   useEffect(() => {
     if (messageNotification && messageNotification.from) {
       if (!toUser) {
@@ -78,12 +82,21 @@ const Messages = () => {
                 contacts={contacts}
               />
             </div>
-            <button className={styles.forwardbutton} onClick={async ()=>{
-              setForward(false)
-            await forwardMessage(selected,contacts,user.id)
-            setContacts([])
-            setSelected([])
-            }}>Forward</button>
+            <button
+              className={styles.forwardbutton}
+              onClick={async () => {
+                setForwarding(true)
+                await forwardMessage(selected, contacts, user.id);
+                setForwarding(false)
+                setContacts([]);
+                setSelected([]);
+                setForward(false);
+                setSelectflag(false)
+              }}
+              disabled={forwarding}
+            >
+              {forwarding?"Forwarding":"Forward"}
+            </button>
           </div>
         </Popup>
       )}
@@ -118,18 +131,19 @@ const Messages = () => {
                         {
                           name: "Delete",
                           action: async () => {
-                            setMenuDrop(false);
                             await deleteMultipleMesssage(selected);
                             setMessageNotification((t) => !t);
+                            setSelectflag(false);
+                            setMenuDrop(false);
+                            setSelected([]);
                           },
                         },
                         {
                           name: "Forward",
-                          action:()=>{
-                            setMenuDrop(false)
-                            setForward(true)
-                            
-                          }
+                          action: () => {
+                            setMenuDrop(false);
+                            setForward(true);
+                          },
                         },
                       ]
                     : [

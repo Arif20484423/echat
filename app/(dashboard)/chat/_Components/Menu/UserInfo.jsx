@@ -26,13 +26,15 @@ const UserInfo = ({ setUserinfo }) => {
     fetch("/api/user")
       .then((d) => d.json())
       .then((d) => {
+        console.log(d);
         setName(d.user.name);
         setDesc(d.user.description);
         setImage(d.user.image)
       });
   }, []);
   return (
-    <Popup>
+    // <Popup>
+    <div className={styles.profilewrapper}>
       <CenterComp>
         <div className={styles.userinfo} ref={ref}>
           <div className={styles.image}>
@@ -165,7 +167,8 @@ const UserInfo = ({ setUserinfo }) => {
           
         </div>
       </CenterComp>
-    </Popup>
+      </div>
+    // </Popup>
   );
 };
 

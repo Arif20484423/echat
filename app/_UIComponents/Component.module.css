@@ -95,6 +95,7 @@
     background-color: white;
     padding: 20px;
     transform: translate(-50%,-50%);
+    
 
 }
 
@@ -104,4 +105,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.outclick{
+    z-index: 1;
 }

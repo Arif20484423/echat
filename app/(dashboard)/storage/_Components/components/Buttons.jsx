@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import OutClick from "@/app/_UIComponents/OutClick";
-import styles from "../../Component.module.css";
+import styles from "../Component.module.css";
 
 const Buttons = ({ fileref, folder, files, newFolder, setNewFolder }) => {
   const [add, setAdd] = useState(false);
