@@ -33,11 +33,12 @@ const UserInfo = ({ setUserinfo }) => {
       });
   }, []);
   return (
-    <Popup>
+    // <Popup>
+    <div className={styles.profilewrapper}>
       <CenterComp>
         <div className={styles.userinfo} ref={ref}>
           <div className={styles.image}>
-            {/* <img src={image} alt="jgsdv"/> */}
+            <img src={image} alt="jgsdv"/>
             <input type="file"  ref={imageRef} accept=".jpg, .jpeg, .png"  style={{"display":"none"}} onChange={async (e)=>{
               const formData = new FormData();
               formData.append("image",e.target.files[0]);
@@ -166,7 +167,8 @@ const UserInfo = ({ setUserinfo }) => {
           
         </div>
       </CenterComp>
-    </Popup>
+      </div>
+    // </Popup>
   );
 };
 

@@ -100,8 +100,14 @@ const Item = ({
                     ]
                   : [
                       { name: "select", action: selectItem },
-                      { name: "send", action: sendItem },
-                      { name: "delete", action: deleteItem },
+                      { name: "send", action: ()=>{
+                        setDrop(false)
+                        sendItem()
+                      } },
+                      { name: "delete", action: ()=>{
+                        setDrop(false)
+                        deleteItem()
+                      } },
                       { name: "rename", action: rename },
                     ]
               }
