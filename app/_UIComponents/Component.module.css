@@ -105,3 +105,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.outclick{
+    z-index: 1;
+}

@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-
-import styles from "../../Component.module.css";
+import styles from "../Component.module.css";
 import File from "./File";
 import Dropdown from "@/app/_UIComponents/Dropdown";
 import OutClick from "@/app/_UIComponents/OutClick";
@@ -104,7 +103,6 @@ const Item = ({
                       { name: "send", action: sendItem },
                       { name: "delete", action: deleteItem },
                       { name: "rename", action: rename },
-                      
                     ]
               }
             />

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "../../Component.module.css"
+import styles from "../Component.module.css"
 const Path = ({pathFolders,setPathFolders,pos,setPos,setLastPos}) => {
   return (
     <div className={styles.path}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "../../Component.module.css"
+import styles from "../Component.module.css"
 const Navigations = ({back,forward}) => {
   return (
     <div className={styles.nav}>

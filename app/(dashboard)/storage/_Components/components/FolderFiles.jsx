@@ -3,8 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import StorageItem from "../wrappers/StorageItem";
 import Popup from "@/app/_UIComponents/Popup";
 import Contacts from "@/app/(dashboard)/chat/_Components/Contacts/Contacts";
-import styles from "../../Component.module.css";
-import StorageLayout from "../StorageLayout";
+import styles from "../Component.module.css";
 import { Context } from "@/app/_context/NoteContext";
 import {
   deleteFile,
@@ -15,7 +14,6 @@ import {
   renameFolder,
   renameMedia,
   sendMedia,
-
 } from "@/lib/actions/storageActions";
 import SelectedMenu from "./SelectedMenu";
 const FolderFiles = ({
@@ -29,7 +27,6 @@ const FolderFiles = ({
   setRefetch,
   check,
   setChecked,
-  fileClick
 }) => {
   const { user } = useContext(Context);
   // console.log("userin ",user)
@@ -63,14 +60,14 @@ const FolderFiles = ({
     setSelected([]);
     setRefetch((t) => !t);
   }
-  useEffect(()=>{
-    if(check){
+  useEffect(() => {
+    if (check) {
       setChecked(selected);
     }
-  },[selected])
+  }, [selected]);
 
   useEffect(() => {
-    if(check){
+    if (check) {
       setSelectFlag(true);
     }
     if (pos >= 0) {
@@ -96,6 +93,7 @@ const FolderFiles = ({
         });
     }
   }, [pos, refetch]);
+
   return (
     <>
       {/* <div className={styles.movePopup}>

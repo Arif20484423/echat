@@ -107,6 +107,7 @@ const Sent = ({
                       ...s,
                       { id, messageid, userfileid, fileid },
                     ]);
+                    setOptions(false);
                     setForward(true);
                     setSelectflag(false);
                   },
