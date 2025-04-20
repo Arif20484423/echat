@@ -8,6 +8,7 @@ import Dropdown from "@/app/_UIComponents/Dropdown";
 import OutClick from "@/app/_UIComponents/OutClick";
 import StorageLayout from "@/app/(dashboard)/storage/_Components/layout/StorageLayout";
 import data from "@emoji-mart/data";
+import Skeleton from "./Skeleton";
 import Picker from "@emoji-mart/react";
 import Popup from "@/app/_UIComponents/Popup";
 import { Context } from "@/app/_context/NoteContext";
@@ -15,8 +16,8 @@ import { useRouter } from "next/navigation";
 import { sendStorageMedia } from "@/lib/actions/chatActions";
 export default function Chat({ setChatPage }) {
   const router = useRouter();
-  const [loading,setLoading] = useState(false)
   const [message, setMessage] = useState("");
+  const [client,setClient] = useState(false);
   let [selectedFiles, setSelectedFiles] = useState([]);
   const [emojiSelect, setEmojiSelect] = useState(false);
   const fileref = useRef(null);
@@ -85,43 +86,69 @@ export default function Chat({ setChatPage }) {
     }
   }
 
+useEffect(()=>{
+  if(sessionStorage.getItem(toUser) ){
+    if(toUser){
+      setClient(true);
+    }
+  }
+  else{
+    setClient(true)
+  }
+},[toUser])
   useEffect(() => {
+    
     console.log(selectedStorageFiles);
   }, [selectedStorageFiles]);
+  
+  if(!client){
+    return <Skeleton/>
+  }
+  if(client){
+    if(!toUser){
+      return <></>
+    }
+  }
+
   return (
     <div className={styles.chatbox}>
-      {
-        showStorage && <Popup>
-        <div className={styles.storagebox}>
-          <div className={styles.storage}>
-            <StorageLayout
-              check={true}
-              setChecked={setSelectedStorageFiles}
-            ></StorageLayout>
+      {showStorage && (
+        <Popup>
+          <div className={styles.storagebox}>
+            <div className={styles.storage}>
+              <StorageLayout
+                check={true}
+                setChecked={setSelectedStorageFiles}
+              ></StorageLayout>
+            </div>
+            <button
+              className={styles.sendstoragebutton}
+              onClick={async () => {
+                const res = await fetch("/api/channel/users", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    user: user.id,
+                    channelid: toUser.channelid,
+                  }),
+                });
+                const data = await res.json();
+                console.log(data.data);
+                await sendStorageMedia(
+                  selectedStorageFiles,
+                  toUser.channelid,
+                  data.data,
+                  user.id
+                );
+                setShowStorage(false);
+                setMessageNotification((t) => !t);
+              }}
+            >
+              {" "}
+              Send
+            </button>
           </div>
-          <button
-            className={styles.sendstoragebutton}
-            onClick={async () => {
-              const res = await fetch("/api/channel/users", {
-                method: "POST",
-                body: JSON.stringify({
-                  user: user.id,
-                  channelid: toUser.channelid,
-                }),
-              });
-              const data = await res.json();
-              console.log(data.data)
-              await sendStorageMedia(selectedStorageFiles,toUser.channelid,data.data,user.id)
-              setShowStorage(false);
-              setMessageNotification((t)=>!t)
-            }}
-          >
-            {" "}
-            Send
-          </button>
-        </div>
-      </Popup>
-      }
+        </Popup>
+      )}
 
       <div
         className={styles.chatheader}

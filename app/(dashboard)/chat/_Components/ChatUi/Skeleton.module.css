@@ -1,0 +1,86 @@
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: sans-serif;
+  }
+  
+  .chatHeader {
+    height: 60px;
+    padding: 16px;
+    background-color: #dcdcdc;
+  }
+  
+  .chatBody {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .message {
+    max-width: 60%;
+    padding: 12px;
+    border-radius: 10px;
+  }
+  
+  .received {
+    align-self: flex-start;
+    background-color: #ddd;
+  }
+  
+  .sent {
+    align-self: flex-end;
+    background-color: #ccc;
+  }
+  
+  .bubbleLine {
+    height: 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: #ccc;
+  }
+  
+  .bubbleLine:last-child {
+    margin-bottom: 0;
+  }
+  
+  .chatInput {
+    display: flex;
+    padding: 12px;
+    background-color: #dcdcdc;
+    gap: 12px;
+  }
+  
+  .inputField {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    background-color: #ccc;
+  }
+  
+  .sendBtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+  
+  .skeleton {
+    animation: pulse 1.5s infinite ease-in-out;
+    background: linear-gradient(90deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
+    background-size: 200% 100%;
+  }
+  
+  /* @keyframes pulse {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+   */

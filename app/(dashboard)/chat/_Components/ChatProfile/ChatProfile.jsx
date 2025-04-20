@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./ChatProfile.module.css";
 import { Context } from "@/app/_context/NoteContext";
 import FileUi from "../Files/FileUi";
-
+import Skeleton from "./Skeleton"
 const ChatProfile = ({ setChatPage }) => {
+  const [loading,setLoading] = useState(true)
   const { toUser, user } = useContext(Context);
   const [files, setFiles] = useState([]);
   const [members,setMembers] = useState(null);
@@ -27,9 +28,13 @@ const ChatProfile = ({ setChatPage }) => {
       const data = await res.json();
       console.log(data.data);
       setFiles(() => data.data);
+      setLoading(false)
     }
     fun();
   }, [toUser]);
+  if(loading){
+    return <Skeleton></Skeleton>
+  }
   return (
     <div className={styles.chatprofile}>
       <div>
