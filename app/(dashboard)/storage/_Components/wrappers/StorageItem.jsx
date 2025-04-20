@@ -99,7 +99,10 @@ const Item = ({
                       { name: "rename", action: rename },
                     ]
                   : [
-                      { name: "select", action: selectItem },
+                      { name: "select", action: ()=>{
+                        setDrop(false)
+                        selectItem()
+                      } },
                       { name: "send", action: ()=>{
                         setDrop(false)
                         sendItem()
