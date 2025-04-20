@@ -4,9 +4,10 @@ import Contact from "./Contact";
 import styles from "./Contacts.module.css";
 import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
+
 import { Context } from "@/app/_context/NoteContext";
 const Contacts = ({check,setContacts,contacts}) => {
-  
+  // const [loading,setLoading] = useState(true)
   const [connected, setConnected] = useState([]);
   const [select,setSelect]= useState(false);
   const [selectedContacts,setSelectedContacts] = useState([]);
@@ -21,14 +22,20 @@ const Contacts = ({check,setContacts,contacts}) => {
       })
       .then((d) => {
         setConnected(d.data);
+        // setLoading(false)
         console.log(d.data);
         if(toUser==null && sessionStorage.getItem("toUser")){
           setToUser(()=>JSON.parse(sessionStorage.getItem("toUser")))
         }
       });
   }, [connectedRefetch]);
+  // if(loading){
+  //   return <LoadingSkeleton/>
+  // }
   return (
+    
     <>
+    
       <div className={styles.searchbox}>
         <input
           type="text"

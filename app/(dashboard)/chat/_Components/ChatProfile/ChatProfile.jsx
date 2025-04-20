@@ -3,11 +3,23 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./ChatProfile.module.css";
 import { Context } from "@/app/_context/NoteContext";
 import FileUi from "../Files/FileUi";
+
 const ChatProfile = ({ setChatPage }) => {
   const { toUser, user } = useContext(Context);
   const [files, setFiles] = useState([]);
+  const [members,setMembers] = useState(null);
+
   useEffect(() => {
+    
+
     async function fun() {
+      let mem = await fetch("/api/channel/users/details", {
+        method: "POST",
+        body: JSON.stringify({ channelid: toUser.channelid }),
+      });
+      mem= await mem.json()
+      console.log(mem.data)
+      setMembers(mem.data)
       const res = await fetch("/api/channel/files", {
         method: "POST",
         body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
@@ -57,6 +69,10 @@ const ChatProfile = ({ setChatPage }) => {
           <p>{toUser.description}</p>
         </div>
 
+        <h3>Members</h3>    
+           {members &&  members.map((e)=>{
+              return (<p key={e._id} >{e.user.name}</p>)
+            })}
         <h3>Media</h3>
 
         <div className={styles.files}>

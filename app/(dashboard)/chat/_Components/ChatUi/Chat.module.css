@@ -9,6 +9,7 @@
     height: calc( 100% - 120px);
     overflow-y: scroll;
     font-size: 14px;
+    position: relative;
 }
 .messages::-webkit-scrollbar{
     display: none;
@@ -124,6 +125,7 @@
     justify-content: space-around;
     background-color: none;
     position: relative;
+    
 
 }
 .messagebox *{
@@ -194,4 +196,86 @@
     color: var(--grey);
     font-size: 12px;
     margin-top: 5px;
+}
+.selectmenu{
+    z-index: 1;
+    position: fixed;
+    right: 25px;
+    top: 35px;
+    cursor: pointer;
+}
+.selectdrop{
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+
+.forwardcontacts{
+    width: 300px;
+    height: 400px;
+    border: 1.5px solid var(--lightGrey);
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: white;
+    
+}
+
+.contactbox{
+    width: 300px;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%,-50%);
+
+}
+.forwardbutton{
+    position: absolute;
+    bottom: -40px;
+    right: 0;
+    background-color: var(--blue);
+    border: 0px;
+    border-radius: 5px;
+    padding: 10px 5px;
+    color: white;
+    cursor: pointer;
+}
+
+
+.storagedrop{
+    position: absolute;
+   bottom: 50px;
+   /* background-color: red; */
+}
+.storagebox{
+    width: 800px;
+    height: 500px;
+    
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 35%;
+    transform: translate(-50%,-50%);
+}
+.storage{
+    width: 800px;
+    height: 450px;
+    background-color: white;
+    border: 1.5px solid var(--lightGrey);
+    padding: 10px;
+    border-radius: 10px;
+
+    /* overflow: scroll; */
+    
+}
+.sendstoragebutton{
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    background-color: var(--blue);
+    border: 0px;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
 }

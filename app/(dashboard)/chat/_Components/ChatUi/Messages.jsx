@@ -81,8 +81,8 @@ const Messages = () => {
                       file={e.file ? e.file.file.file : null}
                       name={e.file ? e.file.name : null}
                       time={e.time}
-                      type={e.file ? e.file.file.type:null}
-                    extension={e.file ? e.file.file.extension: null}
+                      type={e.file ? e.file.file.type : null}
+                      extension={e.file ? e.file.file.extension : null}
                     />
                     <ScrollDown />
                   </React.Fragment>
@@ -91,14 +91,14 @@ const Messages = () => {
                 return (
                   <React.Fragment key={e._id}>
                     <Received
-                    id={e._id}
+                      id={e._id}
                       username={e.message.user.name}
                       message={decryptedMessage}
                       file={e.file ? e.file.file.file : null}
                       name={e.file ? e.file.name : null}
                       time={e.time}
-                      type={e.file ? e.file.file.type:null}
-                      extension={e.file ? e.file.file.extension: null}
+                      type={e.file ? e.file.file.type : null}
+                      extension={e.file ? e.file.file.extension : null}
                     />
                     <ScrollDown />
                   </React.Fragment>
@@ -108,35 +108,35 @@ const Messages = () => {
               if (self) {
                 return (
                   <React.Fragment key={e._id}>
-                  <Sent
-                    
-                    id={e._id}
-                    messageid={e.message._id}
-                    username={user.name}
-                    message={decryptedMessage}
-                    file={e.file ? e.file.file.file : null}
-                    name={e.file ? e.file.name : null}
-                    time={e.time}
-                    type={e.file ? e.file.file.type:null}
-                    extension={e.file ? e.file.file.extension: null}
-                  />
-                  <ScrollDown /></React.Fragment>
+                    <Sent
+                      id={e._id}
+                      messageid={e.message._id}
+                      username={user.name}
+                      message={decryptedMessage}
+                      file={e.file ? e.file.file.file : null}
+                      name={e.file ? e.file.name : null}
+                      time={e.time}
+                      type={e.file ? e.file.file.type : null}
+                      extension={e.file ? e.file.file.extension : null}
+                    />
+                    <ScrollDown />
+                  </React.Fragment>
                 );
               } else {
                 return (
                   <React.Fragment key={e._id}>
-                  <Received
-                    
-                    id={e._id}
-                    username={e.message.user.name}
-                    message={decryptedMessage}
-                    file={e.file ? e.file.file.file : null}
-                    name={e.file ? e.file.name : null}
-                    time={e.time}
-                    type={e.file ? e.file.file.type:null}
-                    extension={e.file ? e.file.file.extension: null}
-                  />
-                  <ScrollDown /></React.Fragment>
+                    <Received
+                      id={e._id}
+                      username={e.message.user.name}
+                      message={decryptedMessage}
+                      file={e.file ? e.file.file.file : null}
+                      name={e.file ? e.file.name : null}
+                      time={e.time}
+                      type={e.file ? e.file.file.type : null}
+                      extension={e.file ? e.file.file.extension : null}
+                    />
+                    <ScrollDown />
+                  </React.Fragment>
                 );
               }
             }

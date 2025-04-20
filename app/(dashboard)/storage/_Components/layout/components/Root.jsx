@@ -8,7 +8,7 @@ import Buttons from "./Buttons";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import FolderFiles from "./FolderFiles";
 // import Modal from "./Modal"
-const Root = ({ fileClick }) => {
+const Root = ({ fileClick,  check,setChecked }) => {
   //here folder path and location of storage means the folder location position is stored in
   //  sessionstorage so that once the page changes or refreshes the folder location can be
   // retrieved from sessionstorage and current open folder too or if page changes and reopened
@@ -166,6 +166,7 @@ const Root = ({ fileClick }) => {
         refetch={refetch}
         setRefetch={setRefetch}
         fileClick={fileClick}
+        check={check} setChecked={setChecked}
       />
       {/* <button onClick={()=>{
         setModal((t)=>!t);
