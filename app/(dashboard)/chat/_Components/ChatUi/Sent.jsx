@@ -103,7 +103,10 @@ const Sent = ({
                 {
                   name: "Forward",
                   action: () => {
-                    setSelected((s)=>[...s,{id,messageid,userfileid,fileid}]);
+                    setSelected((s) => [
+                      ...s,
+                      { id, messageid, userfileid, fileid },
+                    ]);
                     setForward(true);
                     setSelectflag(false);
                   },
