@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req:NextRequest){
     const session = await auth();
     if(session){
-        const data = await UserFile.find({user:session.user?.id}).populate({path:"file",match:{type:"image"}})
+        const data = await UserFile.find({user:session.user?.id,delete:{$ne:true}}).populate({path:"file",match:{type:"image"}})
         return NextResponse.json({success:true,data:data});
     }
     else{

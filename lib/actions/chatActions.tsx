@@ -9,6 +9,7 @@ import {
   UserFile,
   UserFolder,
 } from "@/models/models";
+import { AiOutlineUserSwitch } from "react-icons/ai";
 var cryptojs = require("crypto-js");
 
 export async function createChannel(user: String, toUser: String) {
@@ -224,6 +225,14 @@ export async function deleteMesssage(id: String) {
 
   //delete media implementation left
 }
+export async function deleteMultipleMesssage(message:any[]) {
+  // setting delete true for this user with this channel and message
+  for ( let k=0; k<message.length; k++){
+    await ChannelMessage.findByIdAndUpdate(message[k].id, { delete: true });
+  }
+
+  //delete media implementation left
+}
 export async function deleteForEveryoneMesssage(
   id: String,
   channel: String,
@@ -410,53 +419,171 @@ export async function checkUserFile(file:String,user:String){
   return userfile;
 }
 export async function forwardMessage(
-  channelmessages: String[],
-  tousers: { user: String; channel: String }[],
-  user: String
+  channelmessages: {id:String,messageid:String,userfileid:String|undefined,fileid:String|undefined}[],
+  tousers: { connections:any[]; channelid: String, isgroup:Boolean|undefined }[],
+  userid: String
 ) {
-  // for each message
   for (let i = 0; i < channelmessages.length; i++) {
-    // fetching current message (channelmessage for current chat selected)
-    const channelMessage = await ChannelMessage.findById(
-      channelmessages[i]
-    ).populate("file");
-    //fetching the message
-    const message = await Message.findById(channelMessage.message);
-    // copying the message by changing all the selected message user by current user who is forwarding all the messages
-    const messagecopy = await Message.create({
-      message: message.message,
-      user: user,
-      time: new Date(),
-    });
-    // for eah user to be forwarded
-    for (let j = 0; j < tousers.length; j++) {
-      //checking if there is a file to be forwarded
+    const message = await Message.findById(channelmessages[i].messageid);
+    const messagenew = await Message.create({
+      message:message.message,
+      user:userid,
+      time:new Date()
+    })
+    const messageid=messagenew._id;
+    console.log(channelmessages[i].id);
+    for (let j = 0; j < tousers.length; j++) {   
       let file = null;
-      if (channelMessage.file) {
-        // checking file exists on user side to whom file is to be forwarded else created and assigned id of that userfile to file
-        file=await checkUserFile(channelMessage.file.file,tousers[j].user)
-        
-      }
-      //creating ChannelMessage with new message whose user is sender and new file(UserFile) which is at that user side who is to be forwrded the file
-      //user side
-      const channelMessageNewUser = await ChannelMessage.create({
-        user: user,
-        channel: tousers[j].channel,
-        message: messagecopy._id,
-        file:channelMessage.file,
-        time: new Date(),
-      });
 
-      //other user side
-      const channelMessageNew = await ChannelMessage.create({
-        user: tousers[j].user,
-        channel: tousers[j].channel,
-        message: messagecopy._id,
-        file:file,
-        time: new Date(),
-      });
+      if (channelmessages[i].fileid) {
+        if(tousers[j].isgroup){
+          const usermessage = await ChannelMessage.create({
+            user:userid,
+            channel:tousers[j].channelid,
+            message:messageid,
+            file:channelmessages[i].userfileid,
+            time:new Date() 
+          })
+            
+              for(let k=0;k<tousers[j].connections.length;k++){
+                let touserfile = await UserFile.findOne({user:tousers[j].connections[k].user._id,file:channelmessages[i].fileid});
+          if(!touserfile){
+            const userfile = await UserFile.findById(channelmessages[i].userfileid);
+            const userfolder = await getUserFolder(tousers[j].connections[k].user._id,"received");
+            touserfile = await getUserFileId(userfile.file,userfile.name,tousers[j].connections[k].user._id,userfolder);
+          }
+          const tousermessage = await ChannelMessage.create({
+            user:tousers[j].connections[k].user._id,
+            channel:tousers[j].channelid,
+            message:messageid,
+            file:touserfile,
+            time:new Date() 
+          })
+          await Channel.updateOne(
+            { user: tousers[j].connections[k].user._id, channelid: tousers[j].channelid },
+            { deleted: false }
+          );
+              }
+            
+        }
+        else{
+          const usermessage = await ChannelMessage.create({
+            user:userid,
+            channel:tousers[j].channelid,
+            message:messageid,
+            file:channelmessages[i].userfileid,
+            time:new Date() 
+          })
+          let touserfile = await UserFile.findOne({user:tousers[j].connections[0].user._id,file:channelmessages[i].fileid});
+          if(!touserfile){
+            const userfile = await UserFile.findById(channelmessages[i].userfileid);
+            const userfolder = await getUserFolder(tousers[j].connections[0].user._id,"received");
+            touserfile = await getUserFileId(userfile.file,userfile.name,tousers[j].connections[0].user._id,userfolder);
+          }
+          const tousermessage = await ChannelMessage.create({
+            user:tousers[j].connections[0].user._id,
+            channel:tousers[j].channelid,
+            message:messageid,
+            file:touserfile,
+            time:new Date() 
+          })
+          await Channel.updateOne(
+            { user: tousers[j].connections[0].user._id, channelid: tousers[j].channelid },
+            { deleted: false }
+          );
+        }        
+      }
+      else{
+        if(tousers[j].isgroup){
+          
+          const usermessage = await ChannelMessage.create({
+            user:userid,
+            channel:tousers[j].channelid,
+            message:messageid,
+            time:new Date() 
+          })
+              for(let k=0;k<tousers[j].connections?.length;k++){
+                const tousermessage = await ChannelMessage.create({
+                  user:tousers[j].connections[k].user._id,
+                  channel:tousers[j].channelid,
+                  message:messageid,
+                  time:new Date() 
+                })
+                await Channel.updateOne(
+                  { user: tousers[j].connections[k].user._id, channelid: tousers[j].channelid },
+                  { deleted: false }
+                );
+              }
+          
+        }
+        else{
+          const usermessage = await ChannelMessage.create({
+            user:userid,
+            channel:tousers[j].channelid,
+            message:messageid,
+            time:new Date() 
+          })
+          const tousermessage = await ChannelMessage.create({
+            user:tousers[j].connections[0].user._id,
+            channel:tousers[j].channelid,
+            message:messageid,
+            time:new Date() 
+          })
+          await Channel.updateOne(
+            { user: tousers[j].connections[0].user._id, channelid: tousers[j].channelid },
+            { deleted: false }
+          );
+          
+        }
+      }
     }
   }
 }
 
 
+
+
+
+export async function sendStorageMedia(files:{file:String,userfile:String}[],channelid:String,tousers:String[],userid:String){
+  console.log(tousers)
+  for(let i=0;i<files.length;i++){
+    let message = null;
+    const ciphertext = cryptojs.AES.encrypt(
+      "",
+      process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
+    ).toString();
+    const msg = new Message({
+      message: ciphertext,
+      user: userid,
+      time: new Date(),
+    });
+    await msg.save();
+    message = msg._id;
+    const usermessage = await ChannelMessage.create({
+      user:userid,
+      channel:channelid,
+      message:message,
+      file:files[i].userfile,
+      time:new Date()
+    })
+    for( let j=0;j<tousers.length;j++){
+      let touserfile = await UserFile.findOne({user:tousers[j],file:files[i].file});
+                if(!touserfile){
+                  const userfile = await UserFile.findById(files[i].userfile);
+                  const userfolder = await getUserFolder(tousers[j],"received");
+                  touserfile = await getUserFileId(userfile.file,userfile.name,tousers[j],userfolder);
+                }
+      const tousermessage = await ChannelMessage.create({
+        user:tousers[j],
+        channel:channelid,
+        message:message,
+        file:touserfile,
+        time:new Date()
+      })
+      await Channel.updateOne(
+        { user: tousers[j], channelid: channelid },
+        { deleted: false }
+      );
+    }
+  }
+}

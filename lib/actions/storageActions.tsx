@@ -1,7 +1,7 @@
 "use server";
 
 import { Channel, ChannelMessage, Files, Message, User, UserFile, UserFolder } from "@/models/models";
-import {  getFileId, getUserFolder } from "./chatActions";
+import {  getFileId, getUserFileId, getUserFolder } from "./chatActions";
 var cryptojs = require("crypto-js");
 
 export async function createFolder(
@@ -142,7 +142,8 @@ export async function sendMedia(
           });
         }
         else{
-          toUserFile = await  getUserFileId(files[j],contacts[i].connections[0].user._id);
+          const touserfolder = await getUserFolder(contacts[i].connections[0].user._id,"received")
+          toUserFile = await  getUserFileId(files[j] ,userFile.name,contacts[i].connections[0].user._id,touserfolder);
           await ChannelMessage.create({
             user: contacts[i].connections[0].user._id,
             channel: contacts[i].channelid,
@@ -170,7 +171,8 @@ export async function sendMedia(
           });
         }
         else{
-          toUserFile = await  getUserFileId(files[j],contacts[i].connections[k].user._id);
+          const touserfolder = await getUserFolder(contacts[i].connections[k].user._id,"received")
+          toUserFile = await  getUserFileId(files[j] ,userFile.name,contacts[i].connections[k].user._id,touserfolder);
           await ChannelMessage.create({
             user: contacts[i].connections[k].user._id,
             channel: contacts[i].channelid,
@@ -190,18 +192,18 @@ export async function sendMedia(
     }
   }
 }
-export async function getUserFileId(fileid:String,userid:String){
-   const  file = await Files.findOne({_id:fileid})
-   const userFolder = await getUserFolder(userid,"received");
-   const userFile = await UserFile.create({
-    user:userid,
-    file:fileid,
-    name:file.name,
-    time:new Date(),
-    folder:userFolder
-   })
-   return userFile._id;
-}
+// export async function getUserFileId(fileid:String,userid:String){
+//    const  file = await Files.findOne({_id:fileid})
+//    const userFolder = await getUserFolder(userid,"received");
+//    const userFile = await UserFile.create({
+//     user:userid,
+//     file:fileid,
+//     name:file.name,
+//     time:new Date(),
+//     folder:userFolder
+//    })
+//    return userFile._id;
+// }
 export async function saveMedia(folder:String,userfile:String){
     try {
         await UserFile.findByIdAndUpdate(userfile,{folder:folder})
@@ -215,3 +217,4 @@ export async function saveMedia(folder:String,userfile:String){
         }
     }
 }
+

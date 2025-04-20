@@ -5,6 +5,7 @@ const Menu = ({setPage,page}) => {
     <div className={styles.menu}>
     <br />
     <br />
+   
     <div className={styles.itembox} onClick={()=>{
       setPage(1);
     }}>

@@ -1,10 +1,11 @@
 import React from "react";
-import Loading from "./loading";
+import Loading from "@/app/_UIComponents/Loading.jsx";
 import { Suspense } from "react";
 const Layout = ({ children }) => {
   return (
     <>
-      <Suspense fallback={<Loading />}>{children}</Suspense>
+      {children}
+      {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
     </>
   );
 };

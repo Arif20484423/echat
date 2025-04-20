@@ -1,5 +1,12 @@
 .page{
     margin: 0 15px;
+    
+    height: 100vh;
+}
+.layoutpage{
+    
+    
+    height: 100%;
 }
 .header{
     height: 50px;
@@ -13,7 +20,7 @@
 
 .body{
     
-    height: calc( 100vh - 50px );
+    height: calc( 100% - 50px );
     /* background-color: red; */
     display: flex;
 }
@@ -118,7 +125,7 @@
 }
 
 .nav{
-    position: fixed;
+    position: absolute;
     top: 55px;
     left: 15px;
     display: flex;
@@ -135,7 +142,7 @@
 }
 
 .path{
-    position: fixed;
+    position: absolute;
     top: 5px;
     left: 250px;
     width: calc( 100% - 550px);
