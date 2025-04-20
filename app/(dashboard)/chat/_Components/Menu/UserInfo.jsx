@@ -26,6 +26,7 @@ const UserInfo = ({ setUserinfo }) => {
     fetch("/api/user")
       .then((d) => d.json())
       .then((d) => {
+        console.log(d);
         setName(d.user.name);
         setDesc(d.user.description);
         setImage(d.user.image)
@@ -36,7 +37,7 @@ const UserInfo = ({ setUserinfo }) => {
       <CenterComp>
         <div className={styles.userinfo} ref={ref}>
           <div className={styles.image}>
-            <img src={image} alt="jgsdv"/>
+            {/* <img src={image} alt="jgsdv"/> */}
             <input type="file"  ref={imageRef} accept=".jpg, .jpeg, .png"  style={{"display":"none"}} onChange={async (e)=>{
               const formData = new FormData();
               formData.append("image",e.target.files[0]);

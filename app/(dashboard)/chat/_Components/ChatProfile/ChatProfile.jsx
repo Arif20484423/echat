@@ -74,10 +74,12 @@ const ChatProfile = ({ setChatPage }) => {
           <p>{toUser.description}</p>
         </div>
 
-        <h3>Members</h3>    
+        <h3>Members</h3> 
+        <p>
            {members &&  members.map((e)=>{
-              return (<p key={e._id} >{e.user.name}</p>)
+              return (<span key={e._id} >{e.user.name}, </span>)
             })}
+            </p>   
         <h3>Media</h3>
 
         <div className={styles.files}>
