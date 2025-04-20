@@ -9,6 +9,8 @@ import { Context } from "@/app/_context/NoteContext";
 const Contacts = ({check,setContacts,contacts}) => {
   const [loading,setLoading] = useState(true)
   const [connected, setConnected] = useState([]);
+  const [filtered,setFiltered] = useState([]);
+  const [filter,setFilter] = useState("");
   const [select,setSelect]= useState(false);
   const [selectedContacts,setSelectedContacts] = useState([]);
   const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch } =
@@ -22,6 +24,7 @@ const Contacts = ({check,setContacts,contacts}) => {
       })
       .then((d) => {
         setConnected(d.data);
+        setFiltered(d.data);
         setLoading(false)
         console.log(d.data);
         if(toUser==null && sessionStorage.getItem("toUser")){
@@ -29,6 +32,19 @@ const Contacts = ({check,setContacts,contacts}) => {
         }
       });
   }, [connectedRefetch]);
+
+  useEffect(()=>{
+    const fil = connected.filter((e)=>{
+      if(e.isgroup){
+        return e.group[0].name.substring(0,filter.length)==filter;
+      }
+      else{
+        return e.connections[0].user.name.substring(0,filter.length)==filter;
+      }
+    })
+    console.log(fil)
+    setFiltered(fil);
+  },[filter])
   if(loading){
     return <LoadingSkeleton/>
   }
@@ -40,12 +56,15 @@ const Contacts = ({check,setContacts,contacts}) => {
         <input
           type="text"
           className={compStyles.input}
-          placeholder="Search contacts here"
+          placeholder="Search name"
+          onChange={(e)=>{
+            setFilter(e.target.value)
+          }}
         />
         <IoIosSearch className={styles.searchbutton} size={20} />
       </div>
       <div className={styles.contacts}>
-        {connected.map((e, i) => {
+        {filtered.map((e, i) => {
           if(e.isgroup){
             {/* image={e.connections[0].user.image} */}
             return <Contact key={e._id} check={check} setContacts={setContacts} contacts={contacts} select={select} setSelect={setSelect} userchatid={e._id} isgroup={true}  name={e.group[0].name} description={e.group[0].description}  channelid={e.channelid}  connections={e.connections}  image={e.group[0].image.file}/>;
