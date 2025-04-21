@@ -144,9 +144,14 @@ export default function Chat({ setChatPage }) {
                     data.data,
                     user.id
                   );
-
                   setMessageNotification((t) => !t);
+                  setSelectedStorageFiles([]);
                   setSending(false);
+                  socket.emit("message", {
+                    from:toUser.channelid,
+                    to: data.data,
+                    message: "new Message",
+                  }); //mesagenotification to other to reload chats
                 }}
               >
                 {" "}

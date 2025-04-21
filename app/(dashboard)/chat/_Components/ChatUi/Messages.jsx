@@ -22,6 +22,7 @@ const Messages = () => {
     messageNotification,
     setMessageNotification,
     setConnectedRefetch,
+    socket
   } = useContext(Context);
 
   const [forwarding, setForwarding] = useState(false);
@@ -85,23 +86,43 @@ const Messages = () => {
             <button
               className={styles.send}
               onClick={async () => {
-                setForwarding(true)
+                setForwarding(true);
                 await forwardMessage(selected, contacts, user.id);
-                setForwarding(false)
+                setForwarding(false);
+                const emitUsers = [];
+                console.log(contacts)
+                for (let i = 0; i < contacts.length; i++) {
+                  let tousers = [];
+                  for (let j = 0; j < contacts[i].connections.length; j++) {
+                    tousers.push(contacts[i].connections[j].user._id);
+                  }
+                  emitUsers.push({
+                    channelid: contacts[i].channelid,
+                    users: tousers,
+                  });
+                }
                 setContacts([]);
                 setSelected([]);
                 setForward(false);
-                setSelectflag(false)
+                setSelectflag(false);
+                
+                socket.emit("messagemultiple", {
+                  to: emitUsers,
+                  message: "new Message",
+                }); //mesagenotification to other to reload chats
               }}
               disabled={forwarding}
             >
-              {forwarding?"Forwarding":"Forward"}
+              {forwarding ? "Forwarding" : "Forward"}
             </button>
-            <button className={styles.cancel} onClick={()=>{
-              setSelected([])
-              setForward(false)
-              setContacts([])
-            }}>
+            <button
+              className={styles.cancel}
+              onClick={() => {
+                setSelected([]);
+                setForward(false);
+                setContacts([]);
+              }}
+            >
               Cancel
             </button>
           </div>
@@ -149,7 +170,7 @@ const Messages = () => {
                           name: "Forward",
                           action: () => {
                             setMenuDrop(false);
-                            setSelectflag(false)
+                            setSelectflag(false);
                             setForward(true);
                           },
                         },
