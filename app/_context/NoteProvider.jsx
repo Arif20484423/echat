@@ -19,8 +19,8 @@ export default function NoteProvider({
     }
   },[user])
   useEffect(()=>{
-    console.log("toUser",toUser)
-    console.log("user",user)
+    // console.log("toUser",toUser)
+    // console.log("user",user)
     if(toUser){
       sessionStorage.setItem("toUser",JSON.stringify(toUser));
     console.log(JSON.parse(sessionStorage.getItem("toUser")))

@@ -27,6 +27,8 @@ const channelSchema= new Schema({
     channelid:{type:Schema.Types.ObjectId},
     starttime:{type:Date,default:new Date()},
     isgroup:{type:Boolean,default:false},
+    lastSeen:{type:Date,required:true},
+    lastMessage:{type:Date,required:true},
     deleted:{type:Boolean,default:false}
 },{
     toJSON:{virtuals:true},

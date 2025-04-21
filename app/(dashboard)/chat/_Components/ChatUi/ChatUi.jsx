@@ -31,7 +31,6 @@ export default function Chat({ setChatPage }) {
   async function sendMessage() {
     if (message != "") {
       if (toUser.isgroup) {
-        console.log("group");
         //for group adding different method to add messages
         const res = await fetch("/api/channel/users", {
           method: "POST",
@@ -59,6 +58,7 @@ export default function Chat({ setChatPage }) {
         setMessageNotification((f) => !f); //mesagenotification to self to reload chats
         setSelectedFiles([]);
         socket.emit("groupmessage", {
+          from: toUser.channelid,
           to: data.data,
           message: message,
         }); //mesagenotification to other to reload chats
@@ -82,7 +82,11 @@ export default function Chat({ setChatPage }) {
         const d = await res.json();
         setMessageNotification((m) => !m); //mesagenotification to self to reload chats
         setSelectedFiles([]);
-        socket.emit("message", { to: toUser.id, message: message }); //mesagenotification to other to reload chats
+        socket.emit("message", {
+          from: toUser.channelid,
+          to: toUser.id,
+          message: message,
+        }); //mesagenotification to other to reload chats
       }
     }
   }
@@ -146,10 +150,13 @@ export default function Chat({ setChatPage }) {
                 {" "}
                 Send
               </button>
-              <button className={styles.cancel} onClick={()=>{
-                setShowStorage(false);
-                setSelectedStorageFiles([])
-              }}>
+              <button
+                className={styles.cancel}
+                onClick={() => {
+                  setShowStorage(false);
+                  setSelectedStorageFiles([]);
+                }}
+              >
                 Cancel
               </button>
             </div>

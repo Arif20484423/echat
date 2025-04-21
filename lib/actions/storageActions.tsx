@@ -155,7 +155,7 @@ export async function sendMedia(
         }
          await Channel.updateOne(
             { user: contacts[i].connections[0].user._id, channelid: contacts[i].channelid },
-            { deleted: false }
+            { deleted: false,lastMessage: new Date() }
           );
       }
       else{
@@ -184,7 +184,7 @@ export async function sendMedia(
         }
         await Channel.updateOne(
           { user: contacts[i].connections[k].user._id, channelid: contacts[i].channelid },
-          { deleted: false }
+          { deleted: false,lastMessage: new Date() }
         );
         }
       }

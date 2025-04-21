@@ -21,7 +21,11 @@ export async function createChannel(user: String, toUser: String) {
 
   for (let i = 0; i < channelexists.length; i++) {
     if (!channelexists[i].isgroup && channelexists[i].connections.length > 0) {
-      await Channel.findByIdAndUpdate(channelexists[i].id, { deleted: false });
+      await Channel.findByIdAndUpdate(channelexists[i].id, {
+        deleted: false,
+        lastMessage: new Date(),
+        lastSeen: new Date(),
+      });
       // if exists return the channel
       return channelexists[i].channelid + "";
     }
@@ -30,6 +34,8 @@ export async function createChannel(user: String, toUser: String) {
   const ch = new Channel({
     user: user,
     starttime: new Date(),
+    lastMessage: new Date(),
+    lastSeen: new Date(),
   });
 
   ch.channelid = ch.id;
@@ -38,6 +44,8 @@ export async function createChannel(user: String, toUser: String) {
     user: toUser,
     starttime: new Date(),
     channelid: ch.id,
+    lastMessage: new Date(),
+    lastSeen: new Date(),
   });
   await ch2.save();
   return ch.id;
@@ -461,7 +469,7 @@ export async function forwardMessage(
           })
           await Channel.updateOne(
             { user: tousers[j].connections[k].user._id, channelid: tousers[j].channelid },
-            { deleted: false }
+            { deleted: false ,lastMessage: new Date() }
           );
               }
             
@@ -489,7 +497,7 @@ export async function forwardMessage(
           })
           await Channel.updateOne(
             { user: tousers[j].connections[0].user._id, channelid: tousers[j].channelid },
-            { deleted: false }
+            { deleted: false,lastMessage: new Date() }
           );
         }        
       }
@@ -511,7 +519,7 @@ export async function forwardMessage(
                 })
                 await Channel.updateOne(
                   { user: tousers[j].connections[k].user._id, channelid: tousers[j].channelid },
-                  { deleted: false }
+                  { deleted: false,lastMessage: new Date() }
                 );
               }
           
@@ -531,7 +539,7 @@ export async function forwardMessage(
           })
           await Channel.updateOne(
             { user: tousers[j].connections[0].user._id, channelid: tousers[j].channelid },
-            { deleted: false }
+            { deleted: false,lastMessage: new Date() }
           );
           
         }
@@ -582,7 +590,9 @@ export async function sendStorageMedia(files:{file:String,userfile:String}[],cha
       })
       await Channel.updateOne(
         { user: tousers[j], channelid: channelid },
-        { deleted: false }
+        { deleted: false,
+           lastMessage: new Date(),
+        }
       );
     }
   }

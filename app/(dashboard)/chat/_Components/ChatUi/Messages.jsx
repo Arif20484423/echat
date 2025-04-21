@@ -43,24 +43,24 @@ const Messages = () => {
       })
         .then((d) => d.json())
         .then((d) => {
-          console.log(d.data);
+          // console.log(d.data);
           setMessages(d.data);
         });
     }
   }, [messageNotification, user, toUser]);
-  useEffect(() => {
-    if (messageNotification && messageNotification.from) {
-      if (!toUser) {
-        // refetch contacts
-        setConnectedRefetch((t) => !t);
-      } else {
-        if (messageNotification.from !== toUser.id) {
-          // refetch contacts
-          setConnectedRefetch((t) => !t);
-        }
-      }
-    }
-  }, [messageNotification]);
+  // useEffect(() => {
+  //   if (messageNotification && messageNotification.from) {
+  //     if (!toUser) {
+  //       // refetch contacts
+  //       setConnectedRefetch((t) => !t);
+  //     } else {
+  //       if (messageNotification.from !== toUser.id) {
+  //         // refetch contacts
+  //         setConnectedRefetch((t) => !t);
+  //       }
+  //     }
+  //   }
+  // }, [messageNotification]);
 
   // useEffect(()=>{
   //   alert("op")

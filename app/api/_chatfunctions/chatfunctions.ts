@@ -19,7 +19,11 @@ export async function createChannel(user: String, toUser: String) {
 
   for (let i = 0; i < channelexists.length; i++) {
     if (!channelexists[i].isgroup && channelexists[i].connections.length > 0) {
-      await Channel.findByIdAndUpdate(channelexists[i].id, { deleted: false });
+      await Channel.findByIdAndUpdate(channelexists[i].id, {
+        deleted: false,
+        lastMessage: new Date(),
+        lastSeen: new Date(),
+      });
       // if exists return the channel
       return channelexists[i].channelid + "";
     }
@@ -28,6 +32,8 @@ export async function createChannel(user: String, toUser: String) {
   const ch = new Channel({
     user: user,
     starttime: new Date(),
+    lastMessage: new Date(),
+    lastSeen: new Date(),
   });
 
   ch.channelid = ch.id;
@@ -36,6 +42,8 @@ export async function createChannel(user: String, toUser: String) {
     user: toUser,
     starttime: new Date(),
     channelid: ch.id,
+    lastMessage: new Date(),
+    lastSeen: new Date(),
   });
   await ch2.save();
   return ch.id;
@@ -53,7 +61,7 @@ export async function createUserMessage(
     const userFolder = await getUserFolder(user, folder);
 
     // saving file to user in upload or received folder as to be saved
-    file = await getUserFileId(file.file,file.filename,user,userFolder);
+    file = await getUserFileId(file.file, file.filename, user, userFolder);
   }
 
   // creating channelmessage for user with channel assigining message and file
@@ -64,23 +72,21 @@ export async function createUserMessage(
     file: file,
     time: new Date(),
   });
-  // Contact if deleted at users side it should be resumed once new message comes in 
+  // Contact if deleted at users side it should be resumed once new message comes in
   await Channel.updateOne(
     { user: user, channelid: channel },
-    { deleted: false }
+    { deleted: false, lastMessage: new Date()}
   );
 }
 
-export async function addMessage(
-  formData: FormData
-) {
+export async function addMessage(formData: FormData) {
   // creating message
 
   let message = null;
-  const channel=formData.get("channel") as string;
-  const user=formData.get("user") as string;
-  const touser=formData.get("touser") as string;
-  const ciphertext =  cryptojs.AES.encrypt(
+  const channel = formData.get("channel") as string;
+  const user = formData.get("user") as string;
+  const touser = formData.get("touser") as string;
+  const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
     process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
   ).toString();
@@ -112,7 +118,7 @@ export async function addMessage(
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
     // creating free message with user to know user of the file for current channelmessage
-    console.log("a")
+    console.log("a");
     let message = null;
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -126,7 +132,7 @@ export async function addMessage(
     await msg.save();
     message = msg.id;
 
-    // creating file 
+    // creating file
     let file = null;
 
     const fileUpload = await getFileId(formData.getAll("files")[i] as File);
@@ -141,22 +147,17 @@ export async function addMessage(
 
     //adding to other users
     await createUserMessage(touser, channel, message, file, "received");
-
-    
   }
   return {
-    success:true,
-    message:"message sent successfully"
-  }
-  
+    success: true,
+    message: "message sent successfully",
+  };
 }
-export async function addMessageGroup(
-  formData: FormData
-) {
+export async function addMessageGroup(formData: FormData) {
   // creating message
-  const user=formData.get("user") as string;
-  const channel=formData.get("channelid") as string;
-  const tousers=formData.getAll("toUsers") as  string[];
+  const user = formData.get("user") as string;
+  const channel = formData.get("channelid") as string;
+  const tousers = formData.getAll("toUsers") as string[];
   let message = null;
   const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
@@ -224,7 +225,7 @@ export async function addMessageGroup(
     }
   }
 
-  return {success:true};
+  return { success: true };
 }
 
 export async function deleteMesssage(id: String) {
@@ -254,18 +255,18 @@ export async function deleteChat(id: String) {
   //delete media implementation left
 }
 
-export async function createGroupChannel(
-  formData:FormData
-) {
+export async function createGroupChannel(formData: FormData) {
   //creating channel at once side
-    const user = formData.get("user");
+  const user = formData.get("user");
   const toUsers = formData.getAll("toUsers");
-  const name= formData.get("name")
-  const description= formData.get("description")
+  const name = formData.get("name");
+  const description = formData.get("description");
   const user1 = new Channel({
     user: user,
     starttime: new Date(),
     isgroup: true,
+     lastMessage: new Date(),
+    lastSeen: new Date(),
   });
   user1.channelid = user1._id;
   await user1.save();
@@ -276,23 +277,24 @@ export async function createGroupChannel(
       channelid: user1._id,
       starttime: new Date(),
       isgroup: true,
+      lastMessage: new Date(),
+      lastSeen: new Date(),
     });
     await toUser.save();
   }
-  console.log(formData.get("image"))
-  const fileUpload=await getFileId(formData.get("image") as File);
-  if(!fileUpload.success){
+  console.log(formData.get("image"));
+  const fileUpload = await getFileId(formData.get("image") as File);
+  if (!fileUpload.success) {
     return fileUpload;
   }
   // adding group details associated to this specific group channel
   const group = await Group.create({
     channel: user1._id,
     name: name,
-    description:description,
-    image:fileUpload.file
+    description: description,
+    image: fileUpload.file,
   });
-  return {success:true}
-  
+  return { success: true };
 }
 
 export async function deleteForEveryoneMesssageGroup(
@@ -312,7 +314,8 @@ export async function deleteForEveryoneMesssageGroup(
   //delete media implementation left
 }
 
-export async function getFileId(file: File) { // used
+export async function getFileId(file: File) {
+  // used
   // extracting file type details
   const ftype = file.type.split("/");
   //creating file except the file link
@@ -334,14 +337,14 @@ export async function getFileId(file: File) { // used
       "." +
       ftype[1];
 
-      // adding file link to file created
+    // adding file link to file created
     f.file = filelink;
     await f.save();
     return {
       success: true,
       file: f._id,
-      filename:f.name,
-      link:filelink
+      filename: f.name,
+      link: filelink,
     };
   } else {
     return {
@@ -350,40 +353,44 @@ export async function getFileId(file: File) { // used
     };
   }
 }
-export async function  getFileLink(formData:FormData){
+export async function getFileLink(formData: FormData) {
   let imagelink = null;
-  const imageid=Math.random()*1000000;
-    // uploading file to supabase
-    const { data, error } = await supabase.storage
-      .from("echat public")
-      .upload("public/" + imageid, formData.get("image") as File);
-     imagelink =
-      "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
-      imageid;
-  if(data){
+  const imageid = Math.random() * 1000000;
+  // uploading file to supabase
+  const { data, error } = await supabase.storage
+    .from("echat public")
+    .upload("public/" + imageid, formData.get("image") as File);
+  imagelink =
+    "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
+    imageid;
+  if (data) {
     return {
-      success:true,link:imagelink
-    }
-  }
-  else{
+      success: true,
+      link: imagelink,
+    };
+  } else {
     return {
-      success:false
-    }
+      success: false,
+    };
   }
 }
-export async function getUserFileId(fileid:String,filename:String,user:String,folder:String){
-
+export async function getUserFileId(
+  fileid: String,
+  filename: String,
+  user: String,
+  folder: String
+) {
   const userFile = await UserFile.create({
     user: user,
     file: fileid,
-    name:filename,
+    name: filename,
     time: new Date(),
     folder: folder,
   });
   return userFile._id;
 }
 export async function getUserFolder(user: String, foldername: String) {
-  // fetching folder 
+  // fetching folder
   const folder = await UserFolder.findOne({ user: user, name: foldername });
   if (folder) {
     //if found return folder id
@@ -419,26 +426,24 @@ export async function getUserFolder(user: String, foldername: String) {
   }
 }
 
-export async function checkUserFile(file:String,user:String){
-  let userfile=null;
+export async function checkUserFile(file: String, user: String) {
+  let userfile = null;
   const fileExists = await UserFile.findOne({
     user: user,
     file: file,
   });
-  if(fileExists) {
-    await UserFile.findByIdAndUpdate(fileExists._id,{delete:false})
-    userfile=fileExists._id;
-  }
-  else{
-    const userFolder=await getUserFolder(user,"received");
-    const fileCreated=await UserFile.create({
-      user:user,
-      file:file,
-      time:new Date(),
-      folder:userFolder
-
-    })
-    userfile=fileCreated._id;
+  if (fileExists) {
+    await UserFile.findByIdAndUpdate(fileExists._id, { delete: false });
+    userfile = fileExists._id;
+  } else {
+    const userFolder = await getUserFolder(user, "received");
+    const fileCreated = await UserFile.create({
+      user: user,
+      file: file,
+      time: new Date(),
+      folder: userFolder,
+    });
+    userfile = fileCreated._id;
   }
   return userfile;
 }
@@ -467,8 +472,7 @@ export async function forwardMessage(
       let file = null;
       if (channelMessage.file) {
         // checking file exists on user side to whom file is to be forwarded else created and assigned id of that userfile to file
-        file=await checkUserFile(channelMessage.file.file,tousers[j].user)
-        
+        file = await checkUserFile(channelMessage.file.file, tousers[j].user);
       }
       //creating ChannelMessage with new message whose user is sender and new file(UserFile) which is at that user side who is to be forwrded the file
       //user side
@@ -476,7 +480,7 @@ export async function forwardMessage(
         user: user,
         channel: tousers[j].channel,
         message: messagecopy._id,
-        file:channelMessage.file,
+        file: channelMessage.file,
         time: new Date(),
       });
 
@@ -485,11 +489,9 @@ export async function forwardMessage(
         user: tousers[j].user,
         channel: tousers[j].channel,
         message: messagecopy._id,
-        file:file,
+        file: file,
         time: new Date(),
       });
     }
   }
 }
-
-
