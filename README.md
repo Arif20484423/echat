@@ -6,6 +6,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Code needs some secrets and all that is in .env.local file in the local stoarage pc
 that is in Web folder backendtemplate_login_signup_providers
 
+## Challenges
+
+
+
 
 ## Routes login/signup
 
