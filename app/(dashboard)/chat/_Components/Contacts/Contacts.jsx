@@ -11,12 +11,13 @@ const Contacts = ({ check, setContacts, contacts }) => {
   const [connected, setConnected] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("");
+  const [currentToUser,setCurrentToUser] = useState(null);
   const [select, setSelect] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch } =
     useContext(Context);
   useEffect(() => {
-    // console.log("REfetching cont")
+    console.log("REfetching cont")
     fetch("/api/connections")
       .then(async (d) => {
         console.log("res", d);
@@ -30,10 +31,12 @@ const Contacts = ({ check, setContacts, contacts }) => {
         // console.log(d.data);
         if (toUser == null && sessionStorage.getItem("toUser")) {
           setToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
+          setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
         }
-        // console.log("REfetchcont")
+        setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
+        console.log("REfetchcont")
       });
-    // console.log("REfetched cont")
+    console.log("REfetched cont")
   }, [connectedRefetch,toUser]);
 
   useEffect(() => {
@@ -78,6 +81,7 @@ const Contacts = ({ check, setContacts, contacts }) => {
                 select={select}
                 setSelect={setSelect}
                 userchatid={e._id}
+                currentToUser={currentToUser}
                 isgroup={true}
                 name={e.group[0].name}
                 description={e.group[0].description}
@@ -99,6 +103,7 @@ const Contacts = ({ check, setContacts, contacts }) => {
                 setSelect={setSelect}
                 userchatid={e._id}
                 isgroup={false}
+                currentToUser={currentToUser}
                 name={e.connections[0].user.name}
                 description={e.connections[0].user.description}
                 id={e.connections[0].user._id}

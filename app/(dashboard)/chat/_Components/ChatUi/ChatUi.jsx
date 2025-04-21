@@ -57,7 +57,7 @@ export default function Chat({ setChatPage }) {
 
         setMessageNotification((f) => !f); //mesagenotification to self to reload chats
         setSelectedFiles([]);
-        socket.emit("groupmessage", {
+        socket.emit("message", {
           from: toUser.channelid,
           to: data.data,
           message: message,
@@ -82,9 +82,11 @@ export default function Chat({ setChatPage }) {
         const d = await res.json();
         setMessageNotification((m) => !m); //mesagenotification to self to reload chats
         setSelectedFiles([]);
+        const emitUsers=[]
+        emitUsers.push(toUser.id)
         socket.emit("message", {
           from: toUser.channelid,
-          to: toUser.id,
+          to: emitUsers,
           message: message,
         }); //mesagenotification to other to reload chats
       }
