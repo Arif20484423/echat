@@ -56,6 +56,11 @@ const Contact = ({
     return (
       <div
         className={styles.contactbox}
+        style={
+          toUser.chatid == userchatid
+            ? { backgroundColor: "var(--blueBorder)" }
+            : {}
+        }
         onClick={async () => {
           console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
           if (toUser && toUser.chatid) {
@@ -117,8 +122,7 @@ const Contact = ({
           </div>
 
           <div className={styles.options}>
-            {(!currentToUser ||
-              currentToUser.chatid != userchatid) &&
+            {(!currentToUser || currentToUser.chatid != userchatid) &&
               lastSeen < lastMessage && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -151,6 +155,11 @@ const Contact = ({
     return (
       <div
         className={styles.contactbox}
+        style={
+          toUser.chatid == userchatid
+            ? { backgroundColor: "var(--blueBorder)" }
+            : {}
+        }
         onClick={async () => {
           console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
           if (toUser && toUser.chatid) {
@@ -213,8 +222,7 @@ const Contact = ({
           </div>
 
           <div className={styles.options}>
-            {(!currentToUser ||
-              currentToUser.chatid != userchatid) &&
+            {(!currentToUser || currentToUser.chatid != userchatid) &&
               lastSeen < lastMessage && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

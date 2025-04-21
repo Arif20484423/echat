@@ -4,7 +4,7 @@ import { Channel } from "@/models/models";
 
 export async function GET() {
   const session = await auth();
-  const data = await Channel.find({ user: session?.user?.id , deleted : false },"user isgroup deleted channelid lastSeen lastMessage")
+  const data = await Channel.find({ user: session?.user?.id , deleted : false },"user isgroup deleted channelid lastSeen lastMessage").sort({lastMessage:-1})
     .populate({
       path: "connections",
       match: { user: { $ne: session?.user?.id } },
