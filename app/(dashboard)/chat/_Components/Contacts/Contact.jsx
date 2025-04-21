@@ -20,18 +20,16 @@ const Contact = ({
   isgroup,
   select,
   setSelect,
-  
 }) => {
-  const { setToUser, setMessageNotification } = useContext(Context);
+  const { setToUser, setMessageNotification, setConnectedRefetch } = useContext(Context);
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
 
   async function deletechat() {
-    console.log("DEleting");
     await deleteChat(userchatid);
-    console.log("DEleted");
-    setMessageNotification((m) => !m);
+    setConnectedRefetch((t)=>!t)
+    
   }
   async function selectchat() {
     setSelect((t) => !t);
@@ -64,29 +62,39 @@ const Contact = ({
           });
         }}
       >
-        {check && <input type="checkbox" className={styles.check} onClick={(e)=>{
-          e.stopPropagation()
-        }} onChange={(e)=>{
+        {check && (
+          <input
+            type="checkbox"
+            className={styles.check}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              e.stopPropagation();
 
-          e.stopPropagation();
-          
-          console.log("conn",connections)
-          
-          if(e.target.checked){
-            setContacts((c)=>[...c,{connections:connections,isgroup:true,channelid:channelid}])
-          }
-          else{
-            console.log("contacts",contacts)
-              let filtered = contacts.filter((e)=>{
-                console.log(e)
-                return e.channelid!=channelid;  
-              })
-              console.log("filtered",filtered)
-              setContacts(filtered)
-          }
-          
-        
-        }}/>}
+              console.log("conn", connections);
+
+              if (e.target.checked) {
+                setContacts((c) => [
+                  ...c,
+                  {
+                    connections: connections,
+                    isgroup: true,
+                    channelid: channelid,
+                  },
+                ]);
+              } else {
+                console.log("contacts", contacts);
+                let filtered = contacts.filter((e) => {
+                  console.log(e);
+                  return e.channelid != channelid;
+                });
+                console.log("filtered", filtered);
+                setContacts(filtered);
+              }
+            }}
+          />
+        )}
         <img src={image} alt="profile" className={styles.profilepic} />
         <div className={styles.detailbox}>
           <div>
@@ -94,32 +102,17 @@ const Contact = ({
             <p className={styles.email}>{email}</p>
           </div>
 
-          {!check &&
-            (select ? (
-              <input
-                type="checkbox"
-                style={{ transform: "scale(1.3)" }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              />
-            ) : (
-              <VscKebabVertical
-                ref={dropPointerRef}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOptions(!options);
-                }}
-              />
-            ))}
+          <VscKebabVertical
+            ref={dropPointerRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOptions(!options);
+            }}
+          />
+
           {options && (
             <div ref={dropRef} className={styles.dropdowncontainer}>
-              <Dropdown
-                options={[
-                  { name: "select", action: selectchat },
-                  { name: "delete", action: deletechat },
-                ]}
-              />
+              <Dropdown options={[{ name: "delete", action: deletechat }]} />
             </div>
           )}
         </div>
@@ -140,59 +133,57 @@ const Contact = ({
           });
         }}
       >
-        {check && <input type="checkbox" className={styles.check}  onClick={(e)=>{
-          e.stopPropagation()
-        }} onChange={(e)=>{
-          e.stopPropagation();
-        
-          console.log("conn",connections)
-          
-          if(e.target.checked){
-            setContacts((c)=>[...c,{connections:connections,isgroup:false,channelid:channelid}])
-          }
-          else{
-            console.log("contacts",contacts)
-              let filtered = contacts.filter((e)=>{
-                console.log(e)
-                return e.channelid!=channelid;  
-              })
-              console.log("filtered",filtered)
-              setContacts(filtered)
-          }
-          
-        }}/>}
+        {check && (
+          <input
+            type="checkbox"
+            className={styles.check}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e) => {
+              e.stopPropagation();
+
+              console.log("conn", connections);
+
+              if (e.target.checked) {
+                setContacts((c) => [
+                  ...c,
+                  {
+                    connections: connections,
+                    isgroup: false,
+                    channelid: channelid,
+                  },
+                ]);
+              } else {
+                console.log("contacts", contacts);
+                let filtered = contacts.filter((e) => {
+                  console.log(e);
+                  return e.channelid != channelid;
+                });
+                console.log("filtered", filtered);
+                setContacts(filtered);
+              }
+            }}
+          />
+        )}
         <img src={image} alt="profile" className={styles.profilepic} />
         <div className={styles.detailbox}>
           <div>
             <p className={styles.name}>{name}</p>
             <p className={styles.email}>{email}</p>
           </div>
-          {!check &&
-            (select ? (
-              <input
-                type="checkbox"
-                style={{ transform: "scale(1.3)" }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              />
-            ) : (
-              <VscKebabVertical
-                ref={dropPointerRef}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setOptions(!options);
-                }}
-              />
-            ))}
+
+          <VscKebabVertical
+            ref={dropPointerRef}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOptions(!options);
+            }}
+          />
+
           {options && (
             <div ref={dropRef} className={styles.dropdowncontainer}>
-              <Dropdown
-                options={[
-                  { name: "select", action: selectchat },
-                  { name: "delete", action: deletechat },
-                ]}
-              />
+              <Dropdown options={[{ name: "delete", action: deletechat }]} />
             </div>
           )}
         </div>

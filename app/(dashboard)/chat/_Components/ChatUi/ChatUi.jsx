@@ -119,7 +119,7 @@ export default function Chat({ setChatPage }) {
                 ></StorageLayout>
               </div>
               <button
-                className={styles.sendstoragebutton}
+                className={styles.send}
                 onClick={async () => {
                   setShowStorage(false);
                   setSending(true);
@@ -145,6 +145,12 @@ export default function Chat({ setChatPage }) {
               >
                 {" "}
                 Send
+              </button>
+              <button className={styles.cancel} onClick={()=>{
+                setShowStorage(false);
+                setSelectedStorageFiles([])
+              }}>
+                Cancel
               </button>
             </div>
           </Popup>

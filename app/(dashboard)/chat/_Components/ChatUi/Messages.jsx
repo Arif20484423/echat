@@ -83,7 +83,7 @@ const Messages = () => {
               />
             </div>
             <button
-              className={styles.forwardbutton}
+              className={styles.send}
               onClick={async () => {
                 setForwarding(true)
                 await forwardMessage(selected, contacts, user.id);
@@ -96,6 +96,13 @@ const Messages = () => {
               disabled={forwarding}
             >
               {forwarding?"Forwarding":"Forward"}
+            </button>
+            <button className={styles.cancel} onClick={()=>{
+              setSelected([])
+              setForward(false)
+              setContacts([])
+            }}>
+              Cancel
             </button>
           </div>
         </Popup>
@@ -142,6 +149,7 @@ const Messages = () => {
                           name: "Forward",
                           action: () => {
                             setMenuDrop(false);
+                            setSelectflag(false)
                             setForward(true);
                           },
                         },
