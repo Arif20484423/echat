@@ -22,6 +22,7 @@ const Messages = () => {
     messageNotification,
     setMessageNotification,
     setConnectedRefetch,
+    socket
   } = useContext(Context);
 
   const [forwarding, setForwarding] = useState(false);
@@ -43,24 +44,24 @@ const Messages = () => {
       })
         .then((d) => d.json())
         .then((d) => {
-          console.log(d.data);
+          // console.log(d.data);
           setMessages(d.data);
         });
     }
   }, [messageNotification, user, toUser]);
-  useEffect(() => {
-    if (messageNotification && messageNotification.from) {
-      if (!toUser) {
-        // refetch contacts
-        setConnectedRefetch((t) => !t);
-      } else {
-        if (messageNotification.from !== toUser.id) {
-          // refetch contacts
-          setConnectedRefetch((t) => !t);
-        }
-      }
-    }
-  }, [messageNotification]);
+  // useEffect(() => {
+  //   if (messageNotification && messageNotification.from) {
+  //     if (!toUser) {
+  //       // refetch contacts
+  //       setConnectedRefetch((t) => !t);
+  //     } else {
+  //       if (messageNotification.from !== toUser.id) {
+  //         // refetch contacts
+  //         setConnectedRefetch((t) => !t);
+  //       }
+  //     }
+  //   }
+  // }, [messageNotification]);
 
   // useEffect(()=>{
   //   alert("op")
@@ -83,19 +84,46 @@ const Messages = () => {
               />
             </div>
             <button
-              className={styles.forwardbutton}
+              className={styles.send}
               onClick={async () => {
-                setForwarding(true)
+                setForwarding(true);
                 await forwardMessage(selected, contacts, user.id);
-                setForwarding(false)
+                setForwarding(false);
+                const emitUsers = [];
+                console.log(contacts)
+                for (let i = 0; i < contacts.length; i++) {
+                  let tousers = [];
+                  for (let j = 0; j < contacts[i].connections.length; j++) {
+                    tousers.push(contacts[i].connections[j].user._id);
+                  }
+                  emitUsers.push({
+                    channelid: contacts[i].channelid,
+                    users: tousers,
+                  });
+                }
                 setContacts([]);
                 setSelected([]);
                 setForward(false);
-                setSelectflag(false)
+                setSelectflag(false);
+                
+                socket.emit("messagemultiple", {
+                  to: emitUsers,
+                  message: "new Message",
+                }); //mesagenotification to other to reload chats
               }}
               disabled={forwarding}
             >
-              {forwarding?"Forwarding":"Forward"}
+              {forwarding ? "Forwarding" : "Forward"}
+            </button>
+            <button
+              className={styles.cancel}
+              onClick={() => {
+                setSelected([]);
+                setForward(false);
+                setContacts([]);
+              }}
+            >
+              Cancel
             </button>
           </div>
         </Popup>
@@ -142,6 +170,7 @@ const Messages = () => {
                           name: "Forward",
                           action: () => {
                             setMenuDrop(false);
+                            setSelectflag(false);
                             setForward(true);
                           },
                         },

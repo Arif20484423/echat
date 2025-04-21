@@ -33,7 +33,7 @@ const Contacts = ({ setPage, selectedUsers, setSelectedUsers }) => {
         <input
           type="text"
           className={compStyles.input}
-          placeholder="Search contacts here"
+          placeholder="Search email"
           onChange={(e) => {
             setKey(e.target.value);
           }}

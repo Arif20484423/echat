@@ -259,7 +259,17 @@
     border-radius: 5px;
     color: white;
 }
-
+.cancel{
+    float: right;
+    margin-top: 10px;
+     padding: 10px 15px; 
+     margin-right: 10px;
+     background-color: red;
+     border: 0px;
+     border-radius: 5px;
+     color: white;
+ }
+ 
 .selectedmenu{
     position: absolute;
     right: 260px;

@@ -111,7 +111,15 @@ const FolderFiles = ({
               />
             </div>
             <button className={styles.send} onClick={send}>
-              send
+              Send
+            </button>
+            <button className={styles.cancel} onClick={()=>{
+              setSendFlag(false)
+              setContacts([])
+              setSelected([])
+              setSelectFlag(false)
+            }}>
+              Cancel
             </button>
           </div>
         </Popup>
@@ -120,6 +128,7 @@ const FolderFiles = ({
         <SelectedMenu
           setSelectFlag={setSelectFlag}
           send={() => {
+            setSelectFlag(false)
             setSendFlag(true);
           }}
           deleteMultiple={deleteMultiple}

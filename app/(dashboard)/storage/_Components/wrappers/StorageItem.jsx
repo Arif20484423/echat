@@ -99,15 +99,27 @@ const Item = ({
                       { name: "rename", action: rename },
                     ]
                   : [
-                      { name: "select", action: selectItem },
-                      { name: "send", action: ()=>{
-                        setDrop(false)
-                        sendItem()
-                      } },
-                      { name: "delete", action: ()=>{
-                        setDrop(false)
-                        deleteItem()
-                      } },
+                      {
+                        name: "select",
+                        action: () => {
+                          setDrop(false);
+                          selectItem();
+                        },
+                      },
+                      {
+                        name: "send",
+                        action: () => {
+                          setDrop(false);
+                          sendItem();
+                        },
+                      },
+                      {
+                        name: "delete",
+                        action: () => {
+                          setDrop(false);
+                          deleteItem();
+                        },
+                      },
                       { name: "rename", action: rename },
                     ]
               }
