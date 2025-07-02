@@ -57,7 +57,9 @@ const Contact = ({
       <div
         className={styles.contactbox}
         style={
+
           toUser && toUser.chatid == userchatid
+
             ? { backgroundColor: "var(--blueBorder)" }
             : {}
         }
@@ -157,6 +159,7 @@ const Contact = ({
         className={styles.contactbox}
         style={
           toUser && toUser.chatid == userchatid
+
             ? { backgroundColor: "var(--blueBorder)" }
             : {}
         }
