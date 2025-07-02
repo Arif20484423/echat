@@ -467,6 +467,7 @@ export async function forwardMessage(
             file: channelmessages[i].userfileid,
             time: new Date(),
           });
+          
 
           for (let k = 0; k < tousers[j].connections.length; k++) {
             let touserfile = await UserFile.findOne({

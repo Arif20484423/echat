@@ -28,7 +28,7 @@ const FolderFiles = ({
   check,
   setChecked,
 }) => {
-  const { user } = useContext(Context);
+  const { user, socket } = useContext(Context);
   // console.log("userin ",user)
   const [folders, setFolders] = useState(null);
   const [files, setFiles] = useState(null);
@@ -44,9 +44,25 @@ const FolderFiles = ({
     }
     await sendMedia(files, contacts, user.id);
     setSendFlag(false);
+    const emitUsers = [];
+    console.log(contacts);
+    for (let i = 0; i < contacts.length; i++) {
+      let tousers = [];
+      for (let j = 0; j < contacts[i].connections.length; j++) {
+        tousers.push(contacts[i].connections[j].user._id);
+      }
+      emitUsers.push({
+        channelid: contacts[i].channelid,
+        users: tousers,
+      });
+    }
     setContacts([]);
     setSelectFlag(false);
     setSelected([]);
+    socket.emit("messagemultiple", {
+      to: emitUsers,
+      message: "new Message",
+    }); //mesagenotification to other to reload chats
   }
   async function deleteMultiple() {
     let userFiles = [];
@@ -118,6 +134,7 @@ const FolderFiles = ({
               setContacts([])
               setSelected([])
               setSelectFlag(false)
+              
             }}>
               Cancel
             </button>
