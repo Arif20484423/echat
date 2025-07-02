@@ -14,7 +14,7 @@ const Contacts = ({ check, setContacts, contacts }) => {
   const [currentToUser,setCurrentToUser] = useState(null);
   const [select, setSelect] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch } =
+  const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch , socket } =
     useContext(Context);
   useEffect(() => {
     console.log("REfetching cont")
@@ -66,6 +66,7 @@ const Contacts = ({ check, setContacts, contacts }) => {
         />
         <IoIosSearch className={styles.searchbutton} size={20} />
       </div>
+      
       <div className={styles.contacts}>
         {filtered.map((e, i) => {
           if (e.isgroup) {
