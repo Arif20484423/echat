@@ -28,7 +28,7 @@ export default function Chat({ setChatPage }) {
   const [showStorage, setShowStorage] = useState(false);
   const [loadingFiles,setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
-  const { toUser,toUser2, user, setMessageNotification, socket } = useContext(Context);
+  const { toUser,toUser2, user, setMessageNotification, socket, messages, setMessages } = useContext(Context);
 
 
   async function getFileLink(file) {
@@ -105,7 +105,9 @@ export default function Chat({ setChatPage }) {
           router.replace(res.url);
         }
         const d = await res.json();
-        setMessageNotification((m) => !m); //mesagenotification to self to reload chats
+        console.log("Append", d);
+        // setMessageNotification((m) => !m); //mesagenotification to self to reload chats
+        setMessages((m)=>[...m,d.userNewMessages[0]])
         setSelectedFiles([]);
         const emitUsers=[]
         emitUsers.push(toUser.id)
@@ -375,10 +377,10 @@ export default function Chat({ setChatPage }) {
             className={compStyles.input}
             style={{ width: "80%" }}
             placeholder="your message here"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
+            // value={message}
+            // onChange={(e) => {
+            //   setMessage(e.target.value);
+            // }}
           />
 
           {sending ? (

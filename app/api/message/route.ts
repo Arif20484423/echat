@@ -10,12 +10,7 @@ export async function POST(req:NextRequest) {
         const formData= await req.formData();
         console.log(formData.getAll("files"))
         const res=await addMessage(formData);
-        if(res?.success){
-            return NextResponse.json({"success":true});
-        }
-        else{
-            return NextResponse.json({"success":false});
-        }
+        return NextResponse.json(res);
         
         
     }

@@ -22,6 +22,8 @@ const Messages = () => {
     messageNotification,
     setMessageNotification,
     setConnectedRefetch,
+    messages,
+    setMessages,
     socket
   } = useContext(Context);
 
@@ -32,7 +34,6 @@ const Messages = () => {
   const [menuDrop, setMenuDrop] = useState(false);
   const menuRef = useRef(null);
   const [forward, setForward] = useState(false);
-  const [messages, setMessages] = useState([]);
 
   const ref = useRef(null);
   useEffect(() => {

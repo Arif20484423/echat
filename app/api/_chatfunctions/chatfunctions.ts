@@ -50,18 +50,21 @@ export async function createChannel(user: String, toUser: String) {
 }
 
 export async function createUserMessage(
-  user: String,
+  user: any,
   channel: String,
   message: any,
   file: any,
   folder: String
 ) {
+  let userfile = null;
   if (file != null) {
     //fetching user folder
     const userFolder = await getUserFolder(user, folder);
 
     // saving file to user in upload or received folder as to be saved
-    file = await getUserFileId(file.file, file.filename, user, userFolder);
+    console.log("CHECK1")
+    userfile = await getUserFile(file._id, file.name, user._id, userFolder);
+    console.log("CHECK2");
   }
 
   // creating channelmessage for user with channel assigining message and file
@@ -69,16 +72,32 @@ export async function createUserMessage(
     user: user,
     channel: channel,
     message: message._id,
-    file: file,
+    file: userfile?userfile._id:null,
     time: new Date(),
   });
-  channelMessage.message=message;
-  console.log("ChANELMASG", channelMessage)
+ 
+
+  
+
+  // channelMessage.message=message;
+  // channelMessage.message.user2 = user;
+  // channelMessage.file= userfile;
+  // console.log("ChANELMASG", channelMessage)
   // Contact if deleted at users side it should be resumed once new message comes in
   await Channel.updateOne(
     { user: user, channelid: channel },
     { deleted: false, lastMessage: new Date() }
   );
+  let ret:any = {};
+  ret={...channelMessage._doc}
+  ret.message={...message._doc}
+  ret.message.user={...user}
+  if(userfile){
+    ret.file={...userfile._doc}
+    ret.file.file=file;
+  }
+  return ret;
+
 }
 
 export async function addMessage(formData: FormData) {
@@ -86,15 +105,15 @@ export async function addMessage(formData: FormData) {
 
   
   const channel = formData.get("channel") as string;
-  const user = formData.get("user") as string;
-  const touser = formData.get("touser") as string;
+  const user = JSON.parse(formData.get("user") as any);
+  const touser = JSON.parse(formData.get("touser") as any);
   const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
     process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
   ).toString();
   const message = new Message({
     message: ciphertext,
-    user: user,
+    user: user._id,
     time: new Date(),
   });
   await message.save();
@@ -105,17 +124,20 @@ export async function addMessage(formData: FormData) {
   if (formData.getAll("files").length > 0) {
     const fileUpload = await getFileIdByLink(formData.getAll("files")[0]);
     if (fileUpload.success) {
-      file = fileUpload;
+      file = fileUpload.file;
     } else {
       return fileUpload;
     }
   }
 
   //adding to user
-  await createUserMessage(user, channel, message, file, "upload");
+  
+  const userNewMessages = [];
+    userNewMessages.push(await createUserMessage(user, channel, message, file, "upload"));
 
   //adding to other users
-  await createUserMessage(touser, channel, message, file, "received");
+  const toUserNewMessages = [];
+  toUserNewMessages.push(await createUserMessage(touser, channel, message, file, "received"));
 
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
@@ -145,14 +167,16 @@ export async function addMessage(formData: FormData) {
     }
 
     //adding to user
-    await createUserMessage(user, channel, message, file, "upload");
+    userNewMessages.push(await createUserMessage(user, channel, message, file, "upload"));
 
     //adding to other users
-    await createUserMessage(touser, channel, message, file, "received");
+    toUserNewMessages.push(await createUserMessage(touser, channel, message, file, "received"));
   }
   return {
-    success: true,
+    success: false,
     message: "message sent successfully",
+    userNewMessages,
+    toUserNewMessages
   };
 }
 export async function addMessageGroup(formData: FormData) {
@@ -341,9 +365,7 @@ export async function getFileIdByLink(file: any) {
     console.log("File saved", f);
     return {
       success: true,
-      file: f._id,
-      filename: file.name,
-      link: file.link,
+      file: f
     };
   } catch (error) {
     return {
@@ -413,7 +435,7 @@ export async function getFileLink(formData: FormData) {
     };
   }
 }
-export async function getUserFileId(
+export async function getUserFile(
   fileid: String,
   filename: String,
   user: String,
@@ -426,7 +448,7 @@ export async function getUserFileId(
     time: new Date(),
     folder: folder,
   });
-  return userFile._id;
+  return userFile;
 }
 export async function getUserFolder(user: String, foldername: String) {
   // fetching folder
