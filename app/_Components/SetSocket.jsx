@@ -18,12 +18,11 @@ const SetSocket = () => {
 
           sock.on("connect", () => {
             console.log("Connected");
+            sock.emit("join_room", { room: data.user._id });
           });
           sock.on("disconnect", () => {
             console.log("Disconnected");
           });
-
-          sock.emit("join_room", { room: data.user._id });
           sock.on("message", (data) => {
             // messagenotification to reload chat and connected as needed
             setMessageNotification(data);

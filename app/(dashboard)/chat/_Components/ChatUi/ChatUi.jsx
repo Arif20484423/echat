@@ -90,23 +90,17 @@ export default function Chat({ setChatPage }) {
         }); //mesagenotification to other to reload chats
       } else {
         const formData = new FormData();
-        
-       
         formData.append("message", message);
-        console.log("File adding")
         for(let i=0;i<selectedFiles.length;i++){
           formData.append("files", JSON.stringify(selectedFiles[i]));
         }
-        console.log("File added")
         formData.append("channel", toUser.channelid);
-        formData.append("user", user.id);
-        formData.append("touser", toUser2.connections[0].user._id);
-        console.log("Sending req");
+        formData.append("user", JSON.stringify(user));
+        formData.append("touser", JSON.stringify(toUser2.connections[0].user));
         const res = await fetch("/api/message", {
           method: "POST",
           body: formData,
-        });
-        console.log("responded");
+        });        
         if (res.redirected) {
           router.replace(res.url);
         }

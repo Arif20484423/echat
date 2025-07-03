@@ -52,7 +52,7 @@ export async function createChannel(user: String, toUser: String) {
 export async function createUserMessage(
   user: String,
   channel: String,
-  message: String,
+  message: any,
   file: any,
   folder: String
 ) {
@@ -68,10 +68,12 @@ export async function createUserMessage(
   const channelMessage = await ChannelMessage.create({
     user: user,
     channel: channel,
-    message: message,
+    message: message._id,
     file: file,
     time: new Date(),
   });
+  channelMessage.message=message;
+  console.log("ChANELMASG", channelMessage)
   // Contact if deleted at users side it should be resumed once new message comes in
   await Channel.updateOne(
     { user: user, channelid: channel },
@@ -82,7 +84,7 @@ export async function createUserMessage(
 export async function addMessage(formData: FormData) {
   // creating message
 
-  let message = null;
+  
   const channel = formData.get("channel") as string;
   const user = formData.get("user") as string;
   const touser = formData.get("touser") as string;
@@ -90,13 +92,13 @@ export async function addMessage(formData: FormData) {
     formData.get("message"),
     process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
   ).toString();
-  const msg = new Message({
+  const message = new Message({
     message: ciphertext,
     user: user,
     time: new Date(),
   });
-  await msg.save();
-  message = msg.id;
+  await message.save();
+  
 
   // creating file
   let file = null;
@@ -119,18 +121,18 @@ export async function addMessage(formData: FormData) {
   for (let i = 1; i < formData.getAll("files").length; i++) {
     // creating free message with user to know user of the file for current channelmessage
     // console.log("a");
-    let message = null;
+    
     const ciphertext = cryptojs.AES.encrypt(
       "",
       process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
     ).toString();
-    const msg = new Message({
+    const message = new Message({
       message: ciphertext,
       user: user,
       time: new Date(),
     });
-    await msg.save();
-    message = msg.id;
+    await message.save();
+    
 
     // creating file
     let file = null;
@@ -158,18 +160,18 @@ export async function addMessageGroup(formData: FormData) {
   const user = formData.get("user") as string;
   const channel = formData.get("channelid") as string;
   const tousers = formData.getAll("toUsers") as string[];
-  let message = null;
+  
   const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
     process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
   ).toString();
-  const msg = new Message({
+  const message = new Message({
     message: ciphertext,
     user: user,
     time: new Date(),
   });
-  await msg.save();
-  message = msg.id;
+  await message.save();
+  
 
   // creating file
   let file = null;
@@ -193,18 +195,18 @@ export async function addMessageGroup(formData: FormData) {
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
     // creating free message with user to know user of the file for current channelmessage
-    let message = null;
+    
     const ciphertext = cryptojs.AES.encrypt(
       "",
       process.env.NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
     ).toString();
-    const msg = new Message({
+    const message = new Message({
       message: ciphertext,
       user: user,
       time: new Date(),
     });
-    await msg.save();
-    message = msg.id;
+    await message.save();
+
 
     // creating file
     let file = null;

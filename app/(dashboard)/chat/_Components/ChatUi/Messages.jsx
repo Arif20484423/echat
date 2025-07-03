@@ -44,7 +44,7 @@ const Messages = () => {
       })
         .then((d) => d.json())
         .then((d) => {
-          // console.log("Messages ",d.data);
+          console.log("Messages ",d.data);
           setMessages(d.data);
         });
     }
