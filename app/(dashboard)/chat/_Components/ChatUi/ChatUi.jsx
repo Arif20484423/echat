@@ -14,6 +14,7 @@ import Popup from "@/app/_UIComponents/Popup";
 import { Context } from "@/app/_context/NoteContext";
 import { useRouter } from "next/navigation";
 import { sendStorageMedia } from "@/lib/actions/chatActions";
+import { supabase } from "@/app/_Components/SupabaseClient";
 export default function Chat({ setChatPage }) {
   const router = useRouter();
   const [message, setMessage] = useState("");
@@ -25,8 +26,32 @@ export default function Chat({ setChatPage }) {
   const [selectedStorageFiles, setSelectedStorageFiles] = useState([]);
   const [storageDrop, setStorageDrop] = useState(false);
   const [showStorage, setShowStorage] = useState(false);
+  const [loadingFiles,setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
   const { toUser,toUser2, user, setMessageNotification, socket } = useContext(Context);
+
+
+  async function getFileLink(file) {
+    let imagelink = null;
+    const imageid = Math.random() * 1000000;
+    // uploading file to supabase
+    const { data, error } = await supabase.storage
+      .from("echat public")
+      .upload("public/" + imageid, file);
+    imagelink =
+      "https://lpbdnkbvpijcinjhkwjl.supabase.co/storage/v1/object/public/echat%20public/public/" +
+      imageid;
+    if (data) {
+      return {
+        success: true,
+        link: imagelink,
+      };
+    } else {
+      return {
+        success: false,
+      };
+    }
+  }
 
   async function sendMessage() {
     if (message != "") {
@@ -40,7 +65,7 @@ export default function Chat({ setChatPage }) {
         // console.log("ChannelUSERS ",data)
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
-          formData.append("files", selectedFiles[i].file);
+          formData.append("files", JSON.stringify(selectedFiles[i]));
         }
         for (let i = 0; i < toUser2.connections.length; i++) {
           formData.append("toUsers", toUser2.connections[i].user._id);
@@ -65,18 +90,23 @@ export default function Chat({ setChatPage }) {
         }); //mesagenotification to other to reload chats
       } else {
         const formData = new FormData();
-        for (let i = 0; i < selectedFiles.length; i++) {
-          formData.append("files", selectedFiles[i].file);
-        }
-        if (message.length > 0) formData.append("message", message);
         
+       
+        formData.append("message", message);
+        console.log("File adding")
+        for(let i=0;i<selectedFiles.length;i++){
+          formData.append("files", JSON.stringify(selectedFiles[i]));
+        }
+        console.log("File added")
         formData.append("channel", toUser.channelid);
         formData.append("user", user.id);
         formData.append("touser", toUser2.connections[0].user._id);
+        console.log("Sending req");
         const res = await fetch("/api/message", {
           method: "POST",
           body: formData,
         });
+        console.log("responded");
         if (res.redirected) {
           router.replace(res.url);
         }
@@ -149,7 +179,7 @@ export default function Chat({ setChatPage }) {
                   setSelectedStorageFiles([]);
                   setSending(false);
                   socket.emit("message", {
-                    from:toUser.channelid,
+                    from: toUser.channelid,
                     to: data.data,
                     message: "new Message",
                   }); //mesagenotification to other to reload chats
@@ -196,6 +226,12 @@ export default function Chat({ setChatPage }) {
         <Messages />
         <div className={styles.messagebox}>
           <div className={styles.selectedfiles}>
+            {loadingFiles && (
+              <div style={{ margin: "20px" }}>
+                <img src="imageloader.gif" alt="hag" width="40px" />
+              </div>
+            )}
+
             {selectedFiles.length > 0 && (
               <svg
                 onClick={() => {
@@ -222,11 +258,13 @@ export default function Chat({ setChatPage }) {
               );
             })}
           </div>
+
           <input
             type="file"
             className={styles.file}
             ref={fileref}
             onChange={async (e) => {
+              setLoadingFiles(true);
               selectedFiles = [];
               // console.log(fileref.current.files);
 
@@ -234,15 +272,19 @@ export default function Chat({ setChatPage }) {
                 const f = fileref.current.files[i];
                 const details = f.type.split("/");
                 const type = details[0];
-                const ext = details[1];
+                const extension = details[1];
+                const name = f.name;
+                const { link } = await getFileLink(f);
+
                 selectedFiles.push({
-                  link: window.URL.createObjectURL(f),
-                  type: type,
-                  extension: ext,
-                  file: fileref.current.files[i],
+                  name,
+                  type,
+                  extension,
+                  link,
                 });
               }
               fileref.current.value = "";
+              setLoadingFiles(false)
               setSelectedFiles(() => selectedFiles);
             }}
             multiple

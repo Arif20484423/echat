@@ -75,7 +75,7 @@ export async function createUserMessage(
   // Contact if deleted at users side it should be resumed once new message comes in
   await Channel.updateOne(
     { user: user, channelid: channel },
-    { deleted: false, lastMessage: new Date()}
+    { deleted: false, lastMessage: new Date() }
   );
 }
 
@@ -101,7 +101,7 @@ export async function addMessage(formData: FormData) {
   // creating file
   let file = null;
   if (formData.getAll("files").length > 0) {
-    const fileUpload = await getFileId(formData.getAll("files")[0] as File);
+    const fileUpload = await getFileIdByLink(formData.getAll("files")[0]);
     if (fileUpload.success) {
       file = fileUpload;
     } else {
@@ -118,7 +118,7 @@ export async function addMessage(formData: FormData) {
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
     // creating free message with user to know user of the file for current channelmessage
-    console.log("a");
+    // console.log("a");
     let message = null;
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -135,7 +135,7 @@ export async function addMessage(formData: FormData) {
     // creating file
     let file = null;
 
-    const fileUpload = await getFileId(formData.getAll("files")[i] as File);
+    const fileUpload = await getFileIdByLink(formData.getAll("files")[i]);
     if (fileUpload.success) {
       file = fileUpload;
     } else {
@@ -174,7 +174,7 @@ export async function addMessageGroup(formData: FormData) {
   // creating file
   let file = null;
   if (formData.getAll("files").length > 0) {
-    const fileUpload = await getFileId(formData.getAll("files")[0] as File);
+    const fileUpload = await getFileIdByLink(formData.getAll("files")[0]);
     if (fileUpload.success) {
       file = fileUpload;
     } else {
@@ -209,7 +209,7 @@ export async function addMessageGroup(formData: FormData) {
     // creating file
     let file = null;
 
-    const fileUpload = await getFileId(formData.getAll("files")[i] as File);
+    const fileUpload = await getFileIdByLink(formData.getAll("files")[i]);
     if (fileUpload.success) {
       file = fileUpload;
     } else {
@@ -265,7 +265,7 @@ export async function createGroupChannel(formData: FormData) {
     user: user,
     starttime: new Date(),
     isgroup: true,
-     lastMessage: new Date(),
+    lastMessage: new Date(),
     lastSeen: new Date(),
   });
   user1.channelid = user1._id;
@@ -282,24 +282,22 @@ export async function createGroupChannel(formData: FormData) {
     });
     await toUser.save();
   }
-  let fileUpload=null;
-  
-  if(formData.get("image")!="undefined"){
+  let fileUpload = null;
+
+  if (formData.get("image") != "undefined") {
     fileUpload = await getFileId(formData.get("image") as File);
-    
   }
-  
-  
+
   // if (!fileUpload.success) {
   //   return fileUpload;
   // }
   // adding group details associated to this specific group channel
-  
+
   const group = await Group.create({
     channel: user1._id,
     name: name,
     description: description,
-    image: fileUpload?fileUpload.file:null,
+    image: fileUpload ? fileUpload.file : null,
   });
   return { success: true };
 }
@@ -321,6 +319,38 @@ export async function deleteForEveryoneMesssageGroup(
   //delete media implementation left
 }
 
+export async function getFileIdByLink(file: any) {
+  // used
+  // extracting file type details
+
+  //creating file except the file link
+  console.log(file);
+  console.log("FIle", JSON.parse(file));
+  file = JSON.parse(file);
+  try {
+    const f = new Files({
+      name: file.name,
+      time: new Date(),
+      type: file.type,
+      extension: file.extension,
+      file: file.link,
+    });
+    await f.save();
+    console.log("File saved", f);
+    return {
+      success: true,
+      file: f._id,
+      filename: file.name,
+      link: file.link,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Some error occured uploading file",
+      error: error,
+    };
+  }
+}
 export async function getFileId(file: File) {
   // used
   // extracting file type details
