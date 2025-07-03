@@ -19,14 +19,14 @@ const ChatProfile = ({ setChatPage }) => {
         body: JSON.stringify({ channelid: toUser.channelid }),
       });
       mem= await mem.json()
-      console.log(mem.data)
+      // console.log(mem.data)
       setMembers(mem.data)
       const res = await fetch("/api/channel/files", {
         method: "POST",
         body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
       });
       const data = await res.json();
-      console.log(data.data);
+      // console.log(data.data);
       setFiles(() => data.data);
       setLoading(false)
     }

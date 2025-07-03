@@ -7,7 +7,7 @@ const Forward = ({selectedmsg,setForward}) => {
     const {user, toUser}= useContext(Context);
     const [tousers,setToUsers]= useState([]);
     const [contacts,setContacts]= useState(null);
-    console.log(selectedmsg)
+    // console.log(selectedmsg)
 useEffect(()=>{
     fetch('/api/connectedcontacts').then((d)=>d.json()).then((d)=>setContacts(d.data));
 },[])
@@ -21,7 +21,7 @@ useEffect(()=>{
             </div>
         })}
         <button onClick={()=>{
-            console.log(tousers)
+            // console.log(tousers)
             forwardMessage(selectedmsg,tousers,user.id)
             setForward((f)=>!f)
         }}>send</button>

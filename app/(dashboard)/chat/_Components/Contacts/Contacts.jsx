@@ -14,29 +14,35 @@ const Contacts = ({ check, setContacts, contacts }) => {
   const [currentToUser,setCurrentToUser] = useState(null);
   const [select, setSelect] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch , socket } =
+  const { setToUser, toUser2,setToUser2, toUser, connectedRefetch, setConnectedRefetch , socket } =
     useContext(Context);
+
+  function selectContact(data){
+    setToUser2(data)
+    console.log("TOUSER",data);
+  }
   useEffect(() => {
-    console.log("REfetching cont")
+    // console.log("REfetching cont")
     fetch("/api/connections")
       .then(async (d) => {
-        console.log("res", d);
+        // console.log("res", d);
         const res = await d.json();
         return res;
       })
       .then((d) => {
+
         setConnected(d.data);
         setFiltered(d.data);
         setLoading(false);
-        // console.log(d.data);
+        // console.log("contacts ",d.data);
         if (toUser == null && sessionStorage.getItem("toUser")) {
           setToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
           setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
         }
         setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
-        console.log("REfetchcont")
+        // console.log("REfetchcont")
       });
-    console.log("REfetched cont")
+    // console.log("REfetched cont")
   }, [connectedRefetch,toUser]);
 
   useEffect(() => {
@@ -47,7 +53,7 @@ const Contacts = ({ check, setContacts, contacts }) => {
         return e.connections[0].user.name.substring(0, filter.length) == filter;
       }
     });
-    // console.log(fil)
+    // // console.log(fil)
     setFiltered(fil);
   }, [filter]);
   if (loading) {
@@ -88,9 +94,12 @@ const Contacts = ({ check, setContacts, contacts }) => {
                 description={e.group[0].description}
                 channelid={e.channelid}
                 connections={e.connections}
-                image={e.group[0].image.file}
+                image={e.group[0].image ? e.group[0].image.file : ""}
                 lastSeen={e.lastSeen}
                 lastMessage={e.lastMessage}
+                onClick={() => {
+                  selectContact(e);
+                }}
               />
             );
           } else {
@@ -114,6 +123,9 @@ const Contacts = ({ check, setContacts, contacts }) => {
                 image={e.connections[0].user.image}
                 lastSeen={e.lastSeen}
                 lastMessage={e.lastMessage}
+                onClick={()=>{
+                  selectContact(e)
+                }}
               />
             );
           }

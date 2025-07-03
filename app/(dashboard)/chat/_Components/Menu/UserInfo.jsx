@@ -26,7 +26,7 @@ const UserInfo = ({ setUserinfo }) => {
     fetch("/api/user")
       .then((d) => d.json())
       .then((d) => {
-        console.log(d);
+        // console.log(d);
         setName(d.user.name);
         setDesc(d.user.description);
         setImage(d.user.image)

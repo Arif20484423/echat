@@ -18,15 +18,15 @@ const Contact = ({id,name,email,image,setPage,selectedUsers,setSelectedUsers}) =
             <input type="checkbox" onClick={(e)=>{
               if(e.target.checked){
                 selectedUsers.push(id);
-                console.log(selectedUsers)
+                // console.log(selectedUsers)
                 setSelectedUsers(()=>selectedUsers)
-                console.log(selectedUsers)
+                // console.log(selectedUsers)
               }
               else{
                 selectedUsers=selectedUsers.filter((e)=>e!=id);
-                console.log(selectedUsers)
+                // console.log(selectedUsers)
                 setSelectedUsers(()=>selectedUsers)
-                console.log(selectedUsers)
+                // console.log(selectedUsers)
               }
             }} style={{"transform":"scale(1.3)"}}/>
             </div>

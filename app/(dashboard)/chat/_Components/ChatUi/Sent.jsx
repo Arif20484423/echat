@@ -69,7 +69,7 @@ const Sent = ({
       );
       setMessageNotification((m) => !m);
       for (let i = 0; i < d.data.length; i++) {
-        console.log(d.data[i]);
+        // console.log(d.data[i]);
         socket.emit("delete", { to: d.data[i], message: "message deleted" }); //mesagenotification to other to reload chats
       }
     } else {

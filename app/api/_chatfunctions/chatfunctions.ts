@@ -282,17 +282,24 @@ export async function createGroupChannel(formData: FormData) {
     });
     await toUser.save();
   }
-  console.log(formData.get("image"));
-  const fileUpload = await getFileId(formData.get("image") as File);
-  if (!fileUpload.success) {
-    return fileUpload;
+  let fileUpload=null;
+  
+  if(formData.get("image")!="undefined"){
+    fileUpload = await getFileId(formData.get("image") as File);
+    
   }
+  
+  
+  // if (!fileUpload.success) {
+  //   return fileUpload;
+  // }
   // adding group details associated to this specific group channel
+  
   const group = await Group.create({
     channel: user1._id,
     name: name,
     description: description,
-    image: fileUpload.file,
+    image: fileUpload?fileUpload.file:null,
   });
   return { success: true };
 }

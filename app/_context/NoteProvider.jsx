@@ -9,6 +9,7 @@ export default function NoteProvider({
   const [socket, setSocket] = useState(null);
   const [messageNotification, setMessageNotification] = useState(false);
   const [toUser, setToUser] = useState(null);
+  const [toUser2, setToUser2] = useState(null);
   const [user, setUser] = useState(null);
   const [connectedRefetch, setConnectedRefetch] = useState(true);
 
@@ -35,6 +36,8 @@ export default function NoteProvider({
         setMessageNotification,
         toUser,
         setToUser,
+        toUser2,
+        setToUser2,
         user,
         setUser,
         connectedRefetch,

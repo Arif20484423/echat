@@ -35,7 +35,7 @@ const CreateGroup = ({setShowConnected}) => {
             setName(e.target.value)
         }} />
         <button onClick={async ()=>{
-            console.log(groupMembers)
+            // console.log(groupMembers)
             // creating group
             const channel=await createGroupChannel(user.id,groupMembers,name)
             setToUser({isgroup:true,channelid:channel,email:name})

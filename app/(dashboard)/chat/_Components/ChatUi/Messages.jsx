@@ -44,7 +44,7 @@ const Messages = () => {
       })
         .then((d) => d.json())
         .then((d) => {
-          // console.log(d.data);
+          // console.log("Messages ",d.data);
           setMessages(d.data);
         });
     }
@@ -68,7 +68,7 @@ const Messages = () => {
   //   ref.current.scrollTop=ref.current.scrollHeight;
   // },[])
   useEffect(() => {
-    console.log(selected);
+    // console.log(selected);
   }, [selected]);
 
   return (
@@ -90,7 +90,7 @@ const Messages = () => {
                 await forwardMessage(selected, contacts, user.id);
                 setForwarding(false);
                 const emitUsers = [];
-                console.log(contacts)
+                // console.log(contacts)
                 for (let i = 0; i < contacts.length; i++) {
                   let tousers = [];
                   for (let j = 0; j < contacts[i].connections.length; j++) {
@@ -350,7 +350,7 @@ const Messages = () => {
                                     setMessageNotification(e._id);
                                   });
                               } else {
-                                console.log("other");
+                                // console.log("other");
                                 await deleteForEveryoneMesssage(
                                   e._id, // deleting this specific message instance (at the users side user channel message will be deleted)
                                   e.channel, // other members for which the message will be deleted via channel and message id help

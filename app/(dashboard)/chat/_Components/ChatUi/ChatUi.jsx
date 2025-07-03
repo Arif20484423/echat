@@ -37,6 +37,7 @@ export default function Chat({ setChatPage }) {
           body: JSON.stringify({ user: user.id, channelid: toUser.channelid }),
         });
         const data = await res.json();
+        console.log("ChannelUSERS ",data)
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
           formData.append("files", selectedFiles[i].file);
@@ -94,16 +95,16 @@ export default function Chat({ setChatPage }) {
   }
 
   useEffect(() => {
-    console.log("cecnl");
-    console.log("touser", sessionStorage.getItem("toUser"));
+    // console.log("cecnl");
+    // console.log("touser", sessionStorage.getItem("toUser"));
     if (!sessionStorage.getItem("toUser")) {
-      console.log("euhwui");
-      console.log("client", true);
+      // console.log("euhwui");
+      // console.log("client", true);
       setClient(true);
     }
   }, []);
   useEffect(() => {
-    console.log(selectedStorageFiles);
+    // console.log(selectedStorageFiles);
   }, [selectedStorageFiles]);
 
   if (toUser == null) {
@@ -137,7 +138,7 @@ export default function Chat({ setChatPage }) {
                     }),
                   });
                   const data = await res.json();
-                  console.log(data.data);
+                  // console.log(data.data);
                   await sendStorageMedia(
                     selectedStorageFiles,
                     toUser.channelid,
@@ -227,7 +228,7 @@ export default function Chat({ setChatPage }) {
             ref={fileref}
             onChange={async (e) => {
               selectedFiles = [];
-              console.log(fileref.current.files);
+              // console.log(fileref.current.files);
 
               for (let i = 0; i < fileref.current.files.length; i++) {
                 const f = fileref.current.files[i];
@@ -330,7 +331,7 @@ export default function Chat({ setChatPage }) {
             onKeyUp={async (e) => {
               if (e.key == "Enter") {
                 setSending(true);
-                await sendMessage();
+                sendMessage();
                 setSending(false);
                 setMessage(() => "");
               }

@@ -16,7 +16,7 @@ const GroupInfo = ({users,setPage}) => {
     const imageRef= useRef(null);
     async function handleClick(){
         const formData = new FormData();
-        console.log(imageRef.current.file)
+        // console.log(imageRef.current.file)
         formData.append("image",imageRef.current.files[0])
         formData.append("user",user.id)
         formData.append("name",name);
@@ -24,18 +24,18 @@ const GroupInfo = ({users,setPage}) => {
         for(let i=0;i<users.length;i++){
             formData.append("toUsers",users[i]);
         }
-        console.log("send")
+        // console.log("send")
         const res= await fetch("/api/group/channel",{
             method:"POST",
             body:formData
         })
-        console.log("retruned")
+        // console.log("retruned")
         if(res.redirected){
             router.replace(res.url);
         }
-        console.log("json fetch")
+        // console.log("json fetch")
         const d = await res.json();
-        console.log(d)
+        // console.log(d)
         if(d.success){
             setPage(()=>1);
         }
