@@ -26,24 +26,24 @@ export default function Chat({ setChatPage }) {
   const [storageDrop, setStorageDrop] = useState(false);
   const [showStorage, setShowStorage] = useState(false);
   const storageRef = useRef(null);
-  const { toUser, user, setMessageNotification, socket } = useContext(Context);
+  const { toUser,toUser2, user, setMessageNotification, socket } = useContext(Context);
 
   async function sendMessage() {
     if (message != "") {
-      if (toUser.isgroup) {
+      if (toUser2.isgroup) {
         //for group adding different method to add messages
-        const res = await fetch("/api/channel/users", {
-          method: "POST",
-          body: JSON.stringify({ user: user.id, channelid: toUser.channelid }),
-        });
-        const data = await res.json();
-        console.log("ChannelUSERS ",data)
+        // const res = await fetch("/api/channel/users", {
+        //   method: "POST",
+        //   body: JSON.stringify({ user: user.id, channelid: toUser.channelid }),
+        // });
+        // const data = await res.json();
+        // console.log("ChannelUSERS ",data)
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
           formData.append("files", selectedFiles[i].file);
         }
-        for (let i = 0; i < data.data.length; i++) {
-          formData.append("toUsers", data.data[i]);
+        for (let i = 0; i < toUser2.connections.length; i++) {
+          formData.append("toUsers", toUser2.connections[i].user._id);
         }
         if (message.length > 0) formData.append("message", message);
         formData.append("user", user.id);
@@ -69,10 +69,10 @@ export default function Chat({ setChatPage }) {
           formData.append("files", selectedFiles[i].file);
         }
         if (message.length > 0) formData.append("message", message);
-
+        
         formData.append("channel", toUser.channelid);
         formData.append("user", user.id);
-        formData.append("touser", toUser.id);
+        formData.append("touser", toUser2.connections[0].user._id);
         const res = await fetch("/api/message", {
           method: "POST",
           body: formData,
@@ -331,7 +331,7 @@ export default function Chat({ setChatPage }) {
             onKeyUp={async (e) => {
               if (e.key == "Enter") {
                 setSending(true);
-                sendMessage();
+                await sendMessage();
                 setSending(false);
                 setMessage(() => "");
               }
