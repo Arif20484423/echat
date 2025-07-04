@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { Context } from "../_context/NoteContext";
 import { io } from "socket.io-client";
 const SetSocket = () => {
-  const { setSocket, socket, setMessageNotification,toUser,setConnectedRefetch } = useContext(Context);
+  const { setSocket, socket, setMessageNotification,toUser,setConnectedRefetch, messages, setMessages } = useContext(Context);
   // component for connecting and setting up socket
 
   useEffect(() => {
@@ -25,15 +25,15 @@ const SetSocket = () => {
           });
           sock.on("message", (data) => {
             // messagenotification to reload chat and connected as needed
-            setMessageNotification(data);
-            if(toUser){
-              if(data.from!=toUser.channelid){
-                setConnectedRefetch((t)=>!t)  
-              }
-            }
-            else{
-              setConnectedRefetch((t)=>!t)
-            }
+            setMessages((m)=>[...m,...data.message])
+            // if(toUser){
+            //   if(data.from!=toUser.channelid){
+            //     setConnectedRefetch((t)=>!t)  
+            //   }
+            // }
+            // else{
+            //   setConnectedRefetch((t)=>!t)
+            // }
           });
           sock.on("delete", (data) => {
             // messagenotification to reload chat and connected as needed

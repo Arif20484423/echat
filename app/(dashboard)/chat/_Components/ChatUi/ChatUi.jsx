@@ -17,7 +17,7 @@ import { sendStorageMedia } from "@/lib/actions/chatActions";
 import { supabase } from "@/app/_Components/SupabaseClient";
 export default function Chat({ setChatPage }) {
   const router = useRouter();
-  const [message, setMessage] = useState("");
+  const messageRef = useRef(null);
   const [sending, setSending] = useState(false);
   const [client, setClient] = useState(false);
   let [selectedFiles, setSelectedFiles] = useState([]);
@@ -54,6 +54,7 @@ export default function Chat({ setChatPage }) {
   }
 
   async function sendMessage() {
+    const message = messageRef.current.value;
     if (message != "") {
       if (toUser2.isgroup) {
         //for group adding different method to add messages
@@ -63,31 +64,44 @@ export default function Chat({ setChatPage }) {
         // });
         // const data = await res.json();
         // console.log("ChannelUSERS ",data)
+        console.log(1);
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
           formData.append("files", JSON.stringify(selectedFiles[i]));
         }
+        console.log(2);
+        const data=[];
         for (let i = 0; i < toUser2.connections.length; i++) {
-          formData.append("toUsers", toUser2.connections[i].user._id);
+          formData.append("toUsers", JSON.stringify(toUser2.connections[i].user));
+          data.push(toUser2.connections[i].user._id)
         }
-        if (message.length > 0) formData.append("message", message);
-        formData.append("user", user.id);
+        console.log(3);
+        formData.append("message", message);
+        formData.append("user", JSON.stringify(user));
         formData.append("channelid", toUser.channelid);
-        const resmessage = await fetch("/api/group/message", {
+        console.log(4);
+        const res = await fetch("/api/group/message", {
           method: "POST",
           body: formData,
         });
-        if (resmessage.redirected) {
-          router.replace(resmessage.url);
+        console.log(5);
+        if (res.redirected) {
+          router.replace(res.url);
         }
-
-        setMessageNotification((f) => !f); //mesagenotification to self to reload chats
+        console.log(6);
+        const d = await res.json()
+        console.log("Apppend ",d.newMessages);
+        setMessages((m)=>[...m,...d.newMessages[user._id]])
+        console.log(8);
         setSelectedFiles([]);
-        socket.emit("message", {
-          from: toUser.channelid,
-          to: data.data,
-          message: message,
-        }); //mesagenotification to other to reload chats
+        for(let i=0;i<data.length;i++){
+          socket.emit("message", {
+            from: toUser.channelid,
+            to: data[i],
+            message: d.newMessages[data[i]],
+          }); 
+        }
+        
       } else {
         const formData = new FormData();
         formData.append("message", message);
@@ -107,14 +121,14 @@ export default function Chat({ setChatPage }) {
         const d = await res.json();
         console.log("Append", d);
         // setMessageNotification((m) => !m); //mesagenotification to self to reload chats
-        setMessages((m)=>[...m,d.userNewMessages[0]])
+        setMessages((m)=>[...m,...d.newMessages[user._id]]) 
         setSelectedFiles([]);
         const emitUsers=[]
         emitUsers.push(toUser.id)
         socket.emit("message", {
           from: toUser.channelid,
           to: emitUsers,
-          message: message,
+          message: d.newMessages[toUser2.connections[0].user._id],
         }); //mesagenotification to other to reload chats
       }
     }
@@ -291,7 +305,7 @@ export default function Chat({ setChatPage }) {
               <Picker
                 data={data}
                 onEmojiSelect={(e) => {
-                  setMessage((m) => m + e.native);
+                  messageRef.current.value=messageRef.current.value+e.native;
                 }}
                 emojiSize={30}
                 theme="light"
@@ -366,21 +380,19 @@ export default function Chat({ setChatPage }) {
           </div>
           <input
             type="text"
+            ref={messageRef}
             onKeyUp={async (e) => {
               if (e.key == "Enter") {
                 setSending(true);
                 await sendMessage();
                 setSending(false);
-                setMessage(() => "");
+                messageRef.current.value="";
               }
             }}
             className={compStyles.input}
             style={{ width: "80%" }}
             placeholder="your message here"
-            // value={message}
-            // onChange={(e) => {
-            //   setMessage(e.target.value);
-            // }}
+            
           />
 
           {sending ? (
@@ -391,7 +403,7 @@ export default function Chat({ setChatPage }) {
                 setSending(true);
                 await sendMessage();
                 setSending(false);
-                setMessage(() => "");
+                
               }}
               xmlns="http://www.w3.org/2000/svg"
               height="24px"

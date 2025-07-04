@@ -8,6 +8,7 @@ import {
   UserFile,
   UserFolder,
 } from "@/models/models";
+import { AnyARecord } from "dns";
 var cryptojs = require("crypto-js");
 
 export async function createChannel(user: String, toUser: String) {
@@ -57,7 +58,7 @@ export async function createUserMessage(
   folder: String
 ) {
   let userfile = null;
-  if (file != null) {
+  if (file ) {
     //fetching user folder
     const userFolder = await getUserFolder(user, folder);
 
@@ -90,12 +91,12 @@ export async function createUserMessage(
   );
   let ret:any = {};
   ret={...channelMessage._doc}
-  ret.message={...message._doc}
-  ret.message.user={...user}
+  ret.message={...message}
   if(userfile){
     ret.file={...userfile._doc}
     ret.file.file=file;
   }
+  console.log(ret)
   return ret;
 
 }
@@ -131,13 +132,16 @@ export async function addMessage(formData: FormData) {
   }
 
   //adding to user
+  const msg = {...message._doc};
+  msg.user=user;
+  const newMessages:any={};
+  newMessages[user._id]=[];
   
-  const userNewMessages = [];
-    userNewMessages.push(await createUserMessage(user, channel, message, file, "upload"));
+    newMessages[user._id].push(await createUserMessage(user, channel, msg, file, "upload"));
 
   //adding to other users
-  const toUserNewMessages = [];
-  toUserNewMessages.push(await createUserMessage(touser, channel, message, file, "received"));
+  newMessages[touser._id]=[]
+  newMessages[touser._id].push(await createUserMessage(touser, channel, msg, file, "received"));
 
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
@@ -161,29 +165,36 @@ export async function addMessage(formData: FormData) {
 
     const fileUpload = await getFileIdByLink(formData.getAll("files")[i]);
     if (fileUpload.success) {
-      file = fileUpload;
+      file = fileUpload.file;
     } else {
       return fileUpload;
     }
-
+    const msg = { ...message._doc };
+    msg.user = user;
     //adding to user
-    userNewMessages.push(await createUserMessage(user, channel, message, file, "upload"));
+    newMessages[user._id].push(
+      await createUserMessage(user, channel, msg, file, "upload")
+    );
 
     //adding to other users
-    toUserNewMessages.push(await createUserMessage(touser, channel, message, file, "received"));
+    newMessages[touser._id].push(
+      await createUserMessage(touser, channel, msg, file, "received")
+    );
   }
   return {
     success: false,
     message: "message sent successfully",
-    userNewMessages,
-    toUserNewMessages
+    newMessages
   };
 }
 export async function addMessageGroup(formData: FormData) {
   // creating message
-  const user = formData.get("user") as string;
+  const user = JSON.parse(formData.get("user") as any);
   const channel = formData.get("channelid") as string;
-  const tousers = formData.getAll("toUsers") as string[];
+  const tousers:any = [];
+  for( let i=0;i<formData.getAll("toUsers").length;i++){
+    tousers.push(JSON.parse(formData.getAll("toUsers")[i] as any));
+  }
   
   const ciphertext = cryptojs.AES.encrypt(
     formData.get("message"),
@@ -202,18 +213,23 @@ export async function addMessageGroup(formData: FormData) {
   if (formData.getAll("files").length > 0) {
     const fileUpload = await getFileIdByLink(formData.getAll("files")[0]);
     if (fileUpload.success) {
-      file = fileUpload;
+      file = fileUpload.file;
     } else {
       return fileUpload;
     }
   }
 
+  const msg = { ...message._doc };
+  msg.user = user;
   //adding to user
-  await createUserMessage(user, channel, message, file, "upload");
+  const newMessages:any={};
+  newMessages[user._id]=[]
+  newMessages[user._id].push(await createUserMessage(user, channel, msg, file, "upload"));
 
   //adding to other users
   for (let i = 0; i < tousers.length; i++) {
-    await createUserMessage(tousers[i], channel, message, file, "received");
+    newMessages[tousers[i]._id] = [];
+    newMessages[tousers[i]._id].push(await createUserMessage(tousers[i], channel, msg, file, "received"));
   }
 
   //if multiple files
@@ -237,21 +253,23 @@ export async function addMessageGroup(formData: FormData) {
 
     const fileUpload = await getFileIdByLink(formData.getAll("files")[i]);
     if (fileUpload.success) {
-      file = fileUpload;
+      file = fileUpload.file;
     } else {
       return fileUpload;
     }
 
+    const msg = { ...message._doc };
+    msg.user = user;
     //adding to user
-    await createUserMessage(user, channel, message, file, "upload");
+    newMessages[user._id].push(await createUserMessage(user, channel, msg, file, "upload"));
 
     //adding to other users
     for (let i = 0; i < tousers.length; i++) {
-      await createUserMessage(tousers[i], channel, message, file, "received");
+      newMessages[tousers[i]._id].push(await createUserMessage(tousers[i], channel, msg, file, "received"));
     }
   }
 
-  return { success: true };
+  return { success: true, newMessages };
 }
 
 export async function deleteMesssage(id: String) {
