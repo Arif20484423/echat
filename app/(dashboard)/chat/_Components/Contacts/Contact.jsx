@@ -7,8 +7,8 @@ import Dropdown from "@/app/_UIComponents/Dropdown";
 import { deleteChat } from "@/lib/actions/chatActions";
 const Contact = ({
   check,
-  setContacts,
-  contacts,
+  selectContact,
+  deselectContact,
   connections,
   name,
   email = "",
@@ -23,10 +23,16 @@ const Contact = ({
   setSelect,
   lastSeen,
   lastMessage,
-  onClick
+  onClick,
 }) => {
-  const { toUser, setToUser,toUser2, setMessageNotification, setConnectedRefetch, setConnected } =
-    useContext(Context);
+  const {
+    toUser,
+    setToUser,
+    toUser2,
+    setMessageNotification,
+    setConnectedRefetch,
+    setConnected,
+  } = useContext(Context);
   const [options, setOptions] = useState(false);
   const [newMwssage, setNewMessage] = useState(true);
   const dropRef = useRef(null);
@@ -108,22 +114,10 @@ const Contact = ({
               // console.log("conn", connections);
 
               if (e.target.checked) {
-                setContacts((c) => [
-                  ...c,
-                  {
-                    connections: connections,
-                    isgroup: true,
-                    channelid: channelid,
-                  },
-                ]);
+                selectContact()
               } else {
                 // console.log("contacts", contacts);
-                let filtered = contacts.filter((e) => {
-                  // console.log(e);
-                  return e.channelid != channelid;
-                });
-                // console.log("filtered", filtered);
-                setContacts(filtered);
+                deselectContact()
               }
             }}
           />
@@ -214,22 +208,10 @@ const Contact = ({
               // console.log("conn", connections);
 
               if (e.target.checked) {
-                setContacts((c) => [
-                  ...c,
-                  {
-                    connections: connections,
-                    isgroup: false,
-                    channelid: channelid,
-                  },
-                ]);
+                selectContact()
               } else {
                 // console.log("contacts", contacts);
-                let filtered = contacts.filter((e) => {
-                  // console.log(e);
-                  return e.channelid != channelid;
-                });
-                // console.log("filtered", filtered);
-                setContacts(filtered);
+                deselectContact()
               }
             }}
           />

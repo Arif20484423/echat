@@ -63,9 +63,9 @@ export async function createUserMessage(
     const userFolder = await getUserFolder(user, folder);
 
     // saving file to user in upload or received folder as to be saved
-    console.log("CHECK1")
+    // console.log("CHECK1")
     userfile = await getUserFile(file._id, file.name, user._id, userFolder);
-    console.log("CHECK2");
+    // console.log("CHECK2");
   }
 
   // creating channelmessage for user with channel assigining message and file
@@ -83,7 +83,7 @@ export async function createUserMessage(
   // channelMessage.message=message;
   // channelMessage.message.user2 = user;
   // channelMessage.file= userfile;
-  // console.log("ChANELMASG", channelMessage)
+  // // console.log("ChANELMASG", channelMessage)
   // Contact if deleted at users side it should be resumed once new message comes in
   const channelUpdate = { deleted: false, lastMessage: new Date() };
   await Channel.updateOne(
@@ -98,7 +98,7 @@ export async function createUserMessage(
     ret.file.file=file;
   }
   ret.channelupdate=channelUpdate;
-  console.log(ret)
+  // console.log(ret)
   return ret;
 
 }
@@ -148,7 +148,7 @@ export async function addMessage(formData: FormData) {
   //if multiple files
   for (let i = 1; i < formData.getAll("files").length; i++) {
     // creating free message with user to know user of the file for current channelmessage
-    // console.log("a");
+    // // console.log("a");
     
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -370,8 +370,8 @@ export async function getFileIdByLink(file: any) {
   // extracting file type details
 
   //creating file except the file link
-  console.log(file);
-  console.log("FIle", JSON.parse(file));
+  // console.log(file);
+  // console.log("FIle", JSON.parse(file));
   file = JSON.parse(file);
   try {
     const f = new Files({
@@ -382,7 +382,7 @@ export async function getFileIdByLink(file: any) {
       file: file.link,
     });
     await f.save();
-    console.log("File saved", f);
+    // console.log("File saved", f);
     return {
       success: true,
       file: f

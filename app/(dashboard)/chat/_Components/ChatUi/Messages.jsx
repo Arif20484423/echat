@@ -38,7 +38,7 @@ const Messages = () => {
 
   const ref = useRef(null);
   useEffect(() => {
-    console.log(toUser2)
+    // console.log(toUser2)
     if (toUser2 && user) {
       // fetching messages for current user and channel according to second user as it will contain channel info
       fetch("/api/messages", {
@@ -70,8 +70,10 @@ const Messages = () => {
   //   ref.current.scrollTop=ref.current.scrollHeight;
   // },[])
   useEffect(() => {
-    // console.log(selected);
-  }, [selected]);
+    console.log(selected);
+    console.log(contacts);
+
+  }, [selected,contacts]);
 
   return (
     <div className={styles.messages} ref={ref}>
@@ -89,7 +91,7 @@ const Messages = () => {
               className={styles.send}
               onClick={async () => {
                 setForwarding(true);
-                await forwardMessage(selected, contacts, user.id);
+                await forwardMessage(selected, contacts, user._id);
                 setForwarding(false);
                 const emitUsers = [];
                 // console.log(contacts)
@@ -218,8 +220,13 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                    
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -243,8 +250,13 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -270,8 +282,13 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -295,8 +312,13 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f)=> f._id!=e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}

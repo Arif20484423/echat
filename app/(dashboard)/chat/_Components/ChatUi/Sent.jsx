@@ -15,8 +15,8 @@ import { Context } from "@/app/_context/NoteContext";
 const Sent = ({
   selectflag,
   setSelectflag,
-  selected,
-  setSelected,
+  selectMessage,
+  deselectMessage,
   forward,
   setForward,
   username,
@@ -103,10 +103,7 @@ const Sent = ({
                 {
                   name: "Forward",
                   action: () => {
-                    setSelected((s) => [
-                      ...s,
-                      { id, messageid, userfileid, fileid },
-                    ]);
+                    selectMessage();
                     setOptions(false);
                     setForward(true);
                     setSelectflag(false);
@@ -125,20 +122,9 @@ const Sent = ({
           style={{ transform: "scale(1.3)" }}
           onChange={(e) => {
             if (e.target.checked) {
-              setSelected((s) => [
-                ...s,
-                {
-                  id: id,
-                  messageid: messageid,
-                  userfileid: userfileid,
-                  fileid: fileid,
-                },
-              ]);
+              selectMessage();
             } else {
-              const filtered = selected.filter((e) => {
-                return e.messageid != messageid;
-              });
-              setSelected(filtered);
+              deselectMessage()
             }
           }}
         />

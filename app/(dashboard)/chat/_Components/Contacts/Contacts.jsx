@@ -97,8 +97,12 @@ const Contacts = ({ check, setContacts, contacts }) => {
               <Contact
                 key={e._id}
                 check={check}
-                setContacts={setContacts}
-                contacts={contacts}
+                selectContact={() => {
+                  setContacts((c) => [...c, e]);
+                }}
+                deselectContact={() => {
+                  setContacts((c) => c.filter((ce)=>ce._id!=e._id));
+                }}
                 select={select}
                 setSelect={setSelect}
                 userchatid={e._id}
@@ -121,8 +125,12 @@ const Contacts = ({ check, setContacts, contacts }) => {
               <Contact
                 key={e._id}
                 check={check}
-                setContacts={setContacts}
-                contacts={contacts}
+                selectContact={() => {
+                  setContacts((c) => [...c, e]);
+                }}
+                deselectContact={() => {
+                  setContacts((c) => c.filter((ce) => ce._id != e._id));
+                }}
                 select={select}
                 setSelect={setSelect}
                 userchatid={e._id}
@@ -137,8 +145,8 @@ const Contacts = ({ check, setContacts, contacts }) => {
                 image={e.connections[0].user.image}
                 lastSeen={e.lastSeen}
                 lastMessage={e.lastMessage}
-                onClick={()=>{
-                  selectContact(e)
+                onClick={() => {
+                  selectContact(e);
                 }}
               />
             );
