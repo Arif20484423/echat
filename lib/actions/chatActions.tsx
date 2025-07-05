@@ -360,6 +360,21 @@ export async function getFileId(file: File) {
     };
   }
 }
+export async function getUserFile(
+  fileid: String,
+  filename: String,
+  user: String,
+  folder: String
+) {
+  const userFile = await UserFile.create({
+    user: user,
+    file: fileid,
+    name: filename,
+    time: new Date(),
+    folder: folder,
+  });
+  return userFile;
+}
 export async function getUserFileId(
   fileid: String,
   filename: String,
@@ -436,37 +451,54 @@ export async function checkUserFile(file: String, user: String) {
 export async function forwardMessage(
   channelmessages: any[],
   tousers: any[],
-  userid: String
+  user: any
 ) {
   const newMessages: any = {};
   for (let i = 0; i < channelmessages.length; i++) {
     const messagenew = await Message.create({
       message: channelmessages[i].message.message,
-      user: userid,
-      time: new Date(),
+      user: user._id,
+      time: new Date().toString(),
     });
     const messageid = messagenew._id;
-    
+
     // if(i==0){
-    //   newMessages[userid]=[];
+    //   newMessages[user._id]=[];
     // }
- 
+
     // console.log(channelmessages[i].id);
     for (let j = 0; j < tousers.length; j++) {
       let file = null;
 
       if (channelmessages[i].file) {
         const usermessage = await ChannelMessage.create({
-          user: userid,
+          user: user._id,
           channel: tousers[j].channelid,
           message: messageid,
           file: channelmessages[i].file._id,
-          time: new Date(),
+          time: new Date().toString(),
         });
-        const userNewMessage = {...usermessage._doc}
-        userNewMessage.message={...messagenew._doc};
-        userNewMessage.file = {...channelmessages[i].file};
-        console.log(userNewMessage);
+        const channelupdate = {
+          lastMessage: new Date().toString(),
+          deleted: false,
+          lastSeen: new Date().toString(),
+        };
+        await Channel.updateOne(
+          {
+            user: user._id,
+            channelid: tousers[j].channelid,
+          },
+          channelupdate
+        );
+        const userNewMessage = { ...usermessage._doc };
+        userNewMessage.message = { ...messagenew._doc };
+        userNewMessage.message.user = { ...user };
+        userNewMessage.file = { ...channelmessages[i].file };
+        userNewMessage.channelupdate = channelupdate;
+        if (i == 0) {
+          newMessages[user._id] = [];
+        }
+        newMessages[user._id].push(userNewMessage);
         for (let k = 0; k < tousers[j].connections.length; k++) {
           let touserfile = await UserFile.findOne({
             user: tousers[j].connections[k].user._id,
@@ -477,7 +509,7 @@ export async function forwardMessage(
               tousers[j].connections[k].user._id,
               "received"
             );
-            const touserfile = await getUserFileId(
+            const touserfile = await getUserFile(
               channelmessages[i].file.file._id,
               channelmessages[i].file.name,
               tousers[j].connections[k].user._id,
@@ -488,42 +520,98 @@ export async function forwardMessage(
             user: tousers[j].connections[k].user._id,
             channel: tousers[j].channelid,
             message: messageid,
-            file: touserfile,
-            time: new Date(),
+            file: touserfile._id,
+            time: new Date().toString(),
           });
+          const channelupdate = {
+            deleted: false,
+            lastMessage: new Date().toString(),
+          };
           await Channel.updateOne(
             {
               user: tousers[j].connections[k].user._id,
               channelid: tousers[j].channelid,
             },
-            { deleted: false, lastMessage: new Date() }
+            channelupdate
+          );
+          const touserNewMessage = { ...tousermessage._doc };
+          touserNewMessage.message = { ...messagenew._doc };
+          touserNewMessage.message.user = { ...user };
+          touserNewMessage.file = { ...touserfile._doc };
+          touserNewMessage.file.file = channelmessages[i].file.file;
+          touserNewMessage.channelupdate = channelupdate;
+          if (i == 0) {
+            if (!newMessages[tousers[j].connections[k].user._id])
+              newMessages[tousers[j].connections[k].user._id] = [];
+          }
+          newMessages[tousers[j].connections[k].user._id].push(
+            touserNewMessage
           );
         }
       } else {
         const usermessage = await ChannelMessage.create({
-          user: userid,
+          user: user._id,
           channel: tousers[j].channelid,
           message: messageid,
-          time: new Date(),
+          time: new Date().toString(),
         });
+        const channelupdate = {
+          lastMessage: new Date().toString(),
+          deleted: false,
+          lastSeen: new Date().toString(),
+        };
+        await Channel.updateOne(
+          {
+            user: user._id,
+            channelid: tousers[j].channelid,
+          },
+          channelupdate
+        );
+        const userNewMessage = { ...usermessage._doc };
+        userNewMessage.message = { ...messagenew._doc };
+        userNewMessage.message.user = { ...user };
+        userNewMessage.file = null;
+        userNewMessage.channelupdate = channelupdate;
+        if (i == 0) {
+          newMessages[user._id] = [];
+        }
+        newMessages[user._id].push(userNewMessage);
         for (let k = 0; k < tousers[j].connections?.length; k++) {
           const tousermessage = await ChannelMessage.create({
             user: tousers[j].connections[k].user._id,
             channel: tousers[j].channelid,
             message: messageid,
-            time: new Date(),
+            time: new Date().toString(),
           });
+          const channelupdate = {
+            deleted: false,
+            lastMessage: new Date().toString(),
+          };
           await Channel.updateOne(
             {
               user: tousers[j].connections[k].user._id,
               channelid: tousers[j].channelid,
             },
-            { deleted: false, lastMessage: new Date() }
+            channelupdate
+          );
+          const touserNewMessage = { ...tousermessage._doc };
+          touserNewMessage.message = { ...messagenew._doc };
+          touserNewMessage.message.user = { ...user };
+          touserNewMessage.file = null;
+          touserNewMessage.channelupdate = channelupdate;
+          if (i == 0) {
+            if (!newMessages[tousers[j].connections[k].user._id])
+              newMessages[tousers[j].connections[k].user._id] = [];
+          }
+          newMessages[tousers[j].connections[k].user._id].push(
+            touserNewMessage
           );
         }
       }
     }
   }
+  console.log("LAST POS", newMessages);
+  return { success: true, newMessages: JSON.stringify(newMessages) };
 }
 
 export async function sendStorageMedia(

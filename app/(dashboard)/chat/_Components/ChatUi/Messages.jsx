@@ -25,7 +25,8 @@ const Messages = () => {
     setConnectedRefetch,
     messages,
     setMessages,
-    socket
+    socket,
+    setConnected,
   } = useContext(Context);
 
   const [forwarding, setForwarding] = useState(false);
@@ -50,7 +51,7 @@ const Messages = () => {
           setMessages(d.data);
         });
     }
-  }, [messageNotification,toUser2,user]);
+  }, [messageNotification, toUser2, user]);
   // useEffect(() => {
   //   if (messageNotification && messageNotification.from) {
   //     if (!toUser) {
@@ -72,8 +73,7 @@ const Messages = () => {
   useEffect(() => {
     console.log(selected);
     console.log(contacts);
-
-  }, [selected,contacts]);
+  }, [selected, contacts]);
 
   return (
     <div className={styles.messages} ref={ref}>
@@ -91,29 +91,63 @@ const Messages = () => {
               className={styles.send}
               onClick={async () => {
                 setForwarding(true);
-                await forwardMessage(selected, contacts, user._id);
+                let { newMessages } = await forwardMessage(
+                  selected,
+                  contacts,
+                  user
+                );
                 setForwarding(false);
-                const emitUsers = [];
-                // console.log(contacts)
-                for (let i = 0; i < contacts.length; i++) {
-                  let tousers = [];
-                  for (let j = 0; j < contacts[i].connections.length; j++) {
-                    tousers.push(contacts[i].connections[j].user._id);
+                newMessages = JSON.parse(newMessages);
+                console.log(newMessages);
+                for (let i = 0; i < newMessages[user._id].length; i++) {
+                  if (newMessages[user._id][i].channel == toUser2.channelid) {
+                    setMessages((m) => [...m, newMessages[user._id][i]]);
+                    setConnected((t) =>
+                      t.map((e) => {
+                        if (e.channelid == newMessages[user._id][i].channel) {
+                          console.log(newMessages[user._id][i].channelupdate);
+                          e = {
+                            ...e,
+                            ...newMessages[user._id][i].channelupdate,
+                          };
+                        }
+                        return e;
+                      })
+                    );
+                  } else {
+                    setConnected((t) =>
+                      t.map((e) => {
+                        if (e.channelid == newMessages[user._id][i].channel) {
+                          console.log(newMessages[user._id][i].channelupdate);
+                          e = {
+                            ...e,
+                            ...newMessages[user._id][i].channelupdate,
+                          };
+                        }
+                        return e;
+                      })
+                    );
                   }
-                  emitUsers.push({
-                    channelid: contacts[i].channelid,
-                    users: tousers,
-                  });
                 }
+
+                for (let userid in newMessages) {
+                  if (userid != user._id) {
+                    for (let i = 0; i < newMessages[userid].length; i++) {
+                      socket.emit("message", {
+                        from: newMessages[userid][i].channel,
+                        to: userid,
+                        message: [newMessages[userid][i]],
+                      });
+                    }
+                  }
+                }
+
                 setContacts([]);
                 setSelected([]);
                 setForward(false);
                 setSelectflag(false);
-                
-                socket.emit("messagemultiple", {
-                  to: emitUsers,
-                  message: "new Message",
-                }); //mesagenotification to other to reload chats
+
+               
               }}
               disabled={forwarding}
             >
@@ -220,7 +254,6 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                    
                       selectMessage={() => {
                         setSelected((s) => [...s, e]);
                       }}
@@ -250,7 +283,6 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      
                       selectMessage={() => {
                         setSelected((s) => [...s, e]);
                       }}
@@ -282,7 +314,6 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      
                       selectMessage={() => {
                         setSelected((s) => [...s, e]);
                       }}
@@ -312,12 +343,11 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      
                       selectMessage={() => {
                         setSelected((s) => [...s, e]);
                       }}
                       deselectMessage={() => {
-                        setSelected((s) => s.filter((f)=> f._id!=e._id));
+                        setSelected((s) => s.filter((f) => f._id != e._id));
                       }}
                       forward={forward}
                       setForward={setForward}
