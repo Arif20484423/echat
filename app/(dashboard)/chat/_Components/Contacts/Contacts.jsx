@@ -8,14 +8,22 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import { Context } from "@/app/_context/NoteContext";
 const Contacts = ({ check, setContacts, contacts }) => {
   const [loading, setLoading] = useState(true);
-  const [connected, setConnected] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("");
   const [currentToUser,setCurrentToUser] = useState(null);
   const [select, setSelect] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const { setToUser, toUser2,setToUser2, toUser, connectedRefetch, setConnectedRefetch , socket } =
-    useContext(Context);
+  const {
+    setToUser,
+    toUser2,
+    setToUser2,
+    toUser,
+    connectedRefetch,
+    setConnectedRefetch,
+    connected,
+    setConnected,
+    socket,
+  } = useContext(Context);
 
   function selectContact(data){
     setToUser2(data)
@@ -30,22 +38,23 @@ const Contacts = ({ check, setContacts, contacts }) => {
         return res;
       })
       .then((d) => {
-
+        console.log("CONTACTS",d.data)
         setConnected(d.data);
         setFiltered(d.data);
         setLoading(false);
         // console.log("contacts ",d.data);
-        if (toUser == null && sessionStorage.getItem("toUser")) {
-          setToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
+        if (toUser2 == null && sessionStorage.getItem("toUser")) {
+          setToUser2(() => JSON.parse(sessionStorage.getItem("toUser")));
           setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
         }
         setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
         // console.log("REfetchcont")
       });
     // console.log("REfetched cont")
-  }, [connectedRefetch,toUser]);
+  }, [connectedRefetch]);
 
   useEffect(() => {
+    console.log("FILTERING")
     const fil = connected.filter((e) => {
       if (e.isgroup) {
         return e.group[0].name.substring(0, filter.length) == filter;
@@ -53,9 +62,14 @@ const Contacts = ({ check, setContacts, contacts }) => {
         return e.connections[0].user.name.substring(0, filter.length) == filter;
       }
     });
+    console.log("WHYYYYY",fil[0])
+    fil.sort((a,b)=>{
+      console.log("shvdajhdhk",a.lastMessage);
+      return new Date(b.lastMessage) - new Date(a.lastMessage);
+    })
     // // console.log(fil)
     setFiltered(fil);
-  }, [filter]);
+  }, [filter,connected]);
   if (loading) {
     return <LoadingSkeleton />;
   }

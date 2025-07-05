@@ -28,7 +28,7 @@ export default function Chat({ setChatPage }) {
   const [showStorage, setShowStorage] = useState(false);
   const [loadingFiles,setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
-  const { toUser,toUser2, user, setMessageNotification, socket, messages, setMessages } = useContext(Context);
+  const { toUser,toUser2, user, setMessageNotification, socket, messages, setMessages, setConnected } = useContext(Context);
 
 
   async function getFileLink(file) {
@@ -78,7 +78,7 @@ export default function Chat({ setChatPage }) {
         console.log(3);
         formData.append("message", message);
         formData.append("user", JSON.stringify(user));
-        formData.append("channelid", toUser.channelid);
+        formData.append("channelid", toUser2.channelid);
         console.log(4);
         const res = await fetch("/api/group/message", {
           method: "POST",
@@ -92,11 +92,26 @@ export default function Chat({ setChatPage }) {
         const d = await res.json()
         console.log("Apppend ",d.newMessages);
         setMessages((m)=>[...m,...d.newMessages[user._id]])
+        // console.log("NEW SELF", newMessage);
+        setConnected((t) =>
+          t.map((e) => {
+            if (e.channelid == toUser2.channelid) {
+              console.log(d.newMessages[user._id][d.newMessages[user._id].length-1].channelupdate);
+              e = {
+                ...e,
+                ...d.newMessages[user._id][d.newMessages[user._id].length - 1]
+                  .channelupdate,
+              };
+            }
+            return e;
+          })
+        );
         console.log(8);
         setSelectedFiles([]);
+        
         for(let i=0;i<data.length;i++){
           socket.emit("message", {
-            from: toUser.channelid,
+            from: toUser2.channelid,
             to: data[i],
             message: d.newMessages[data[i]],
           }); 
@@ -105,31 +120,53 @@ export default function Chat({ setChatPage }) {
       } else {
         const formData = new FormData();
         formData.append("message", message);
-        for(let i=0;i<selectedFiles.length;i++){
+        for (let i = 0; i < selectedFiles.length; i++) {
           formData.append("files", JSON.stringify(selectedFiles[i]));
         }
-        formData.append("channel", toUser.channelid);
+        formData.append("channel", toUser2.channelid);
         formData.append("user", JSON.stringify(user));
         formData.append("touser", JSON.stringify(toUser2.connections[0].user));
         const res = await fetch("/api/message", {
           method: "POST",
           body: formData,
-        });        
+        });
         if (res.redirected) {
           router.replace(res.url);
         }
         const d = await res.json();
         console.log("Append", d);
         // setMessageNotification((m) => !m); //mesagenotification to self to reload chats
-        setMessages((m)=>[...m,...d.newMessages[user._id]]) 
+        setMessages((m) => [...m, ...d.newMessages[user._id]]);
+        // console.log("NEW SELF", newMessage);
+        setConnected((t) =>
+          t.map((e) => {
+            if (e.channelid == toUser2.channelid) {
+              console.log(
+                d.newMessages[user._id][d.newMessages[user._id].length - 1]
+                  .channelupdate
+              );
+              e = {
+                ...e,
+                ...d.newMessages[user._id][d.newMessages[user._id].length - 1]
+                  .channelupdate,
+              };
+            }
+            return e;
+          })
+        );
         setSelectedFiles([]);
-        const emitUsers=[]
-        emitUsers.push(toUser.id)
+        const emitUsers = [];
+
+        emitUsers.push(toUser2.connections[0].user._id);
         socket.emit("message", {
-          from: toUser.channelid,
+          from: toUser2.channelid,
           to: emitUsers,
           message: d.newMessages[toUser2.connections[0].user._id],
         }); //mesagenotification to other to reload chats
+        console.log(
+          "RETRUINNG",
+          d.newMessages[user._id][d.newMessages[user._id].length - 1]
+        );
       }
     }
   }
@@ -147,7 +184,7 @@ export default function Chat({ setChatPage }) {
     // console.log(selectedStorageFiles);
   }, [selectedStorageFiles]);
 
-  if (toUser == null) {
+  if (toUser2 == null) {
     if (client) {
       return <></>;
     } else {
@@ -219,15 +256,25 @@ export default function Chat({ setChatPage }) {
         >
           <div className={styles.userinfo}>
             <img
-              src={toUser ? toUser.image : "/profile.jpg"}
+              src={
+                toUser2
+                  ? toUser2.isgroup
+                    ? toUser2.group[0].image
+                    : toUser2.connections[0].user.image
+                  : "/profile.jpg"
+              }
               alt="img"
               className={styles.userimage}
             />
             <div>
-              {toUser && (
+              {toUser2 && (
                 <>
-                  <p className={styles.name}>{toUser.name}</p>
-                  <p className={styles.desc}>{toUser.email}</p>
+                  <p className={styles.name}>
+                    {toUser2.isgroup?toUser2.group[0].name:toUser2.connections[0].user.name}
+                  </p>
+                  <p className={styles.desc}>
+                    {toUser2.isgroup?toUser2.group[0].email:toUser2.connections[0].user.email}
+                  </p>
                 </>
               )}
             </div>
@@ -294,7 +341,7 @@ export default function Chat({ setChatPage }) {
                 });
               }
               fileref.current.value = "";
-              setLoadingFiles(false)
+              setLoadingFiles(false);
               setSelectedFiles(() => selectedFiles);
             }}
             multiple
@@ -305,7 +352,8 @@ export default function Chat({ setChatPage }) {
               <Picker
                 data={data}
                 onEmojiSelect={(e) => {
-                  messageRef.current.value=messageRef.current.value+e.native;
+                  messageRef.current.value =
+                    messageRef.current.value + e.native;
                 }}
                 emojiSize={30}
                 theme="light"
@@ -386,13 +434,12 @@ export default function Chat({ setChatPage }) {
                 setSending(true);
                 await sendMessage();
                 setSending(false);
-                messageRef.current.value="";
+                messageRef.current.value = "";
               }
             }}
             className={compStyles.input}
             style={{ width: "80%" }}
             placeholder="your message here"
-            
           />
 
           {sending ? (
@@ -402,8 +449,8 @@ export default function Chat({ setChatPage }) {
               onClick={async () => {
                 setSending(true);
                 await sendMessage();
-                setSending(false);
                 
+                setSending(false);
               }}
               xmlns="http://www.w3.org/2000/svg"
               height="24px"

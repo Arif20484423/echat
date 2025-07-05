@@ -85,9 +85,10 @@ export async function createUserMessage(
   // channelMessage.file= userfile;
   // console.log("ChANELMASG", channelMessage)
   // Contact if deleted at users side it should be resumed once new message comes in
+  const channelUpdate = { deleted: false, lastMessage: new Date() };
   await Channel.updateOne(
     { user: user, channelid: channel },
-    { deleted: false, lastMessage: new Date() }
+    channelUpdate
   );
   let ret:any = {};
   ret={...channelMessage._doc}
@@ -96,6 +97,7 @@ export async function createUserMessage(
     ret.file={...userfile._doc}
     ret.file.file=file;
   }
+  ret.channelupdate=channelUpdate;
   console.log(ret)
   return ret;
 

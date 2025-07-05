@@ -6,7 +6,7 @@ import FileUi from "../Files/FileUi";
 import Skeleton from "./Skeleton"
 const ChatProfile = ({ setChatPage }) => {
   const [loading,setLoading] = useState(true)
-  const { toUser, user } = useContext(Context);
+  const { toUser2, user } = useContext(Context);
   const [files, setFiles] = useState([]);
   const [members,setMembers] = useState(null);
 
@@ -16,14 +16,14 @@ const ChatProfile = ({ setChatPage }) => {
     async function fun() {
       let mem = await fetch("/api/channel/users/details", {
         method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid }),
+        body: JSON.stringify({ channelid: toUser2.channelid }),
       });
       mem= await mem.json()
       // console.log(mem.data)
       setMembers(mem.data)
       const res = await fetch("/api/channel/files", {
         method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
+        body: JSON.stringify({ channelid: toUser2.channelid, user: user.id }),
       });
       const data = await res.json();
       // console.log(data.data);
@@ -31,7 +31,7 @@ const ChatProfile = ({ setChatPage }) => {
       setLoading(false)
     }
     fun();
-  }, [toUser]);
+  }, [toUser2]);
   if(loading){
     return <Skeleton></Skeleton>
   }
@@ -65,21 +65,22 @@ const ChatProfile = ({ setChatPage }) => {
         </div>
         <div className={styles.profile}>
           <img
-            src={toUser ? toUser.image : "/profile.jpg"}
+            src={toUser2 ? toUser.connections[0].user.image : "/profile.jpg"}
             alt="image"
             className={styles.profilepic}
           />
-          <h1>{toUser.name}</h1>
-          <p>{toUser.email}</p>
-          <p>{toUser.description}</p>
+          <h1>{toUser2.connections[0].user.name}</h1>
+          <p>{toUser2.connections[0].user.email}</p>
+          <p>{toUser2.connections[0].user.description}</p>
         </div>
 
-        <h3>Members</h3> 
+        <h3>Members</h3>
         <p>
-           {members &&  members.map((e)=>{
-              return (<span key={e._id} >{e.user.name}, </span>)
+          {members &&
+            members.map((e) => {
+              return <span key={e._id}>{e.user.name}, </span>;
             })}
-            </p>   
+        </p>
         <h3>Media</h3>
 
         <div className={styles.files}>

@@ -18,6 +18,7 @@ var cryptojs = require("crypto-js");
 const Messages = () => {
   const {
     toUser,
+    toUser2,
     user,
     messageNotification,
     setMessageNotification,
@@ -37,19 +38,19 @@ const Messages = () => {
 
   const ref = useRef(null);
   useEffect(() => {
-    if (user && toUser) {
+    console.log(toUser2)
+    if (toUser2 && user) {
       // fetching messages for current user and channel according to second user as it will contain channel info
       fetch("/api/messages", {
         method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
+        body: JSON.stringify({ channelid: toUser2.channelid, user: user._id }),
       })
         .then((d) => d.json())
         .then((d) => {
-          console.log("Messages ",d.data);
           setMessages(d.data);
         });
     }
-  }, [messageNotification, user, toUser]);
+  }, [messageNotification,toUser2,user]);
   // useEffect(() => {
   //   if (messageNotification && messageNotification.from) {
   //     if (!toUser) {

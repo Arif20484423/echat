@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Context } from "./NoteContext";
 
 export default function NoteProvider({ children }) {
@@ -11,20 +11,27 @@ export default function NoteProvider({ children }) {
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [connectedRefetch, setConnectedRefetch] = useState(true);
+  const [connected, setConnected] = useState([]);
+  const toUserRef = useRef(null);
 
   useEffect(() => {
     if (user) {
       sessionStorage.setItem("user", JSON.stringify(user));
     }
   }, [user]);
+  useEffect(()=>{
+    console.log(connected)
+  },[connected])
   useEffect(() => {
-    console.log("toUser", toUser);
+    toUserRef.current=toUser2;
+    console.log("REFRENCE ",toUserRef.current)
+    console.log("toUser", toUser2);
     console.log("user", user);
-    if (toUser) {
-      sessionStorage.setItem("toUser", JSON.stringify(toUser));
+    if (toUser2) {
+      sessionStorage.setItem("toUser", JSON.stringify(toUser2));
       console.log(JSON.parse(sessionStorage.getItem("toUser")));
     }
-  }, [toUser, user]);
+  }, [toUser, user,toUser2]);
   return (
     <Context.Provider
       value={{
@@ -35,6 +42,7 @@ export default function NoteProvider({ children }) {
         messageNotification,
         setMessageNotification,
         toUser,
+        toUserRef,
         setToUser,
         toUser2,
         setToUser2,
@@ -42,6 +50,8 @@ export default function NoteProvider({ children }) {
         setUser,
         connectedRefetch,
         setConnectedRefetch,
+        connected,
+        setConnected,
       }}
     >
       {children}

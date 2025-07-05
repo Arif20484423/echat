@@ -25,13 +25,12 @@ const Contact = ({
   lastMessage,
   onClick
 }) => {
-  const { toUser, setToUser, setMessageNotification, setConnectedRefetch } =
+  const { toUser, setToUser,toUser2, setMessageNotification, setConnectedRefetch, setConnected } =
     useContext(Context);
   const [options, setOptions] = useState(false);
   const [newMwssage, setNewMessage] = useState(true);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
-
   async function deletechat() {
     await deleteChat(userchatid);
     setConnectedRefetch((t) => !t);
@@ -58,29 +57,42 @@ const Contact = ({
       <div
         className={styles.contactbox}
         style={
-          toUser && toUser.chatid == userchatid
+          toUser2 && toUser2._id == userchatid
             ? { backgroundColor: "var(--blueBorder)" }
             : {}
         }
         onClick={async () => {
-          onClick();
           // console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
-          if (toUser && toUser.chatid) {
+          if (toUser2) {
             // console.log("setting");
-            await fetch("/api/channel/lastseen", {
+            fetch("/api/channel/lastseen", {
               method: "POST",
-              body: JSON.stringify({ id: toUser.chatid }),
+              body: JSON.stringify({ id: toUser2._id }),
+            }).then(() => {
+              console.log("changed last seen");
             });
+            setConnected((t) =>
+              t.map((e) => {
+                if (e.channelid == toUser2.channelid) {
+                  e = {
+                    ...e,
+                    lastSeen: new Date(),
+                  };
+                }
+                return e;
+              })
+            );
           }
+          onClick();
           // console.log("settedddddddddd");
-          setToUser({
-            isgroup: true,
-            channelid: channelid,
-            description: description,
-            name: name,
-            image: image,
-            chatid: userchatid,
-          });
+          // setToUser({
+          //   isgroup: true,
+          //   channelid: channelid,
+          //   description: description,
+          //   name: name,
+          //   image: image,
+          //   chatid: userchatid,
+          // });
         }}
       >
         {check && (
@@ -124,8 +136,8 @@ const Contact = ({
           </div>
 
           <div className={styles.options}>
-            {(!currentToUser || currentToUser.chatid != userchatid) &&
-              lastSeen < lastMessage && (
+            {(!toUser2 || toUser2._id != userchatid) &&
+              new Date(lastSeen) < new Date(lastMessage) && (
                 <div className={styles.notificationpoint}></div>
               )}
             <VscKebabVertical
@@ -150,30 +162,43 @@ const Contact = ({
       <div
         className={styles.contactbox}
         style={
-          toUser && toUser.chatid == userchatid
+          toUser2 && toUser2._id == userchatid
             ? { backgroundColor: "var(--blueBorder)" }
             : {}
         }
         onClick={async () => {
-          onClick()
           // console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
-          if (toUser && toUser.chatid) {
+          if (toUser2) {
             // console.log("setting");
-            await fetch("/api/channel/lastseen", {
+            fetch("/api/channel/lastseen", {
               method: "POST",
-              body: JSON.stringify({ id: toUser.chatid }),
+              body: JSON.stringify({ id: toUser2._id }),
+            }).then(() => {
+              console.log("Changed last seen");
             });
+            setConnected((t) =>
+              t.map((e) => {
+                if (e.channelid == toUser2.channelid) {
+                  e = {
+                    ...e,
+                    lastSeen: new Date(),
+                  };
+                }
+                return e;
+              })
+            );
           }
+          onClick();
           // console.log("settedddddddddd");
-          setToUser({
-            id: id,
-            email: email,
-            channelid: channelid,
-            description: description,
-            name: name,
-            image: image,
-            chatid: userchatid,
-          });
+          // setToUser({
+          //   id: id,
+          //   email: email,
+          //   channelid: channelid,
+          //   description: description,
+          //   name: name,
+          //   image: image,
+          //   chatid: userchatid,
+          // });
         }}
       >
         {check && (
@@ -217,8 +242,8 @@ const Contact = ({
           </div>
 
           <div className={styles.options}>
-            {(!currentToUser || currentToUser.chatid != userchatid) &&
-              lastSeen < lastMessage && (
+            {(!toUser2 || toUser2._id != userchatid) &&
+              new Date(lastSeen) < new Date(lastMessage) && (
                 <div className={styles.notificationpoint}></div>
               )}
             <VscKebabVertical
