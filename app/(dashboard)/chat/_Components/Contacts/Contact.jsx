@@ -9,32 +9,21 @@ const Contact = ({
   check,
   selectContact,
   deselectContact,
-  connections,
   name,
   email = "",
-  id = "",
   userchatid,
-  channelid,
-  description,
-  currentToUser,
   image = "",
   isgroup,
-  select,
-  setSelect,
   lastSeen,
   lastMessage,
   onClick,
 }) => {
   const {
-    toUser,
-    setToUser,
     toUser2,
-    setMessageNotification,
-    setConnectedRefetch,
+    setToUser2,
     setConnected,
   } = useContext(Context);
   const [options, setOptions] = useState(false);
-  const [newMwssage, setNewMessage] = useState(true);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
   async function deletechat() {
@@ -49,6 +38,10 @@ const Contact = ({
         return e;
       })
     );
+    if(userchatid==toUser2._id){
+      setToUser2(null);
+      sessionStorage.setItem("toUser",null)
+    }
     deleteChat(userchatid);
   }
   async function selectchat() {
