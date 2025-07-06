@@ -248,6 +248,12 @@ const FolderFiles = ({
                 selectFlag={selectFlag}
                 selected={selected}
                 setSelected={setSelected}
+                selectFile={() => {
+                  setChecked((c) => [...c, e]);
+                }}
+                deselectFile={() => {
+                  setChecked((c) => c.filter((ce)=>ce._id!=e._id)); 
+                }}
                 selectItem={() => {
                   setSelectFlag((t) => !t);
                 }}
@@ -261,7 +267,7 @@ const FolderFiles = ({
                 }}
                 sendItem={() => {
                   // alert("sshjb")
-                  setSelected((s) => [...s, { file: e.file, userfile: e._id }]);
+                  setChecked((c) => [...c, { file: e.file, userfile: e }]);
                   setSendFlag(true);
                 }}
               />

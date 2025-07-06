@@ -95,6 +95,7 @@ const FolderFiles = ({
   useEffect(() => {
     if (check) {
       setChecked(selected);
+      setSelectFlag(true);
     }
   }, [selected]);
   return (
@@ -179,6 +180,12 @@ const FolderFiles = ({
                   selectFlag={selectFlag}
                   selected={selected}
                   setSelected={setSelected}
+                  selectFile={() => {
+                    setChecked((c) => [...c, e]);
+                  }}
+                  deselectFile={() => {
+                    setChecked((c) => c.filter((ce) => ce._id != e._id));
+                  }}
                   selectItem={() => {
                     setSelectFlag((t) => !t);
                   }}

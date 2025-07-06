@@ -26,10 +26,18 @@ export default function Chat({ setChatPage }) {
   const [selectedStorageFiles, setSelectedStorageFiles] = useState([]);
   const [storageDrop, setStorageDrop] = useState(false);
   const [showStorage, setShowStorage] = useState(false);
-  const [loadingFiles,setLoadingFiles] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
-  const { toUser,toUser2, user, setMessageNotification, socket, messages, setMessages, setConnected } = useContext(Context);
-
+  const {
+    toUser,
+    toUser2,
+    user,
+    setMessageNotification,
+    socket,
+    messages,
+    setMessages,
+    setConnected,
+  } = useContext(Context);
 
   async function getFileLink(file) {
     let imagelink = null;
@@ -70,10 +78,13 @@ export default function Chat({ setChatPage }) {
           formData.append("files", JSON.stringify(selectedFiles[i]));
         }
         console.log(2);
-        const data=[];
+        const data = [];
         for (let i = 0; i < toUser2.connections.length; i++) {
-          formData.append("toUsers", JSON.stringify(toUser2.connections[i].user));
-          data.push(toUser2.connections[i].user._id)
+          formData.append(
+            "toUsers",
+            JSON.stringify(toUser2.connections[i].user)
+          );
+          data.push(toUser2.connections[i].user._id);
         }
         console.log(3);
         formData.append("message", message);
@@ -89,14 +100,17 @@ export default function Chat({ setChatPage }) {
           router.replace(res.url);
         }
         console.log(6);
-        const d = await res.json()
-        console.log("Apppend ",d.newMessages);
-        setMessages((m)=>[...m,...d.newMessages[user._id]])
+        const d = await res.json();
+        console.log("Apppend ", d.newMessages);
+        setMessages((m) => [...m, ...d.newMessages[user._id]]);
         // console.log("NEW SELF", newMessage);
         setConnected((t) =>
           t.map((e) => {
             if (e.channelid == toUser2.channelid) {
-              console.log(d.newMessages[user._id][d.newMessages[user._id].length-1].channelupdate);
+              console.log(
+                d.newMessages[user._id][d.newMessages[user._id].length - 1]
+                  .channelupdate
+              );
               e = {
                 ...e,
                 ...d.newMessages[user._id][d.newMessages[user._id].length - 1]
@@ -108,15 +122,14 @@ export default function Chat({ setChatPage }) {
         );
         console.log(8);
         setSelectedFiles([]);
-        
-        for(let i=0;i<data.length;i++){
+
+        for (let i = 0; i < data.length; i++) {
           socket.emit("message", {
             from: toUser2.channelid,
             to: data[i],
             message: d.newMessages[data[i]],
-          }); 
+          });
         }
-        
       } else {
         const formData = new FormData();
         formData.append("message", message);
@@ -181,7 +194,7 @@ export default function Chat({ setChatPage }) {
     }
   }, []);
   useEffect(() => {
-    // console.log(selectedStorageFiles);
+    console.log(selectedStorageFiles);
   }, [selectedStorageFiles]);
 
   if (toUser2 == null) {
@@ -207,29 +220,41 @@ export default function Chat({ setChatPage }) {
                 onClick={async () => {
                   setShowStorage(false);
                   setSending(true);
-                  const res = await fetch("/api/channel/users", {
-                    method: "POST",
-                    body: JSON.stringify({
-                      user: user.id,
-                      channelid: toUser.channelid,
-                    }),
-                  });
-                  const data = await res.json();
                   // console.log(data.data);
-                  await sendStorageMedia(
+                  let { newMessages } = await sendStorageMedia(
                     selectedStorageFiles,
-                    toUser.channelid,
-                    data.data,
-                    user.id
+                    toUser2,
+                    user
                   );
-                  setMessageNotification((t) => !t);
+                  newMessages = JSON.parse(newMessages);
+                  setMessages((m) => [...m, ...newMessages[user._id]]);
+                  setConnected((t) =>
+                    t.map((e) => {
+                      if (e.channelid == toUser2.channelid) {
+                        e = {
+                          ...e,
+                          ...newMessages[user._id][
+                            newMessages[user._id].length - 1
+                          ].channelupdate,
+                        };
+                      }
+                      return e;
+                    })
+                  );
+                  for (let i = 0; i < toUser2.connections.length; i++) {
+                    socket.emit("message", {
+                      from: toUser2.channelid,
+                      to: toUser2.connections[i].user._id,
+                      message: newMessages[toUser2.connections[i].user._id],
+                    });
+                  }
                   setSelectedStorageFiles([]);
                   setSending(false);
-                  socket.emit("message", {
-                    from: toUser.channelid,
-                    to: data.data,
-                    message: "new Message",
-                  }); //mesagenotification to other to reload chats
+                  // socket.emit("message", {
+                  //   from: toUser.channelid,
+                  //   to: data.data,
+                  //   message: "new Message",
+                  // }); //mesagenotification to other to reload chats
                 }}
               >
                 {" "}
@@ -270,10 +295,14 @@ export default function Chat({ setChatPage }) {
               {toUser2 && (
                 <>
                   <p className={styles.name}>
-                    {toUser2.isgroup?toUser2.group[0].name:toUser2.connections[0].user.name}
+                    {toUser2.isgroup
+                      ? toUser2.group[0].name
+                      : toUser2.connections[0].user.name}
                   </p>
                   <p className={styles.desc}>
-                    {toUser2.isgroup?toUser2.group[0].email:toUser2.connections[0].user.email}
+                    {toUser2.isgroup
+                      ? toUser2.group[0].email
+                      : toUser2.connections[0].user.email}
                   </p>
                 </>
               )}
@@ -449,7 +478,7 @@ export default function Chat({ setChatPage }) {
               onClick={async () => {
                 setSending(true);
                 await sendMessage();
-                
+
                 setSending(false);
               }}
               xmlns="http://www.w3.org/2000/svg"

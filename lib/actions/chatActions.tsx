@@ -615,13 +615,17 @@ export async function forwardMessage(
 }
 
 export async function sendStorageMedia(
-  files: { file: String; userfile: String }[],
-  channelid: String,
-  tousers: String[],
-  userid: String
+  userfiles: any,
+  tousers:any,
+  user:any
 ) {
-  console.log(tousers);
-  for (let i = 0; i < files.length; i++) {
+  // console.log(tousers);
+  const newMessages:any={}
+  newMessages[user._id]=[];
+  for(let i =0;i<tousers.connections.length;i++){
+    newMessages[tousers.connections[i].user._id] = [];
+  }
+  for (let i = 0; i < userfiles.length; i++) {
     let message = null;
     const ciphertext = cryptojs.AES.encrypt(
       "",
@@ -629,44 +633,67 @@ export async function sendStorageMedia(
     ).toString();
     const msg = new Message({
       message: ciphertext,
-      user: userid,
+      user: user._id,
       time: new Date(),
     });
     await msg.save();
     message = msg._id;
     const usermessage = await ChannelMessage.create({
-      user: userid,
-      channel: channelid,
+      user: user._id,
+      channel: tousers.channelid,
       message: message,
-      file: files[i].userfile,
+      file: userfiles[i]._id,
       time: new Date(),
     });
-    for (let j = 0; j < tousers.length; j++) {
+    const channelupdate={ lastMessage: new Date(), deleted: false, lastSeen:new Date() };
+    await Channel.updateOne(
+      { user: user._id, channelid: tousers.channelid },
+      channelupdate
+    );
+    let ret:any={};
+    ret={...usermessage._doc};
+    ret.message={...msg._doc}
+    ret.message.user={...user}
+    ret.file=userfiles[i];
+    ret.channelupdate=channelupdate;
+    newMessages[user._id].push(ret);
+
+    for (let j = 0; j < tousers.connections.length; j++) {
       let touserfile = await UserFile.findOne({
-        user: tousers[j],
-        file: files[i].file,
+        user: tousers.connections[j].user._id,
+        file: userfiles[i].file._id,
       });
       if (!touserfile) {
-        const userfile = await UserFile.findById(files[i].userfile);
-        const userfolder = await getUserFolder(tousers[j], "received");
-        touserfile = await getUserFileId(
-          userfile.file,
-          userfile.name,
-          tousers[j],
+        const userfolder = await getUserFolder(tousers.connections[j].user._id, "received");
+        touserfile = await getUserFile(
+          userfiles[i].file._id,
+          userfiles[i].name,
+          tousers.connections[j].user._id,
           userfolder
         );
       }
       const tousermessage = await ChannelMessage.create({
-        user: tousers[j],
-        channel: channelid,
+        user: tousers.connections[j].user._id,
+        channel: tousers.channelid,
         message: message,
-        file: touserfile,
+        file: touserfile._id,
         time: new Date(),
       });
+      const channelupdate={ deleted: false, lastMessage: new Date() }
       await Channel.updateOne(
-        { user: tousers[j], channelid: channelid },
-        { deleted: false, lastMessage: new Date() }
+        { user: tousers.connections[j].user._id, channelid: tousers.channelid },
+        channelupdate
       );
+      let ret: any = {};
+      ret = { ...tousermessage._doc };
+      ret.message = { ...msg._doc };
+      ret.message.user = { ...user };
+      ret.file = {...touserfile._doc};
+      ret.file.file=userfiles[i].file;
+      ret.channelupdate = channelupdate;
+      console.log(tousers.connections[j].user.name,ret);
+      newMessages[tousers.connections[j].user._id].push(ret);
     }
   }
+  return {success:true,newMessages:JSON.stringify(newMessages)};
 }
