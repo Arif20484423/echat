@@ -38,8 +38,18 @@ const Contact = ({
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
   async function deletechat() {
-    await deleteChat(userchatid);
-    setConnectedRefetch((t) => !t);
+    setConnected((t) =>
+      t.map((e) => {
+        if (e._id == userchatid) {
+          e = {
+            ...e,
+            deleted:true,starttime:new Date()
+          };
+        }
+        return e;
+      })
+    );
+    deleteChat(userchatid);
   }
   async function selectchat() {
     setSelect((t) => !t);

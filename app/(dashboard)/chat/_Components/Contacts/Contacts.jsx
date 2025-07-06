@@ -89,68 +89,71 @@ const Contacts = ({ check, setContacts, contacts }) => {
       
       <div className={styles.contacts}>
         {filtered.map((e, i) => {
-          if (e.isgroup) {
-            {
-              /* image={e.connections[0].user.image} */
+          if(!e.deleted){
+            if (e.isgroup) {
+              {
+                /* image={e.connections[0].user.image} */
+              }
+              return (
+                <Contact
+                  key={e._id}
+                  check={check}
+                  selectContact={() => {
+                    setContacts((c) => [...c, e]);
+                  }}
+                  deselectContact={() => {
+                    setContacts((c) => c.filter((ce) => ce._id != e._id));
+                  }}
+                  select={select}
+                  setSelect={setSelect}
+                  userchatid={e._id}
+                  currentToUser={currentToUser}
+                  isgroup={true}
+                  name={e.group[0].name}
+                  description={e.group[0].description}
+                  channelid={e.channelid}
+                  connections={e.connections}
+                  image={e.group[0].image ? e.group[0].image.file : ""}
+                  lastSeen={e.lastSeen}
+                  lastMessage={e.lastMessage}
+                  onClick={() => {
+                    selectContact(e);
+                  }}
+                />
+              );
+            } else {
+              return (
+                <Contact
+                  key={e._id}
+                  check={check}
+                  selectContact={() => {
+                    setContacts((c) => [...c, e]);
+                  }}
+                  deselectContact={() => {
+                    setContacts((c) => c.filter((ce) => ce._id != e._id));
+                  }}
+                  select={select}
+                  setSelect={setSelect}
+                  userchatid={e._id}
+                  isgroup={false}
+                  currentToUser={currentToUser}
+                  name={e.connections[0].user.name}
+                  description={e.connections[0].user.description}
+                  id={e.connections[0].user._id}
+                  connections={e.connections}
+                  channelid={e.channelid}
+                  email={e.connections[0].user.email}
+                  image={e.connections[0].user.image}
+                  lastSeen={e.lastSeen}
+                  lastMessage={e.lastMessage}
+                  onClick={() => {
+                    selectContact(e);
+                  }}
+                />
+              );
             }
-            return (
-              <Contact
-                key={e._id}
-                check={check}
-                selectContact={() => {
-                  setContacts((c) => [...c, e]);
-                }}
-                deselectContact={() => {
-                  setContacts((c) => c.filter((ce)=>ce._id!=e._id));
-                }}
-                select={select}
-                setSelect={setSelect}
-                userchatid={e._id}
-                currentToUser={currentToUser}
-                isgroup={true}
-                name={e.group[0].name}
-                description={e.group[0].description}
-                channelid={e.channelid}
-                connections={e.connections}
-                image={e.group[0].image ? e.group[0].image.file : ""}
-                lastSeen={e.lastSeen}
-                lastMessage={e.lastMessage}
-                onClick={() => {
-                  selectContact(e);
-                }}
-              />
-            );
-          } else {
-            return (
-              <Contact
-                key={e._id}
-                check={check}
-                selectContact={() => {
-                  setContacts((c) => [...c, e]);
-                }}
-                deselectContact={() => {
-                  setContacts((c) => c.filter((ce) => ce._id != e._id));
-                }}
-                select={select}
-                setSelect={setSelect}
-                userchatid={e._id}
-                isgroup={false}
-                currentToUser={currentToUser}
-                name={e.connections[0].user.name}
-                description={e.connections[0].user.description}
-                id={e.connections[0].user._id}
-                connections={e.connections}
-                channelid={e.channelid}
-                email={e.connections[0].user.email}
-                image={e.connections[0].user.image}
-                lastSeen={e.lastSeen}
-                lastMessage={e.lastMessage}
-                onClick={() => {
-                  selectContact(e);
-                }}
-              />
-            );
           }
+          
         })}
       </div>
     </>
