@@ -41,15 +41,15 @@ const Contacts = ({ check, setContacts }) => {
   useEffect(() => {
     const fil = connected.filter((e) => {
       if (e.isgroup) {
-        return e.group[0].name.substring(0, filter.length) == filter;
+        return e.group[0].name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
       } else {
-        return e.connections[0].user.name.substring(0, filter.length) == filter;
+        return e.connections[0].user.name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
       }
     });
     fil.sort((a,b)=>{
       return new Date(b.lastMessage) - new Date(a.lastMessage);
     })
-    setFiltered(fil);
+    setFiltered(fil); 
   }, [filter,connected]);
   if (loading) {
     return <LoadingSkeleton />;

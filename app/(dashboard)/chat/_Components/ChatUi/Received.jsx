@@ -12,11 +12,7 @@ const Received = ({
   setSelectflag,
   selectMessage,
   deselectMessage,
-  forward,
   setForward,
-  messageid,
-  userfileid,
-  fileid,
   username,
   message,
   file,
@@ -26,14 +22,22 @@ const Received = ({
   name,
   time,
 }) => {
-  const { setMessageNotification } = useContext(Context);
+  const { setMessageNotification, messages, setMessages } = useContext(Context);
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
   const date = new Date(time);
   async function handleDelete() {
-    await deleteMesssage(id);
-    setMessageNotification((m) => !m);
+    let temp = [];
+    for (let j = 0; j < messages.length; j++) {
+      if (messages[j]._id == id) {
+        messages[j].delete = true;
+      }
+
+      temp.push(messages[j]);
+    }
+    setMessages(temp);
+    deleteMesssage(id);
   }
   function handleClick(e) {
     if (

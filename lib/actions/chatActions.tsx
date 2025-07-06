@@ -237,7 +237,7 @@ export async function deleteMesssage(id: String) {
 export async function deleteMultipleMesssage(message: any[]) {
   // setting delete true for this user with this channel and message
   for (let k = 0; k < message.length; k++) {
-    await ChannelMessage.findByIdAndUpdate(message[k].id, { delete: true });
+    await ChannelMessage.findByIdAndUpdate(message[k]._id, { delete: true });
   }
 
   //delete media implementation left
@@ -308,7 +308,7 @@ export async function createGroupChannel(
 
 export async function deleteForEveryoneMesssageGroup(
   id: String,
-  toUsers: String[],
+  toUsers: any,
   channel: String,
   messageid: String
 ) {
@@ -316,7 +316,7 @@ export async function deleteForEveryoneMesssageGroup(
   await ChannelMessage.findByIdAndUpdate(id, { delete: true }); // for current user we get the id of the doc having user channel and message so used id to faster find and deletion
   for (let i = 0; i < toUsers.length; i++) {
     await ChannelMessage.updateOne(
-      { channel: channel, user: toUsers[i], message: messageid },
+      { channel: channel, user: toUsers[i].user._id, message: messageid },
       { delete: true }
     );
   }

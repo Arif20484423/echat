@@ -100,9 +100,21 @@ const SetSocket = () => {
             // }
           });
           sock.on("delete", (data) => {
-            // messagenotification to reload chat and connected as needed
-            console.log("deleted");
-            setMessageNotification((m) => !m);
+            if(data.from==toUserRef.current.channelid){
+              setMessages((messages)=>{
+                let temp = [];
+                for (let j = 0; j < messages.length; j++) {
+                  if (messages[j].message._id == data.messageid) {
+                    messages[j].delete = true;
+                  }
+
+                  temp.push(messages[j]);
+                }
+                return temp;
+              })
+              
+            }
+            
           });
         }
       });

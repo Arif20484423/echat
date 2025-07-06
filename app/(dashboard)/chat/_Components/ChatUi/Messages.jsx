@@ -17,12 +17,10 @@ import {
 var cryptojs = require("crypto-js");
 const Messages = () => {
   const {
-    toUser,
     toUser2,
     user,
     messageNotification,
     setMessageNotification,
-    setConnectedRefetch,
     messages,
     setMessages,
     socket,
@@ -70,10 +68,10 @@ const Messages = () => {
   //   alert("op")
   //   ref.current.scrollTop=ref.current.scrollHeight;
   // },[])
-  useEffect(() => {
-    console.log(selected);
-    console.log(contacts);
-  }, [selected, contacts]);
+  // useEffect(() => {
+  //   console.log(selected);
+  //   console.log(contacts);
+  // }, [selected, contacts]);
 
   return (
     <div className={styles.messages} ref={ref}>
@@ -192,13 +190,25 @@ const Messages = () => {
                           name: "Cancel",
                           action: () => {
                             setSelectflag(false);
+                            setSelected([])   // added while cleaning
                           },
                         },
                         {
                           name: "Delete",
                           action: async () => {
-                            await deleteMultipleMesssage(selected);
-                            setMessageNotification((t) => !t);
+                            let temp = [];
+                            for (let j = 0; j < messages.length; j++) {
+                              for (let i = 0; i < selected.length; i++) {
+                                if (messages[j]._id == selected[i]._id) {
+                                  messages[j].delete=true;
+                                  break;
+                                }
+                              }
+                              temp.push(messages[j]);
+                            }
+                            setMessages(temp);
+                            deleteMultipleMesssage(selected);
+                            // setMessageNotification((t) => !t);
                             setSelectflag(false);
                             setMenuDrop(false);
                             setSelected([]);
