@@ -10,7 +10,7 @@ import {
   UserFolder,
 } from "@/models/models";
 import { AiOutlineUserSwitch } from "react-icons/ai";
-import {ObjectId} from "mongodb";
+import { ObjectId } from "mongodb";
 var cryptojs = require("crypto-js");
 
 export async function createChannel(user: String, toUser: String) {
@@ -495,9 +495,8 @@ export async function forwardMessage(
         userNewMessage.message.user = { ...user };
         userNewMessage.file = { ...channelmessages[i].file };
         userNewMessage.channelupdate = channelupdate;
-        if (i == 0) {
-          newMessages[user._id] = [];
-        }
+        if (!newMessages[user._id]) newMessages[user._id] = [];
+
         newMessages[user._id].push(userNewMessage);
         for (let k = 0; k < tousers[j].connections.length; k++) {
           let touserfile = await UserFile.findOne({
@@ -572,9 +571,7 @@ export async function forwardMessage(
         userNewMessage.message.user = { ...user };
         userNewMessage.file = null;
         userNewMessage.channelupdate = channelupdate;
-        if (i == 0) {
-          newMessages[user._id] = [];
-        }
+        if (!newMessages[user._id]) newMessages[user._id] = [];
         newMessages[user._id].push(userNewMessage);
         for (let k = 0; k < tousers[j].connections?.length; k++) {
           const tousermessage = await ChannelMessage.create({
@@ -616,13 +613,13 @@ export async function forwardMessage(
 
 export async function sendStorageMedia(
   userfiles: any,
-  tousers:any,
-  user:any
+  tousers: any,
+  user: any
 ) {
   // console.log(tousers);
-  const newMessages:any={}
-  newMessages[user._id]=[];
-  for(let i =0;i<tousers.connections.length;i++){
+  const newMessages: any = {};
+  newMessages[user._id] = [];
+  for (let i = 0; i < tousers.connections.length; i++) {
     newMessages[tousers.connections[i].user._id] = [];
   }
   for (let i = 0; i < userfiles.length; i++) {
@@ -645,17 +642,21 @@ export async function sendStorageMedia(
       file: userfiles[i]._id,
       time: new Date(),
     });
-    const channelupdate={ lastMessage: new Date(), deleted: false, lastSeen:new Date() };
+    const channelupdate = {
+      lastMessage: new Date(),
+      deleted: false,
+      lastSeen: new Date(),
+    };
     await Channel.updateOne(
       { user: user._id, channelid: tousers.channelid },
       channelupdate
     );
-    let ret:any={};
-    ret={...usermessage._doc};
-    ret.message={...msg._doc}
-    ret.message.user={...user}
-    ret.file=userfiles[i];
-    ret.channelupdate=channelupdate;
+    let ret: any = {};
+    ret = { ...usermessage._doc };
+    ret.message = { ...msg._doc };
+    ret.message.user = { ...user };
+    ret.file = userfiles[i];
+    ret.channelupdate = channelupdate;
     newMessages[user._id].push(ret);
 
     for (let j = 0; j < tousers.connections.length; j++) {
@@ -664,7 +665,10 @@ export async function sendStorageMedia(
         file: userfiles[i].file._id,
       });
       if (!touserfile) {
-        const userfolder = await getUserFolder(tousers.connections[j].user._id, "received");
+        const userfolder = await getUserFolder(
+          tousers.connections[j].user._id,
+          "received"
+        );
         touserfile = await getUserFile(
           userfiles[i].file._id,
           userfiles[i].name,
@@ -679,7 +683,7 @@ export async function sendStorageMedia(
         file: touserfile._id,
         time: new Date(),
       });
-      const channelupdate={ deleted: false, lastMessage: new Date() }
+      const channelupdate = { deleted: false, lastMessage: new Date() };
       await Channel.updateOne(
         { user: tousers.connections[j].user._id, channelid: tousers.channelid },
         channelupdate
@@ -688,12 +692,12 @@ export async function sendStorageMedia(
       ret = { ...tousermessage._doc };
       ret.message = { ...msg._doc };
       ret.message.user = { ...user };
-      ret.file = {...touserfile._doc};
-      ret.file.file=userfiles[i].file;
+      ret.file = { ...touserfile._doc };
+      ret.file.file = userfiles[i].file;
       ret.channelupdate = channelupdate;
-      console.log(tousers.connections[j].user.name,ret);
+      console.log(tousers.connections[j].user.name, ret);
       newMessages[tousers.connections[j].user._id].push(ret);
     }
   }
-  return {success:true,newMessages:JSON.stringify(newMessages)};
+  return { success: true, newMessages: JSON.stringify(newMessages) };
 }

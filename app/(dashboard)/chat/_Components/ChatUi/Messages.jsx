@@ -98,6 +98,7 @@ const Messages = () => {
                 newMessages = JSON.parse(newMessages);
                 console.log(newMessages);
                 for (let i = 0; i < newMessages[user._id].length; i++) {
+                  console.log("CHECKCCCC",newMessages[user._id][i],toUser2)
                   if (newMessages[user._id][i].channel == toUser2.channelid) {
                     setMessages((m) => [...m, newMessages[user._id][i]]);
                     setConnected((t) =>
