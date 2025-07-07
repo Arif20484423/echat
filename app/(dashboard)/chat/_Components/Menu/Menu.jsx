@@ -112,7 +112,7 @@ const Menu = ({ setPage }) => {
         <img src={(user && user.image && user.image.length>0)? user.image : "/profile.jpg"} alt="user" width={50}  onClick={()=>{
           setUserinfo((t)=>!t);
         }}/>
-          {userinfo && <UserInfo setUserinfo={setUserinfo}/>}
+          {userinfo && <UserInfo setUserinfo={setUserinfo} name_={user.name} image_={user.image?user.image:"/profile.jpg"} desc_={user.description}/>}
       </div>
     </>
   );

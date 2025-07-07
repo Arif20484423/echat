@@ -20,7 +20,6 @@ const Messages = () => {
     toUser2,
     user,
     messageNotification,
-    setMessageNotification,
     messages,
     setMessages,
     socket,
@@ -37,9 +36,7 @@ const Messages = () => {
 
   const ref = useRef(null);
   useEffect(() => {
-    // console.log(toUser2)
     if (toUser2 && user) {
-      // fetching messages for current user and channel according to second user as it will contain channel info
       fetch("/api/messages", {
         method: "POST",
         body: JSON.stringify({ channelid: toUser2.channelid, user: user._id }),
@@ -50,29 +47,6 @@ const Messages = () => {
         });
     }
   }, [messageNotification, toUser2, user]);
-  // useEffect(() => {
-  //   if (messageNotification && messageNotification.from) {
-  //     if (!toUser) {
-  //       // refetch contacts
-  //       setConnectedRefetch((t) => !t);
-  //     } else {
-  //       if (messageNotification.from !== toUser.id) {
-  //         // refetch contacts
-  //         setConnectedRefetch((t) => !t);
-  //       }
-  //     }
-  //   }
-  // }, [messageNotification]);
-
-  // useEffect(()=>{
-  //   alert("op")
-  //   ref.current.scrollTop=ref.current.scrollHeight;
-  // },[])
-  // useEffect(() => {
-  //   console.log(selected);
-  //   console.log(contacts);
-  // }, [selected, contacts]);
-
   return (
     <div className={styles.messages} ref={ref}>
       {forward && (
@@ -96,15 +70,12 @@ const Messages = () => {
                 );
                 setForwarding(false);
                 newMessages = JSON.parse(newMessages);
-                console.log(newMessages);
                 for (let i = 0; i < newMessages[user._id].length; i++) {
-                  console.log("CHECKCCCC",newMessages[user._id][i],toUser2)
                   if (newMessages[user._id][i].channel == toUser2.channelid) {
                     setMessages((m) => [...m, newMessages[user._id][i]]);
                     setConnected((t) =>
                       t.map((e) => {
                         if (e.channelid == newMessages[user._id][i].channel) {
-                          console.log(newMessages[user._id][i].channelupdate);
                           e = {
                             ...e,
                             ...newMessages[user._id][i].channelupdate,
@@ -117,7 +88,6 @@ const Messages = () => {
                     setConnected((t) =>
                       t.map((e) => {
                         if (e.channelid == newMessages[user._id][i].channel) {
-                          console.log(newMessages[user._id][i].channelupdate);
                           e = {
                             ...e,
                             ...newMessages[user._id][i].channelupdate,
@@ -140,13 +110,10 @@ const Messages = () => {
                     }
                   }
                 }
-
                 setContacts([]);
                 setSelected([]);
                 setForward(false);
                 setSelectflag(false);
-
-               
               }}
               disabled={forwarding}
             >
@@ -191,7 +158,7 @@ const Messages = () => {
                           name: "Cancel",
                           action: () => {
                             setSelectflag(false);
-                            setSelected([])   // added while cleaning
+                            setSelected([]); // added while cleaning
                           },
                         },
                         {
@@ -201,7 +168,7 @@ const Messages = () => {
                             for (let j = 0; j < messages.length; j++) {
                               for (let i = 0; i < selected.length; i++) {
                                 if (messages[j]._id == selected[i]._id) {
-                                  messages[j].delete=true;
+                                  messages[j].delete = true;
                                   break;
                                 }
                               }
@@ -209,7 +176,6 @@ const Messages = () => {
                             }
                             setMessages(temp);
                             deleteMultipleMesssage(selected);
-                            // setMessageNotification((t) => !t);
                             setSelectflag(false);
                             setMenuDrop(false);
                             setSelected([]);
@@ -372,66 +338,6 @@ const Messages = () => {
                   </React.Fragment>
                 );
               }
-            }
-
-            {
-              /* return (
-                      <div
-                        key={e._id}
-                        onClick={() => {
-                          setSelectedMsg((s) => [...s, e._id]);
-                        }}
-                      >
-                        <p>{e.message.user.name}</p>
-                        <p>{decryptedMessage}</p>
-                        {e.file && !e.file.delete && <img src={e.file.file.file} alt="hjd" />}
-                        <button
-                          onClick={async () => {
-                            await deleteMesssage(e._id);
-                            setMessageNotification(e._id);
-                          }}
-                        >
-                          delete
-                        </button>
-                        {self && (
-                          <button
-                            onClick={async () => {
-                              // deleteion based on whether its a group message or one to one
-                              if (toUser.isgroup) {
-                                fetch("/api/getchannelusers", {
-                                  method: "POST",
-                                  body: JSON.stringify({
-                                    channel: toUser.channelid,
-                                  }),
-                                })
-                                  .then((d) => d.json())
-                                  .then(async (d) => {
-                                    await deleteForEveryoneMesssageGroup(
-                                      e._id, // deleting this specific message instance (at the users side user channel message will be deleted)
-                                      d.data, // other members for which the message will be deleted via channel and message id help
-                                      e.channel,
-                                      e.message._id
-                                    );
-                                    setMessageNotification(e._id);
-                                  });
-                              } else {
-                                // console.log("other");
-                                await deleteForEveryoneMesssage(
-                                  e._id, // deleting this specific message instance (at the users side user channel message will be deleted)
-                                  e.channel, // other members for which the message will be deleted via channel and message id help
-                                  toUser.id,
-                                  e.message._id
-                                );
-                              }
-                              setMessageNotification(e._id);
-                            }}
-                          >
-                            delete for everyone
-                          </button>
-                        )}
-                      </div>
-             
-                    ); */
             }
           }
         }

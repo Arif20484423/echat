@@ -10,7 +10,6 @@ const Contacts = ({ check, setContacts }) => {
   const [loading, setLoading] = useState(true);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("");
-  const [select, setSelect] = useState(false);
   const {
     toUser2,
     setToUser2,
@@ -21,7 +20,6 @@ const Contacts = ({ check, setContacts }) => {
 
   function selectContact(data){
     setToUser2(data)
-    console.log("TOUSER",data);
   }
   useEffect(() => {
     fetch("/api/connections")
@@ -72,9 +70,6 @@ const Contacts = ({ check, setContacts }) => {
         {filtered.map((e, i) => {
           if(!e.deleted){
             if (e.isgroup) {
-              {
-                /* image={e.connections[0].user.image} */
-              }
               return (
                 <Contact
                   key={e._id}
@@ -88,7 +83,7 @@ const Contacts = ({ check, setContacts }) => {
                   userchatid={e._id}
                   isgroup={true}
                   name={e.group[0].name}
-                  image={e.group[0].image ? e.group[0].image.file : ""}
+                  image={e.group[0].image ? e.group[0].image.file : "/profile.jpg"}
                   lastSeen={e.lastSeen}
                   lastMessage={e.lastMessage}
                   onClick={() => {
@@ -111,7 +106,7 @@ const Contacts = ({ check, setContacts }) => {
                   isgroup={false}
                   name={e.connections[0].user.name}
                   email={e.connections[0].user.email}
-                  image={e.connections[0].user.image}
+                  image={e.connections[0].user.image?e.connections[0].user.image:"/profile.jpg"}
                   lastSeen={e.lastSeen}
                   lastMessage={e.lastMessage}
                   onClick={() => {

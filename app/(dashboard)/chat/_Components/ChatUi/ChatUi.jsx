@@ -29,12 +29,9 @@ export default function Chat({ setChatPage }) {
   const [loadingFiles, setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
   const {
-    toUser,
     toUser2,
     user,
-    setMessageNotification,
     socket,
-    messages,
     setMessages,
     setConnected,
   } = useContext(Context);
@@ -65,19 +62,10 @@ export default function Chat({ setChatPage }) {
     const message = messageRef.current.value;
     if (message != "") {
       if (toUser2.isgroup) {
-        //for group adding different method to add messages
-        // const res = await fetch("/api/channel/users", {
-        //   method: "POST",
-        //   body: JSON.stringify({ user: user.id, channelid: toUser.channelid }),
-        // });
-        // const data = await res.json();
-        // console.log("ChannelUSERS ",data)
-        console.log(1);
         const formData = new FormData();
         for (let i = 0; i < selectedFiles.length; i++) {
           formData.append("files", JSON.stringify(selectedFiles[i]));
         }
-        console.log(2);
         const data = [];
         for (let i = 0; i < toUser2.connections.length; i++) {
           formData.append(
@@ -86,31 +74,21 @@ export default function Chat({ setChatPage }) {
           );
           data.push(toUser2.connections[i].user._id);
         }
-        console.log(3);
         formData.append("message", message);
         formData.append("user", JSON.stringify(user));
         formData.append("channelid", toUser2.channelid);
-        console.log(4);
         const res = await fetch("/api/group/message", {
           method: "POST",
           body: formData,
         });
-        console.log(5);
         if (res.redirected) {
           router.replace(res.url);
         }
-        console.log(6);
         const d = await res.json();
-        console.log("Apppend ", d.newMessages);
         setMessages((m) => [...m, ...d.newMessages[user._id]]);
-        // console.log("NEW SELF", newMessage);
         setConnected((t) =>
           t.map((e) => {
             if (e.channelid == toUser2.channelid) {
-              console.log(
-                d.newMessages[user._id][d.newMessages[user._id].length - 1]
-                  .channelupdate
-              );
               e = {
                 ...e,
                 ...d.newMessages[user._id][d.newMessages[user._id].length - 1]
@@ -120,9 +98,7 @@ export default function Chat({ setChatPage }) {
             return e;
           })
         );
-        console.log(8);
         setSelectedFiles([]);
-
         for (let i = 0; i < data.length; i++) {
           socket.emit("message", {
             from: toUser2.channelid,
@@ -147,17 +123,10 @@ export default function Chat({ setChatPage }) {
           router.replace(res.url);
         }
         const d = await res.json();
-        console.log("Append", d);
-        // setMessageNotification((m) => !m); //mesagenotification to self to reload chats
         setMessages((m) => [...m, ...d.newMessages[user._id]]);
-        // console.log("NEW SELF", newMessage);
         setConnected((t) =>
           t.map((e) => {
             if (e.channelid == toUser2.channelid) {
-              console.log(
-                d.newMessages[user._id][d.newMessages[user._id].length - 1]
-                  .channelupdate
-              );
               e = {
                 ...e,
                 ...d.newMessages[user._id][d.newMessages[user._id].length - 1]
@@ -175,27 +144,16 @@ export default function Chat({ setChatPage }) {
           from: toUser2.channelid,
           to: emitUsers,
           message: d.newMessages[toUser2.connections[0].user._id],
-        }); //mesagenotification to other to reload chats
-        console.log(
-          "RETRUINNG",
-          d.newMessages[user._id][d.newMessages[user._id].length - 1]
-        );
+        });        
       }
     }
   }
 
   useEffect(() => {
-    // console.log("cecnl");
-    // console.log("touser", sessionStorage.getItem("toUser"));
     if (!sessionStorage.getItem("toUser")) {
-      // console.log("euhwui");
-      // console.log("client", true);
       setClient(true);
     }
   }, []);
-  useEffect(() => {
-    console.log(selectedStorageFiles);
-  }, [selectedStorageFiles]);
 
   if (toUser2 == null) {
     if (client) {
@@ -220,7 +178,6 @@ export default function Chat({ setChatPage }) {
                 onClick={async () => {
                   setShowStorage(false);
                   setSending(true);
-                  // console.log(data.data);
                   let { newMessages } = await sendStorageMedia(
                     selectedStorageFiles,
                     toUser2,
@@ -250,11 +207,6 @@ export default function Chat({ setChatPage }) {
                   }
                   setSelectedStorageFiles([]);
                   setSending(false);
-                  // socket.emit("message", {
-                  //   from: toUser.channelid,
-                  //   to: data.data,
-                  //   message: "new Message",
-                  // }); //mesagenotification to other to reload chats
                 }}
               >
                 {" "}
@@ -285,7 +237,11 @@ export default function Chat({ setChatPage }) {
                 toUser2
                   ? toUser2.isgroup
                     ? toUser2.group[0].image
+                      ? toUser2.group[0].image.file
+                      : "/profile.jpg"
                     : toUser2.connections[0].user.image
+                    ? toUser2.connections[0].user.image
+                    : "/profile.jpg"
                   : "/profile.jpg"
               }
               alt="img"

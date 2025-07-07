@@ -1,13 +1,14 @@
 import { Channel, ChannelMessage, Message } from "@/models/models";
 import { NextRequest, NextResponse } from "next/server";
 
+
+// in use
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const time = await Channel.find({
     channelid: body.channelid,
     user: body.user,
   });
-  console.log(time)
   const data = await ChannelMessage.find({
     channel: body.channelid,
     user: body.user,

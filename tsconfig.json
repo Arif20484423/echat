@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,9 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
     "target": "ES2017"
   },
@@ -33,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/_Components/SetSocket.jsx",
+    "app/_Components/SetUserSocket.jsx",
     "app/dashboard/page.jsx",
     "app/dashboard/Components/SearchUser.jsx",
     "app/dashboard/Components/Connected.jsx",
@@ -62,7 +56,5 @@
     "app/user/signup/page.jsx",
     "app/(dashboard)/layout.jsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

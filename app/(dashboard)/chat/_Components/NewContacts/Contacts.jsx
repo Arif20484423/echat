@@ -4,10 +4,8 @@ import Contact from "./Contact";
 import styles from "../Contacts/Contacts.module.css";
 import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
-import { Context } from "@/app/_context/NoteContext";
 import LoadingSkeleton from "./LoadingSkeleton"
 const Contacts = ({setPage}) => {
-  const { setToUser, user } = useContext(Context);
   const [loading,setLoading] = useState(true);
   const [key, setKey] = useState("");
   const [users, setUsers] = useState([]);

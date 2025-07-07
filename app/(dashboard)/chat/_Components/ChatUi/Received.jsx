@@ -22,7 +22,7 @@ const Received = ({
   name,
   time,
 }) => {
-  const { setMessageNotification, messages, setMessages } = useContext(Context);
+  const { messages, setMessages } = useContext(Context);
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
@@ -33,7 +33,6 @@ const Received = ({
       if (messages[j]._id == id) {
         messages[j].delete = true;
       }
-
       temp.push(messages[j]);
     }
     setMessages(temp);
@@ -78,9 +77,9 @@ const Received = ({
           style={{ transform: "scale(1.3)" }}
           onChange={(e) => {
             if (e.target.checked) {
-              selectMessage()
+              selectMessage();
             } else {
-              deselectMessage()
+              deselectMessage();
             }
           }}
         />
@@ -110,7 +109,7 @@ const Received = ({
                 {
                   name: "Forward",
                   action: () => {
-                    selectMessage()
+                    selectMessage();
                     setOptions(false);
                     setForward(true);
                     setSelectflag(false);

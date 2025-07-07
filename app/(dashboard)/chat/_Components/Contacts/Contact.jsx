@@ -71,15 +71,11 @@ const Contact = ({
             : {}
         }
         onClick={async () => {
-          // console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
           if (toUser2) {
-            // console.log("setting");
             fetch("/api/channel/lastseen", {
               method: "POST",
               body: JSON.stringify({ id: toUser2._id }),
-            }).then(() => {
-              console.log("changed last seen");
-            });
+            })
             setConnected((t) =>
               t.map((e) => {
                 if (e.channelid == toUser2.channelid) {
@@ -93,15 +89,6 @@ const Contact = ({
             );
           }
           onClick();
-          // console.log("settedddddddddd");
-          // setToUser({
-          //   isgroup: true,
-          //   channelid: channelid,
-          //   description: description,
-          //   name: name,
-          //   image: image,
-          //   chatid: userchatid,
-          // });
         }}
       >
         {check && (
@@ -113,13 +100,9 @@ const Contact = ({
             }}
             onChange={(e) => {
               e.stopPropagation();
-
-              // console.log("conn", connections);
-
               if (e.target.checked) {
                 selectContact()
               } else {
-                // console.log("contacts", contacts);
                 deselectContact()
               }
             }}
@@ -164,9 +147,7 @@ const Contact = ({
             : {}
         }
         onClick={async () => {
-          // console.log("toUserrrrrrrrrrrrrrrrrrr", toUser);
           if (toUser2) {
-            // console.log("setting");
             fetch("/api/channel/lastseen", {
               method: "POST",
               body: JSON.stringify({ id: toUser2._id }),
@@ -186,16 +167,6 @@ const Contact = ({
             );
           }
           onClick();
-          // console.log("settedddddddddd");
-          // setToUser({
-          //   id: id,
-          //   email: email,
-          //   channelid: channelid,
-          //   description: description,
-          //   name: name,
-          //   image: image,
-          //   chatid: userchatid,
-          // });
         }}
       >
         {check && (
@@ -207,13 +178,9 @@ const Contact = ({
             }}
             onChange={(e) => {
               e.stopPropagation();
-
-              // console.log("conn", connections);
-
               if (e.target.checked) {
                 selectContact()
               } else {
-                // console.log("contacts", contacts);
                 deselectContact()
               }
             }}

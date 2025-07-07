@@ -24,12 +24,8 @@ export default function NoteProvider({ children }) {
   },[connected])
   useEffect(() => {
     toUserRef.current=toUser2;
-    console.log("REFRENCE ",toUserRef.current)
-    console.log("toUser", toUser2);
-    console.log("user", user);
     if (toUser2) {
       sessionStorage.setItem("toUser", JSON.stringify(toUser2));
-      console.log(JSON.parse(sessionStorage.getItem("toUser")));
     }
   }, [toUser, user,toUser2]);
   return (

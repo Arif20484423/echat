@@ -29,7 +29,7 @@ const Sent = ({
   time,
 }) => {
   const [options, setOptions] = useState(false);
-  const { setMessageNotification, toUser2, user, socket, messages, setMessages } =
+  const { toUser2, socket, messages, setMessages } =
     useContext(Context);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
@@ -78,12 +78,11 @@ const Sent = ({
         messageid
       );
       for (let i = 0; i < toUser2.connections.length; i++) {
-        // console.log(d.data[i]);
         socket.emit("delete", {
           from: toUser2.channelid,
           to: toUser2.connections[i].user._id,
           messageid: messageid,
-        }); //mesagenotification to other to reload chats
+        }); 
       }
     } else {
       let temp = [];
@@ -105,7 +104,7 @@ const Sent = ({
         from: toUser2.channelid,
         to: toUser2.connections[0].user._id,
         messageid: messageid,
-      }); //mesagenotification to other to reload chats
+      }); 
     }
   }
   useEffect(() => {

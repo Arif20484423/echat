@@ -1,13 +1,11 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Contact from "./Contact";
 import styles from "../Contacts/Contacts.module.css";
 import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
-import { Context } from "@/app/_context/NoteContext";
 import LoadingSkeleton from "./LoadingSkeleton";
 const Contacts = ({ setPage, selectedUsers, setSelectedUsers }) => {
-  const { setToUser, user } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [key, setKey] = useState("");
   const [users, setUsers] = useState([]);
@@ -50,7 +48,6 @@ const Contacts = ({ setPage, selectedUsers, setSelectedUsers }) => {
                 id={e._id}
                 email={e.email}
                 image={e.image}
-                setPage={setPage}
                 setSelectedUsers={setSelectedUsers}
                 selectedUsers={selectedUsers}
               />

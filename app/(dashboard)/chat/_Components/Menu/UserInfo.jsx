@@ -1,19 +1,17 @@
 "use client";
-
-import Popup from "@/app/_UIComponents/Popup";
 import CenterComp from "@/app/_UIComponents/CenterComp";
 import FunctionButton from "../../../../_UIComponents/FunctionButton";
 import styles from "./Menu.module.css";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-const UserInfo = ({ setUserinfo }) => {
+const UserInfo = ({ setUserinfo, name_, image_, desc_ }) => {
+  console.log("CHECKING IMAGE ",image_)
   const router = useRouter();
   const ref = useRef(null);
   const imageRef= useRef(null)
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [image, setImage] = useState("");
-  const descRef = useRef(null);
+  const [name, setName] = useState(name_);
+  const [desc, setDesc] = useState(desc_);
+  const [image, setImage] = useState(image_);
   const [nameedit, setNameedit] = useState(false);
   const [descedit, setDescedit] = useState(false);
   useEffect(() => {
@@ -22,15 +20,6 @@ const UserInfo = ({ setUserinfo }) => {
         setUserinfo((t) => !t);
       }
     });
-
-    fetch("/api/user")
-      .then((d) => d.json())
-      .then((d) => {
-        // console.log(d);
-        setName(d.user.name);
-        setDesc(d.user.description);
-        setImage(d.user.image)
-      });
   }, []);
   return (
     // <Popup>

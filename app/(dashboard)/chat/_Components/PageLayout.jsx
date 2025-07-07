@@ -46,8 +46,6 @@ const PageLayout = () => {
           chatPage==2 && <ChatProfile setChatPage={setChatPage}/>
         } </>}
         {page==3 && <GrouInfo users={newGroupUsers} setPage={setPage}/>}
-        
-          {/*            */}
         </div>
       </div>
     </>

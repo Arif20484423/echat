@@ -5,7 +5,6 @@ const Layout = ({ children }) => {
   return (
     <>
       {children}
-      {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
     </>
   );
 };
