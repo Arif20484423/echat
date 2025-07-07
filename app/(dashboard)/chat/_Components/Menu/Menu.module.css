@@ -8,31 +8,44 @@
     background-color: goldenrod;
 }
 
+
 .iconbox{
     width: 90%;
     height: 45px;
     position: relative;
     margin: 2px;
-    border-radius: 10px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+.selectedicon{
+    background-color: var(--blueBorder);
 }
 .iconbox:hover{
-    background-color: var(--blue);
+    background-color: var(--blueBorder);
+}
+
+.menuicon{
+    width: 22px;
+    height: 22px;
+
+    color: var(--grey);
 }
 
 .user{
     position: absolute;
+
     bottom: 5px;
 }
-.user > svg{
-    margin: 0px auto 10px;
-    cursor: pointer;
-    width: 50px;
-}
 .user > img{
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+    margin-top: 5px;
     border-radius: 100%;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
 }
 
 .userinfo{

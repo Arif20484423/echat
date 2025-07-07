@@ -3,37 +3,26 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./ChatProfile.module.css";
 import { Context } from "@/app/_context/NoteContext";
 import FileUi from "../Files/FileUi";
-import Skeleton from "./Skeleton"
+import Skeleton from "./Skeleton";
 const ChatProfile = ({ setChatPage }) => {
-  const [loading,setLoading] = useState(true)
-  const { toUser, user } = useContext(Context);
+  const [loading, setLoading] = useState(true);
+  const { toUser2, user } = useContext(Context);
   const [files, setFiles] = useState([]);
-  const [members,setMembers] = useState(null);
 
   useEffect(() => {
-    
-
     async function fun() {
-      let mem = await fetch("/api/channel/users/details", {
-        method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid }),
-      });
-      mem= await mem.json()
-      console.log(mem.data)
-      setMembers(mem.data)
       const res = await fetch("/api/channel/files", {
         method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
+        body: JSON.stringify({ channelid: toUser2.channelid, user: user.id }),
       });
       const data = await res.json();
-      console.log(data.data);
       setFiles(() => data.data);
-      setLoading(false)
+      setLoading(false);
     }
     fun();
-  }, [toUser]);
-  if(loading){
-    return <Skeleton></Skeleton>
+  }, [toUser2]);
+  if (loading) {
+    return <Skeleton></Skeleton>;
   }
   return (
     <div className={styles.chatprofile}>
@@ -65,39 +54,60 @@ const ChatProfile = ({ setChatPage }) => {
         </div>
         <div className={styles.profile}>
           <img
-            src={toUser ? toUser.image : "/profile.jpg"}
+            src={
+              toUser2
+                ? toUser2.isgroup
+                  ? toUser2.group[0].image
+                    ? toUser2.group[0].image.file
+                    : "/profile.jpg"
+                  : toUser2.connections[0].user.image
+                  ? toUser2.connections[0].user.image
+                  : "/profile.jpg"
+                : "/profile.jpg"
+            }
             alt="image"
             className={styles.profilepic}
           />
-          <h1>{toUser.name}</h1>
-          <p>{toUser.email}</p>
-          <p>{toUser.description}</p>
+          <h1>
+            {toUser2.isgroup
+              ? toUser2.group[0].name
+              : toUser2.connections[0].user.name}
+          </h1>
+          <p>{toUser2.isgroup ? "" : toUser2.connections[0].user.email}</p>
+          <p>
+            {toUser2.isgroup
+              ? toUser2.group[0].description
+              : toUser2.connections[0].user.description}
+          </p>
         </div>
 
-        <h3>Members</h3> 
+        <h3>Members</h3>
         <p>
-           {members &&  members.map((e)=>{
-              return (<span key={e._id} >{e.user.name}, </span>)
-            })}
-            </p>   
+          {toUser2.connections.map((e) => {
+            return <span key={e._id}>{e.user.name}, </span>;
+          })}
+          <span >{user.name} </span>
+        </p>
         <h3>Media</h3>
 
         <div className={styles.files}>
           {files.map((e) => {
-            return (
-              <div key={e._id}>
-                <FileUi
-                  type={e.file.file.type}
-                  link={e.file.file.file}
-                  extension={e.file.file.extension}
-                  width={100}
-                  height={100}
-                />
-                <p className={styles.filename}>
-                  {e.file.name.substring(0, 15)}
-                </p>
-              </div>
-            );
+            if (e.file) {
+              return (
+                <div key={e._id}>
+                  <FileUi
+                    type={e.file.file.type}
+                    link={e.file.file.file}
+                    extension={e.file.file.extension}
+                    width={100}
+                    height={100}
+                  />
+                  <p className={styles.filename}>
+                    {e.file.name?e.file.name.substring(0, 15):""}
+                  </p>
+                </div>
+              );
+            }
           })}
         </div>
       </div>

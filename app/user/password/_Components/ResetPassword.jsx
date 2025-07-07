@@ -21,12 +21,19 @@ export default function ResetPassword() {
   return (
     <>
       <FormContainer>
-      <form action={formAction}>
-        <h2 className={styles.head}>Reset Password</h2>
-        <InputLabel tag="Current Password" name="currentpassword"/>
-        <InputLabel tag="New Password" name="password"/>
-        {error && <ErrorMessage message={state?.message?state?.message:""}/>}
-        <Button tag="Update" type="submit" disabled={pending}/></form>
+        <form action={formAction}>
+          <h2 className={styles.head}>Reset Password</h2>
+          <InputLabel
+            tag="Current Password"
+            name="currentpassword"
+            required={true}
+          />
+          <InputLabel tag="New Password" name="password" required={true} />
+          {error && (
+            <ErrorMessage message={state?.message ? state?.message : ""} />
+          )}
+          <Button tag="Update" type="submit" disabled={pending} />
+        </form>
       </FormContainer>
     </>
   );

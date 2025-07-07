@@ -9,15 +9,13 @@ const Item = ({
   src,
   name,
   ext,
-  userfileid,
-  fileid,
   deleteItem,
   renameItem,
   sendItem,
   selectFlag,
-  selected,
-  setSelected,
   selectItem,
+  selectFile,
+  deselectFile,
   editable = true,
 }) => {
   const [drop, setDrop] = useState(false);
@@ -39,19 +37,10 @@ const Item = ({
           }}
           onChange={(e) => {
             e.stopPropagation();
-            console.log(name);
             if (e.target.checked) {
-              console.log(name, selected);
-              setSelected((s) => [
-                ...s,
-                { file: fileid, userfile: userfileid },
-              ]);
+              selectFile()
             } else {
-              const filtered = selected.filter((e) => {
-                return e.file != fileid;
-              });
-              console.log(filtered);
-              setSelected(filtered);
+              deselectFile()
             }
           }}
         />

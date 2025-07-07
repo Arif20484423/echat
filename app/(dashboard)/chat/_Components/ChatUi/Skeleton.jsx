@@ -1,33 +1,35 @@
 import React from "react";
-import styles from "./Skeleton.module.css";
+import skeletonStyles from "./Skeleton.module.css";
 
 const ChatSkeleton = () => {
-  return (
-    <div className={styles.chatContainer}>
-      <div className={`${styles.chatHeader} ${styles.skeleton}`} />
+  const skeletonMessages = new Array(20).fill(0);
 
-      <div className={styles.chatBody}>
-        <div
-          className={`${styles.message} ${styles.received} ${styles.skeleton}`}
-        >
-          <div className={styles.bubbleLine} style={{ width: "60%" }} />
-          <div className={styles.bubbleLine} style={{ width: "40%" }} />
-        </div>
-        <div className={`${styles.message} ${styles.sent} ${styles.skeleton}`}>
-          <div className={styles.bubbleLine} style={{ width: "50%" }} />
-          <div className={styles.bubbleLine} style={{ width: "30%" }} />
-        </div>
-        <div
-          className={`${styles.message} ${styles.received} ${styles.skeleton}`}
-        >
-          <div className={styles.bubbleLine} style={{ width: "70%" }} />
-          <div className={styles.bubbleLine} style={{ width: "50%" }} />
-        </div>
+  return (
+    <div className={skeletonStyles.chatSkeletonWrapper}>
+      {/* Header */}
+      <div className={skeletonStyles.skeletonHeader}></div>
+
+      {/* Messages */}
+      <div className={skeletonStyles.skeletonChatBody}>
+        {skeletonMessages.map((_, i) => (
+          <div
+            key={i}
+            className={`${skeletonStyles.skeletonMessage} ${
+              i % 2 === 0 ? skeletonStyles.received : skeletonStyles.sent
+            }`}
+          >
+            <div className={skeletonStyles.skeletonSender}></div>
+            <div className={skeletonStyles.skeletonBubble}></div>
+            <div className={skeletonStyles.skeletonTime}></div>
+          </div>
+        ))}
       </div>
 
-      <div className={styles.chatInput}>
-        <div className={`${styles.inputField} ${styles.skeleton}`} />
-        <div className={`${styles.sendBtn} ${styles.skeleton}`} />
+      {/* Input */}
+      <div className={skeletonStyles.skeletonInputBar}>
+        <div className={skeletonStyles.skeletonInputIcon}></div>
+        <div className={skeletonStyles.skeletonInput}></div>
+        <div className={skeletonStyles.skeletonSendIcon}></div>
       </div>
     </div>
   );

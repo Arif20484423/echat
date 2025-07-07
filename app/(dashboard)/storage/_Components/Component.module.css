@@ -163,7 +163,7 @@
 
 .buttons{
     position: absolute;
-    right: 10px;
+    right: 30px;
     top: 5px;
     display: flex;
 }
@@ -272,6 +272,12 @@
  
 .selectedmenu{
     position: absolute;
-    right: 260px;
+    right: 5px;
     top: 15px;
+}
+.selectedmenudrop{
+    position: absolute;
+    right: 10px;
+    z-index: 2;
+    
 }

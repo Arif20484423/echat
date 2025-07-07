@@ -4,7 +4,7 @@
   
 }
 .header {
-  /* background-color: yellow; */
+  
   display: flex;
   align-items: center;
   height: 50px;
@@ -18,8 +18,7 @@
   }
 .menu {
   width: 50px;
-  /* height: 100vh; */
-  /* background-color: green; */
+  height: calc( 100vh - 50px);
   flex-shrink: 0;
   flex-grow: 0;
   position: relative;

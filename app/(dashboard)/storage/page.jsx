@@ -7,9 +7,6 @@ const page = () => {
       <StorageLayout />
     </div>
   );
-  // return (
-  //   <Storage/>
-  // )
 };
 
 export default page;

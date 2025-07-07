@@ -66,7 +66,10 @@ const Buttons = ({ fileref, folder, files, newFolder, setNewFolder }) => {
                 setNewFolder(e.target.value);
               }}
             />
-            <button onClick={folder}>Create</button>
+            <button onClick={()=>{
+              setAdd(false);
+              folder()
+            }}>Create</button>
           </div>
         </OutClick>
       )}

@@ -39,8 +39,8 @@ export default function Password({email}) {
         <form action={formAction}>
         <h2 className={styles.head}>Signup to eChat</h2>
         <input type="hidden" name='email' value={email}/>
-        <InputLabel tag="Password" name="password" type="password" setValue={setPassword}/>
-        <InputLabel tag="Confirm Password" name="passwordcheck" type="password" setValue={setPasswordCheck}/>
+        <InputLabel tag="Password" name="password" type="password" setValue={setPassword} required={true}/>
+        <InputLabel tag="Confirm Password" name="passwordcheck" type="password" setValue={setPasswordCheck} required={true}/>
         {error &&  <ErrorMessage message={state?.message?state?.message:""}/>}
         <Button tag={pending?"Setting Password":"Set Password"} type="submit" disabled={disabled }/>
         </form>

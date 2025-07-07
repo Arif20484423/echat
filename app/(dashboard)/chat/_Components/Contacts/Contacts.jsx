@@ -6,50 +6,50 @@ import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { Context } from "@/app/_context/NoteContext";
-const Contacts = ({ check, setContacts, contacts }) => {
+const Contacts = ({ check, setContacts }) => {
   const [loading, setLoading] = useState(true);
-  const [connected, setConnected] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [filter, setFilter] = useState("");
-  const [currentToUser,setCurrentToUser] = useState(null);
-  const [select, setSelect] = useState(false);
-  const [selectedContacts, setSelectedContacts] = useState([]);
-  const { setToUser, user, toUser, connectedRefetch, setConnectedRefetch , socket } =
-    useContext(Context);
+  const {
+    toUser2,
+    setToUser2,
+    connectedRefetch,
+    connected,
+    setConnected,
+  } = useContext(Context);
+
+  function selectContact(data){
+    if(!setContacts)
+    setToUser2(data)
+  }
   useEffect(() => {
-    console.log("REfetching cont")
     fetch("/api/connections")
       .then(async (d) => {
-        console.log("res", d);
         const res = await d.json();
         return res;
       })
       .then((d) => {
         setConnected(d.data);
-        setFiltered(d.data);
         setLoading(false);
-        // console.log(d.data);
-        if (toUser == null && sessionStorage.getItem("toUser")) {
-          setToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
-          setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
+        if (toUser2 == null && sessionStorage.getItem("toUser")) {
+          setToUser2(() => JSON.parse(sessionStorage.getItem("toUser")));
         }
-        setCurrentToUser(() => JSON.parse(sessionStorage.getItem("toUser")));
-        console.log("REfetchcont")
       });
-    console.log("REfetched cont")
-  }, [connectedRefetch,toUser]);
+  }, [connectedRefetch]);
 
   useEffect(() => {
     const fil = connected.filter((e) => {
       if (e.isgroup) {
-        return e.group[0].name.substring(0, filter.length) == filter;
+        return e.group[0].name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
       } else {
-        return e.connections[0].user.name.substring(0, filter.length) == filter;
+        return e.connections[0].user.name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
       }
     });
-    // console.log(fil)
-    setFiltered(fil);
-  }, [filter]);
+    fil.sort((a,b)=>{
+      return new Date(b.lastMessage) - new Date(a.lastMessage);
+    })
+    setFiltered(fil); 
+  }, [filter,connected]);
   if (loading) {
     return <LoadingSkeleton />;
   }
@@ -69,54 +69,55 @@ const Contacts = ({ check, setContacts, contacts }) => {
       
       <div className={styles.contacts}>
         {filtered.map((e, i) => {
-          if (e.isgroup) {
-            {
-              /* image={e.connections[0].user.image} */
+          if(!e.deleted){
+            if (e.isgroup) {
+              return (
+                <Contact
+                  key={e._id}
+                  check={check}
+                  selectContact={() => {
+                    setContacts((c) => [...c, e]);
+                  }}
+                  deselectContact={() => {
+                    setContacts((c) => c.filter((ce) => ce._id != e._id));
+                  }}
+                  userchatid={e._id}
+                  isgroup={true}
+                  name={e.group[0].name}
+                  image={e.group[0].image ? e.group[0].image.file : "/profile.jpg"}
+                  lastSeen={e.lastSeen}
+                  lastMessage={e.lastMessage}
+                  onClick={() => {
+                    selectContact(e);
+                  }}
+                />
+              );
+            } else {
+              return (
+                <Contact
+                  key={e._id}
+                  check={check}
+                  selectContact={() => {
+                    setContacts((c) => [...c, e]);
+                  }}
+                  deselectContact={() => {
+                    setContacts((c) => c.filter((ce) => ce._id != e._id));
+                  }}
+                  userchatid={e._id}
+                  isgroup={false}
+                  name={e.connections[0].user.name}
+                  email={e.connections[0].user.email}
+                  image={e.connections[0].user.image?e.connections[0].user.image:"/profile.jpg"}
+                  lastSeen={e.lastSeen}
+                  lastMessage={e.lastMessage}
+                  onClick={() => {
+                    selectContact(e);
+                  }}
+                />
+              );
             }
-            return (
-              <Contact
-                key={e._id}
-                check={check}
-                setContacts={setContacts}
-                contacts={contacts}
-                select={select}
-                setSelect={setSelect}
-                userchatid={e._id}
-                currentToUser={currentToUser}
-                isgroup={true}
-                name={e.group[0].name}
-                description={e.group[0].description}
-                channelid={e.channelid}
-                connections={e.connections}
-                image={e.group[0].image.file}
-                lastSeen={e.lastSeen}
-                lastMessage={e.lastMessage}
-              />
-            );
-          } else {
-            return (
-              <Contact
-                key={e._id}
-                check={check}
-                setContacts={setContacts}
-                contacts={contacts}
-                select={select}
-                setSelect={setSelect}
-                userchatid={e._id}
-                isgroup={false}
-                currentToUser={currentToUser}
-                name={e.connections[0].user.name}
-                description={e.connections[0].user.description}
-                id={e.connections[0].user._id}
-                connections={e.connections}
-                channelid={e.channelid}
-                email={e.connections[0].user.email}
-                image={e.connections[0].user.image}
-                lastSeen={e.lastSeen}
-                lastMessage={e.lastMessage}
-              />
-            );
           }
+          
         })}
       </div>
     </>

@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createGroupChannel } from "../../_chatfunctions/chatfunctions";
 
 
+//in use
 export async function POST(req:NextRequest){
 
     const session =  await auth()

@@ -55,7 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
         const json = await res.json();
         if (json.success) {
-          console.log("cred",json.user)
           return json.user;
         } else {
           throw new Error("Invalid Username or Password");
@@ -70,6 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt({ token, user }) {
       if (user) {
         token.id = (user as {_id?:string})._id;
+        token.email = (user as {  email: string }).email;
       }
       return token;
     },
@@ -78,6 +78,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           
             ...(session.user || {}),
             id: token.id as string, // Add `id` with a type assertion
+            email:token.email as string,
           };
           return session;
     },

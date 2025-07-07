@@ -9,33 +9,31 @@ import { useRouter } from 'next/navigation'
 
 const GroupInfo = ({users,setPage}) => {
     const router = useRouter()
-    const {user,setToUser} =useContext(Context)
+    const {user} =useContext(Context)
     const [name,setName]= useState("");
     const [description,setDescription]= useState("");
     const [errorMessage,setErrorMessage] = useState("");
+    const [creating, setCreating] = useState(false);
     const imageRef= useRef(null);
     async function handleClick(){
+        setCreating(true)
         const formData = new FormData();
-        console.log(imageRef.current.file)
         formData.append("image",imageRef.current.files[0])
-        formData.append("user",user.id)
+        formData.append("user",user._id)
         formData.append("name",name);
         formData.append("description",description);
         for(let i=0;i<users.length;i++){
             formData.append("toUsers",users[i]);
         }
-        console.log("send")
         const res= await fetch("/api/group/channel",{
             method:"POST",
             body:formData
         })
-        console.log("retruned")
+        setCreating(false);
         if(res.redirected){
             router.replace(res.url);
         }
-        console.log("json fetch")
         const d = await res.json();
-        console.log(d)
         if(d.success){
             setPage(()=>1);
         }
@@ -45,9 +43,6 @@ const GroupInfo = ({users,setPage}) => {
                 setErrorMessage(()=>"")
             },3000)
         }
-        // const group=await createGroupChannel(user.id,users,name,description,formData);
-
-        
     }
   return (
     <div className={styles.groupinfo}>
@@ -55,10 +50,9 @@ const GroupInfo = ({users,setPage}) => {
         
         <InputLabel tag="Name" name="name" setValue={setName}/>
         <InputLabel tag="Description" name="description" setValue={setDescription}/>
-        {/* <button className={styles.create}>Create Group</button> */}
         <input type="file" ref={imageRef}  accept='.jpg, .jpeg, .png' />
         <ErrorMessage message={errorMessage}/>
-        <FunctionButton onClick={handleClick}>create group</FunctionButton>
+        <FunctionButton onClick={handleClick} disabled={creating}>{creating?"Creating Group":"Create Group"}</FunctionButton>
     </div>
   )
 }

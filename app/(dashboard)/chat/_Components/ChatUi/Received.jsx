@@ -10,13 +10,9 @@ import OutClick from "@/app/_UIComponents/OutClick";
 const Received = ({
   selectflag,
   setSelectflag,
-  selected,
-  setSelected,
-  forward,
+  selectMessage,
+  deselectMessage,
   setForward,
-  messageid,
-  userfileid,
-  fileid,
   username,
   message,
   file,
@@ -26,14 +22,21 @@ const Received = ({
   name,
   time,
 }) => {
-  const { setMessageNotification } = useContext(Context);
+  const { messages, setMessages } = useContext(Context);
   const [options, setOptions] = useState(false);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
   const date = new Date(time);
   async function handleDelete() {
-    await deleteMesssage(id);
-    setMessageNotification((m) => !m);
+    let temp = [];
+    for (let j = 0; j < messages.length; j++) {
+      if (messages[j]._id == id) {
+        messages[j].delete = true;
+      }
+      temp.push(messages[j]);
+    }
+    setMessages(temp);
+    deleteMesssage(id);
   }
   function handleClick(e) {
     if (
@@ -58,7 +61,7 @@ const Received = ({
               link={file}
               type={type}
               extension={extension}
-              name={name.substring(0, 50)}
+              name={name ? name.substring(0, Math.min(50,name.length)):""}
             />
           )}
           <p>{message}</p>
@@ -74,20 +77,9 @@ const Received = ({
           style={{ transform: "scale(1.3)" }}
           onChange={(e) => {
             if (e.target.checked) {
-              setSelected((s) => [
-                ...s,
-                {
-                  id: id,
-                  messageid: messageid,
-                  userfileid: userfileid,
-                  fileid: fileid,
-                },
-              ]);
+              selectMessage();
             } else {
-              const filtered = selected.filter((e) => {
-                return e.messageid != messageid;
-              });
-              setSelected(filtered);
+              deselectMessage();
             }
           }}
         />
@@ -117,14 +109,10 @@ const Received = ({
                 {
                   name: "Forward",
                   action: () => {
-                    setSelected((s) => [
-                      ...s,
-                      { id, messageid, userfileid, fileid },
-                    ]);
+                    selectMessage();
                     setOptions(false);
                     setForward(true);
                     setSelectflag(false);
-                    
                   },
                 },
                 { name: "Delete", action: handleDelete },

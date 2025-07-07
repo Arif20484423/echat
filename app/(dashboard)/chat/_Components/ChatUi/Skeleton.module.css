@@ -1,86 +1,113 @@
-.chatContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #f0f0f0;
-    font-family: sans-serif;
-  }
+.chatSkeletonWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f9f9f9;
+}
+
+/* Header with spacing like your skeletonSearch */
+.skeletonHeader {
+  height: 150px;
+  border-radius: 10px;
+  margin: 10px 10px 6px 10px;
+  background-color: var(--lightGrey);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Messages container */
+.skeletonChatBody {
+  padding: 10px;
+  overflow-y: hidden;
+  width: 97%;
+
+}
+
+/* Each message */
+.skeletonMessage {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--lightGrey);
+  animation: pulse 1.5s infinite ease-in-out;
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   
-  .chatHeader {
-    height: 60px;
-    padding: 16px;
-    background-color: #dcdcdc;
-  }
+}
+
+.received {
   
-  .chatBody {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+  width: 220px;
+}
+
+.sent {
   
-  .message {
-    max-width: 60%;
-    padding: 12px;
-    border-radius: 10px;
-  }
-  
-  .received {
-    align-self: flex-start;
-    background-color: #ddd;
-  }
-  
-  .sent {
-    align-self: flex-end;
-    background-color: #ccc;
-  }
-  
-  .bubbleLine {
-    height: 12px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    background-color: #ccc;
-  }
-  
-  .bubbleLine:last-child {
-    margin-bottom: 0;
-  }
-  
-  .chatInput {
-    display: flex;
-    padding: 12px;
-    background-color: #dcdcdc;
-    gap: 12px;
-  }
-  
-  .inputField {
-    flex: 1;
-    height: 40px;
-    border-radius: 8px;
-    background-color: #ccc;
-  }
-  
-  .sendBtn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ccc;
-  }
-  
-  .skeleton {
-    animation: pulse 1.5s infinite ease-in-out;
-    background: linear-gradient(90deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
-    background-size: 200% 100%;
-  }
-  
-  /* @keyframes pulse {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-   */
+  margin: 0 0px 0 auto ;
+  width: 220px;
+}
+
+/* Sender name */
+.skeletonSender {
+  width: 80px;
+  height: 10px;
+  border-radius: 4px;
+  background-color: #ddd;
+}
+
+/* Bubble line */
+/* Each message bubble (simulate different heights) */
+.skeletonBubble {
+  height: 12px;
+  width: 100%;
+  border-radius: 6px;
+  background-color: #ddd;
+}
+
+/* Add this for extra realism: simulate multi-line bubbles */
+.skeletonBubble::after {
+  content: '';
+  display: block;
+  height: 12px;
+  width: 80%;
+  margin-top: 4px;
+  border-radius: 6px;
+  background-color: #ddd;
+}
+
+
+/* Timestamp */
+.skeletonTime {
+  height: 10px;
+  width: 50px;
+  border-radius: 4px;
+  background-color: #ddd;
+  align-self: flex-end;
+}
+
+/* Input bar */
+.skeletonInputBar {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  border-top: 1px solid #ddd;
+  background: #fff;
+}
+
+.skeletonInputIcon,
+.skeletonSendIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ddd;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonInput {
+  flex: 1;
+  height: 36px;
+  border-radius: 9999px;
+  background-color: #ddd;
+  animation: pulse 1.5s infinite ease-in-out;
+}

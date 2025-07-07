@@ -7,6 +7,10 @@ const LoadingSkeleton = () => {
 
   return (
     <div className={styles.contacts}>
+      <div className={skeletonStyles.skeletonSearch}>
+        <div className={skeletonStyles.skeletonSearchPlaceholder}></div>
+        <div className={skeletonStyles.skeletonSearchIcon}></div>
+      </div>
       {skeletonArray.map((_, i) => (
         <div key={i} className={skeletonStyles.skeletonContact}>
           <div className={skeletonStyles.skeletonImage}></div>

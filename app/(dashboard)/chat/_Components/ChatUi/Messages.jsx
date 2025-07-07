@@ -17,12 +17,13 @@ import {
 var cryptojs = require("crypto-js");
 const Messages = () => {
   const {
-    toUser,
+    toUser2,
     user,
     messageNotification,
-    setMessageNotification,
-    setConnectedRefetch,
-    socket
+    messages,
+    setMessages,
+    socket,
+    setConnected,
   } = useContext(Context);
 
   const [forwarding, setForwarding] = useState(false);
@@ -32,45 +33,20 @@ const Messages = () => {
   const [menuDrop, setMenuDrop] = useState(false);
   const menuRef = useRef(null);
   const [forward, setForward] = useState(false);
-  const [messages, setMessages] = useState([]);
 
   const ref = useRef(null);
   useEffect(() => {
-    if (user && toUser) {
-      // fetching messages for current user and channel according to second user as it will contain channel info
+    if (toUser2 && user) {
       fetch("/api/messages", {
         method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
+        body: JSON.stringify({ channelid: toUser2.channelid, user: user._id }),
       })
         .then((d) => d.json())
         .then((d) => {
-          // console.log(d.data);
           setMessages(d.data);
         });
     }
-  }, [messageNotification, user, toUser]);
-  // useEffect(() => {
-  //   if (messageNotification && messageNotification.from) {
-  //     if (!toUser) {
-  //       // refetch contacts
-  //       setConnectedRefetch((t) => !t);
-  //     } else {
-  //       if (messageNotification.from !== toUser.id) {
-  //         // refetch contacts
-  //         setConnectedRefetch((t) => !t);
-  //       }
-  //     }
-  //   }
-  // }, [messageNotification]);
-
-  // useEffect(()=>{
-  //   alert("op")
-  //   ref.current.scrollTop=ref.current.scrollHeight;
-  // },[])
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
-
+  }, [messageNotification, toUser2, user]);
   return (
     <div className={styles.messages} ref={ref}>
       {forward && (
@@ -87,29 +63,57 @@ const Messages = () => {
               className={styles.send}
               onClick={async () => {
                 setForwarding(true);
-                await forwardMessage(selected, contacts, user.id);
+                let { newMessages } = await forwardMessage(
+                  selected,
+                  contacts,
+                  user
+                );
                 setForwarding(false);
-                const emitUsers = [];
-                console.log(contacts)
-                for (let i = 0; i < contacts.length; i++) {
-                  let tousers = [];
-                  for (let j = 0; j < contacts[i].connections.length; j++) {
-                    tousers.push(contacts[i].connections[j].user._id);
+                newMessages = JSON.parse(newMessages);
+                for (let i = 0; i < newMessages[user._id].length; i++) {
+                  if (newMessages[user._id][i].channel == toUser2.channelid) {
+                    setMessages((m) => [...m, newMessages[user._id][i]]);
+                    setConnected((t) =>
+                      t.map((e) => {
+                        if (e.channelid == newMessages[user._id][i].channel) {
+                          e = {
+                            ...e,
+                            ...newMessages[user._id][i].channelupdate,
+                          };
+                        }
+                        return e;
+                      })
+                    );
+                  } else {
+                    setConnected((t) =>
+                      t.map((e) => {
+                        if (e.channelid == newMessages[user._id][i].channel) {
+                          e = {
+                            ...e,
+                            ...newMessages[user._id][i].channelupdate,
+                          };
+                        }
+                        return e;
+                      })
+                    );
                   }
-                  emitUsers.push({
-                    channelid: contacts[i].channelid,
-                    users: tousers,
-                  });
+                }
+
+                for (let userid in newMessages) {
+                  if (userid != user._id) {
+                    for (let i = 0; i < newMessages[userid].length; i++) {
+                      socket.emit("message", {
+                        from: newMessages[userid][i].channel,
+                        to: userid,
+                        message: [newMessages[userid][i]],
+                      });
+                    }
+                  }
                 }
                 setContacts([]);
                 setSelected([]);
                 setForward(false);
                 setSelectflag(false);
-                
-                socket.emit("messagemultiple", {
-                  to: emitUsers,
-                  message: "new Message",
-                }); //mesagenotification to other to reload chats
               }}
               disabled={forwarding}
             >
@@ -154,13 +158,24 @@ const Messages = () => {
                           name: "Cancel",
                           action: () => {
                             setSelectflag(false);
+                            setSelected([]); // added while cleaning
                           },
                         },
                         {
                           name: "Delete",
                           action: async () => {
-                            await deleteMultipleMesssage(selected);
-                            setMessageNotification((t) => !t);
+                            let temp = [];
+                            for (let j = 0; j < messages.length; j++) {
+                              for (let i = 0; i < selected.length; i++) {
+                                if (messages[j]._id == selected[i]._id) {
+                                  messages[j].delete = true;
+                                  break;
+                                }
+                              }
+                              temp.push(messages[j]);
+                            }
+                            setMessages(temp);
+                            deleteMultipleMesssage(selected);
                             setSelectflag(false);
                             setMenuDrop(false);
                             setSelected([]);
@@ -216,8 +231,12 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -241,8 +260,12 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -268,8 +291,12 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -293,8 +320,12 @@ const Messages = () => {
                       message={decryptedMessage}
                       selectflag={selectflag}
                       setSelectflag={setSelectflag}
-                      selected={selected}
-                      setSelected={setSelected}
+                      selectMessage={() => {
+                        setSelected((s) => [...s, e]);
+                      }}
+                      deselectMessage={() => {
+                        setSelected((s) => s.filter((f) => f._id != e._id));
+                      }}
                       forward={forward}
                       setForward={setForward}
                       file={e.file ? e.file.file.file : null}
@@ -307,66 +338,6 @@ const Messages = () => {
                   </React.Fragment>
                 );
               }
-            }
-
-            {
-              /* return (
-                      <div
-                        key={e._id}
-                        onClick={() => {
-                          setSelectedMsg((s) => [...s, e._id]);
-                        }}
-                      >
-                        <p>{e.message.user.name}</p>
-                        <p>{decryptedMessage}</p>
-                        {e.file && !e.file.delete && <img src={e.file.file.file} alt="hjd" />}
-                        <button
-                          onClick={async () => {
-                            await deleteMesssage(e._id);
-                            setMessageNotification(e._id);
-                          }}
-                        >
-                          delete
-                        </button>
-                        {self && (
-                          <button
-                            onClick={async () => {
-                              // deleteion based on whether its a group message or one to one
-                              if (toUser.isgroup) {
-                                fetch("/api/getchannelusers", {
-                                  method: "POST",
-                                  body: JSON.stringify({
-                                    channel: toUser.channelid,
-                                  }),
-                                })
-                                  .then((d) => d.json())
-                                  .then(async (d) => {
-                                    await deleteForEveryoneMesssageGroup(
-                                      e._id, // deleting this specific message instance (at the users side user channel message will be deleted)
-                                      d.data, // other members for which the message will be deleted via channel and message id help
-                                      e.channel,
-                                      e.message._id
-                                    );
-                                    setMessageNotification(e._id);
-                                  });
-                              } else {
-                                console.log("other");
-                                await deleteForEveryoneMesssage(
-                                  e._id, // deleting this specific message instance (at the users side user channel message will be deleted)
-                                  e.channel, // other members for which the message will be deleted via channel and message id help
-                                  toUser.id,
-                                  e.message._id
-                                );
-                              }
-                              setMessageNotification(e._id);
-                            }}
-                          >
-                            delete for everyone
-                          </button>
-                        )}
-                      </div>
-             
-                    ); */
             }
           }
         }

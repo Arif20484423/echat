@@ -3,7 +3,7 @@ import { User } from "@/models/models";
 import { NextRequest, NextResponse } from "next/server";
 import { getFileId, getFileLink } from "../../_chatfunctions/chatfunctions";
 
-
+// in use
 export async function POST(req:NextRequest){
     const session = await auth();
     if(session){

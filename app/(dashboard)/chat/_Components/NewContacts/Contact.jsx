@@ -2,12 +2,11 @@
 import React, { useContext } from 'react'
 import styles from "../Contacts/Contacts.module.css";
 import styles2 from "./NewContacts.module.css"
-import { VscKebabVertical } from "react-icons/vsc";
 import { Context } from '@/app/_context/NoteContext';
 import { createChannel } from '@/lib/actions/chatActions';
 const Contact = ({id,name,email,image,setPage}) => {
   
-  const {setToUser,user} = useContext(Context)
+  const {user} = useContext(Context)
 
   return (
     <div className={styles.contactbox} >

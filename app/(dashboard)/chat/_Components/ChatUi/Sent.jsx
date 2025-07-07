@@ -15,9 +15,8 @@ import { Context } from "@/app/_context/NoteContext";
 const Sent = ({
   selectflag,
   setSelectflag,
-  selected,
-  setSelected,
-  forward,
+  selectMessage,
+  deselectMessage,
   setForward,
   username,
   message,
@@ -25,14 +24,13 @@ const Sent = ({
   name = "uwedg",
   id,
   messageid,
-  userfileid,
-  fileid,
   type,
   extension,
   time,
 }) => {
   const [options, setOptions] = useState(false);
-  const { setMessageNotification, toUser, user, socket } = useContext(Context);
+  const { toUser2, socket, messages, setMessages } =
+    useContext(Context);
   const dropRef = useRef(null);
   const dropPointerRef = useRef(null);
 
@@ -50,37 +48,63 @@ const Sent = ({
   }
 
   async function handleDelete() {
-    await deleteMesssage(id);
-    setMessageNotification((m) => !m);
+    let temp = [];
+    for (let j = 0; j < messages.length; j++) {
+      
+        if (messages[j]._id == id) {
+          messages[j].delete = true;
+        }
+      
+      temp.push(messages[j]);
+    }
+    setMessages(temp);
+    deleteMesssage(id);
   }
   async function handleDeleteForAll() {
-    if (toUser.isgroup) {
-      const res = await fetch("/api/channel/users", {
-        method: "POST",
-        body: JSON.stringify({ channelid: toUser.channelid, user: user.id }),
-      });
+    if (toUser2.isgroup) {
+      let temp = [];
+      for (let j = 0; j < messages.length; j++) {
+        if (messages[j]._id == id) {
+          messages[j].delete = true;
+        }
 
-      const d = await res.json();
-      await deleteForEveryoneMesssageGroup(
+        temp.push(messages[j]);
+      }
+      setMessages(temp);
+      deleteForEveryoneMesssageGroup(
         id,
-        d.data,
-        toUser.channelid,
+        toUser2.connections,
+        toUser2.channelid,
         messageid
       );
-      setMessageNotification((m) => !m);
-      for (let i = 0; i < d.data.length; i++) {
-        console.log(d.data[i]);
-        socket.emit("delete", { to: d.data[i], message: "message deleted" }); //mesagenotification to other to reload chats
+      for (let i = 0; i < toUser2.connections.length; i++) {
+        socket.emit("delete", {
+          from: toUser2.channelid,
+          to: toUser2.connections[i].user._id,
+          messageid: messageid,
+        }); 
       }
     } else {
-      await deleteForEveryoneMesssage(
+      let temp = [];
+      for (let j = 0; j < messages.length; j++) {
+        if (messages[j]._id == id) {
+          messages[j].delete = true;
+        }
+
+        temp.push(messages[j]);
+      }
+      setMessages(temp);
+      deleteForEveryoneMesssage(
         id,
-        toUser.channelid,
-        toUser.id,
+        toUser2.channelid,
+        toUser2.connections[0].user._id,
         messageid
       );
-      setMessageNotification((m) => !m);
-      socket.emit("delete", { to: toUser.id, message: "message deleted" }); //mesagenotification to other to reload chats
+      socket.emit("delete", {
+        from: toUser2.channelid,
+        to: toUser2.connections[0].user._id,
+        messageid: messageid,
+      }); 
     }
   }
   useEffect(() => {
@@ -103,10 +127,7 @@ const Sent = ({
                 {
                   name: "Forward",
                   action: () => {
-                    setSelected((s) => [
-                      ...s,
-                      { id, messageid, userfileid, fileid },
-                    ]);
+                    selectMessage();
                     setOptions(false);
                     setForward(true);
                     setSelectflag(false);
@@ -125,20 +146,9 @@ const Sent = ({
           style={{ transform: "scale(1.3)" }}
           onChange={(e) => {
             if (e.target.checked) {
-              setSelected((s) => [
-                ...s,
-                {
-                  id: id,
-                  messageid: messageid,
-                  userfileid: userfileid,
-                  fileid: fileid,
-                },
-              ]);
+              selectMessage();
             } else {
-              const filtered = selected.filter((e) => {
-                return e.messageid != messageid;
-              });
-              setSelected(filtered);
+              deselectMessage();
             }
           }}
         />
@@ -161,7 +171,7 @@ const Sent = ({
               link={file}
               type={type}
               extension={extension}
-              name={name.substring(0, 50)}
+              name={name ? name.substring(0, Math.min(50,name.length)):""}
             />
           )}
           <p>{message}</p>
