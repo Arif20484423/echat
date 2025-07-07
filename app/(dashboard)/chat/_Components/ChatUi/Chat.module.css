@@ -16,7 +16,7 @@
 }
 .chatheader{
     /* padding-top: 10px; */
-    height: 70px;
+    height: 60px;
     background-color: var(--blue);
     
     border-radius: 10px;
@@ -24,13 +24,16 @@
     display: flex;
     align-items: center;
 }
+.chatheader:hover{
+    cursor: pointer;
+}
 .userinfo{
     padding-left: 20px;
     display: flex;
     align-items: center;
 }
 .name{
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     color: white;
     margin: 0; 
@@ -38,7 +41,7 @@
 
 }
 .desc{
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     color: white;
     margin: 0; 
@@ -46,8 +49,8 @@
 }
 .userimage{
     
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         object-fit: cover;
         object-position: 20% 30%;
         margin-right: 10px;
@@ -201,7 +204,7 @@
     z-index: 1;
     position: fixed;
     right: 25px;
-    top: 35px;
+    top: 28px;
     cursor: pointer;
 }
 .selectdrop{

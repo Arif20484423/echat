@@ -13,8 +13,10 @@ const GroupInfo = ({users,setPage}) => {
     const [name,setName]= useState("");
     const [description,setDescription]= useState("");
     const [errorMessage,setErrorMessage] = useState("");
+    const [creating, setCreating] = useState(false);
     const imageRef= useRef(null);
     async function handleClick(){
+        setCreating(true)
         const formData = new FormData();
         formData.append("image",imageRef.current.files[0])
         formData.append("user",user._id)
@@ -27,6 +29,7 @@ const GroupInfo = ({users,setPage}) => {
             method:"POST",
             body:formData
         })
+        setCreating(false);
         if(res.redirected){
             router.replace(res.url);
         }
@@ -49,7 +52,7 @@ const GroupInfo = ({users,setPage}) => {
         <InputLabel tag="Description" name="description" setValue={setDescription}/>
         <input type="file" ref={imageRef}  accept='.jpg, .jpeg, .png' />
         <ErrorMessage message={errorMessage}/>
-        <FunctionButton onClick={handleClick}>create group</FunctionButton>
+        <FunctionButton onClick={handleClick} disabled={creating}>{creating?"Creating Group":"Create Group"}</FunctionButton>
     </div>
   )
 }

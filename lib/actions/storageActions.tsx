@@ -147,10 +147,13 @@ export async function sendMedia(files: any, contacts: any, user: any) {
       );
 
       for (let k = 0; k < contacts[i].connections.length; k++) {
-        let toUserFile = await UserFile.findOne({
+        var toUserFile = await UserFile.findOne({
           user: contacts[i].connections[k].user._id,
           file: files[j].file._id,
         });
+        if(toUserFile){
+          toUserFile = await UserFile.findByIdAndUpdate(toUserFile._id,{delete:false},{new:true});
+        }
         if (!toUserFile) {
           const touserfolder = await getUserFolder(
             contacts[i].connections[k].user._id,

@@ -434,7 +434,7 @@ export default function Chat({ setChatPage }) {
               onClick={async () => {
                 setSending(true);
                 await sendMessage();
-
+                messageRef.current.value = "";
                 setSending(false);
               }}
               xmlns="http://www.w3.org/2000/svg"

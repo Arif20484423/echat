@@ -283,16 +283,21 @@ export async function forwardMessage(
 
         newMessages[user._id].push(userNewMessage);
         for (let k = 0; k < tousers[j].connections.length; k++) {
-          let touserfile = await UserFile.findOne({
+          var touserfile = await UserFile.findOne({
             user: tousers[j].connections[k].user._id,
             file: channelmessages[i].file.file._id,
           });
+          if(touserfile){
+            touserfile = await UserFile.findByIdAndUpdate(touserfile._id, { delete: false }, {new : true});
+
+          }
           if (!touserfile) {
             const userfolder = await getUserFolder(
               tousers[j].connections[k].user._id,
               "received"
             );
-            const touserfile = await getUserFile(
+            
+            touserfile = await getUserFile(
               channelmessages[i].file.file._id,
               channelmessages[i].file.name,
               tousers[j].connections[k].user._id,
@@ -303,7 +308,7 @@ export async function forwardMessage(
             user: tousers[j].connections[k].user._id,
             channel: tousers[j].channelid,
             message: messageid,
-            file: touserfile._id,
+            file: touserfile,
             time: new Date().toString(),
           });
           const channelupdate = {
@@ -444,10 +449,14 @@ export async function sendStorageMedia(
     newMessages[user._id].push(ret);
 
     for (let j = 0; j < tousers.connections.length; j++) {
-      let touserfile = await UserFile.findOne({
+      var touserfile = await UserFile.findOne({
         user: tousers.connections[j].user._id,
         file: userfiles[i].file._id,
       });
+      if(touserfile){
+        touserfile = await UserFile.findByIdAndUpdate(touserfile._id, { delete: false },{new:true});
+
+      }
       if (!touserfile) {
         const userfolder = await getUserFolder(
           tousers.connections[j].user._id,

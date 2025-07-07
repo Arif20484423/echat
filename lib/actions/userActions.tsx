@@ -148,9 +148,7 @@ export async function userResetPassword(
   formData: FormData
 ): Promise<ResponseType | undefined> {
   const session = await auth();
-  console.log("Session",session)
   const email = session?.user?.email;
-  console.log("Email",email)
   const passwordSchema = z
     .string()
     .min(3, { message: "Password length should be greater than 3" });
@@ -168,7 +166,6 @@ export async function userResetPassword(
   const value = formData.get("currentpassword");
   const currentpassword = value ? value.toString() : "";
   // const currentpassword=formData.get('currentpassword')?.toString()==null || formData.get('currentpassword')?.toString()==undefined ?formData.get('currentpassword')?.toString():"na"
-  console.log("CHECKING PASS",userregistered.pasword)
   if (bcrypt.compareSync(currentpassword, userregistered.password)) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(validateduser.data, salt);

@@ -58,6 +58,9 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
     setSelected([]);
   }
   useEffect(() => {
+    if (check) {
+      setSelectFlag(true);
+    }
     fetch("http://localhost:3000/api/user/photos", {
       method: "POST",
     })

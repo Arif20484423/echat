@@ -51,4 +51,33 @@
       background-color: #ddd;
     }
   }
-  
+  /* SEARCH‑BAR SKELETON */
+.skeletonSearch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0 12px;
+  margin-bottom: 6px;                   /* optional spacing */
+  border-radius: 999px;
+  background-color: var(--lightBlue_10);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonSearchPlaceholder {
+  width: 120px;                         /* “Search name” width */
+  height: 12px;
+  border-radius: 5px;
+  background-color: #ccc;
+}
+
+.skeletonSearchIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+/* pulse keyframes already exist in your file:
+@keyframes pulse { 0%{background:#ddd;} 50%{background:#ccc;} 100%{background:#ddd;} }
+*/

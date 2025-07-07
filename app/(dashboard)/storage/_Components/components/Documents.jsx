@@ -59,6 +59,9 @@ const FolderFiles = ({ check, setChecked }) => {
     setSelected([]);
   }
   useEffect(() => {
+    if(check){
+      setSelectFlag(true);
+    }
     fetch("http://localhost:3000/api/user/documents", {
       method: "POST",
     })

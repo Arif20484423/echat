@@ -19,6 +19,7 @@ const Contacts = ({ check, setContacts }) => {
   } = useContext(Context);
 
   function selectContact(data){
+    if(!setContacts)
     setToUser2(data)
   }
   useEffect(() => {
