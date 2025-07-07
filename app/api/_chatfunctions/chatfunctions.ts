@@ -280,26 +280,6 @@ export async function deleteMesssage(id: String) {
 
   //delete media implementation left
 }
-export async function deleteForEveryoneMesssage(
-  id: String,
-  channel: String,
-  user: String,
-  messageid: String
-) {
-  // setting delete true for  each user with this channel and message
-  await ChannelMessage.findByIdAndUpdate(id, { delete: true });
-  await ChannelMessage.updateOne(
-    { channel: channel, user: user, message: messageid },
-    { delete: true }
-  );
-  //delete media implementation left
-}
-
-export async function deleteChat(id: String) {
-  // setting deleted true to show chat deleted adn starttime to make sure this chat further if opened taht will show messages after this current time slot
-  await Channel.findByIdAndUpdate(id, { deleted: true, starttime: new Date() });
-  //delete media implementation left
-}
 
 export async function createGroupChannel(formData: FormData) {
   //creating channel at once side
@@ -348,22 +328,6 @@ export async function createGroupChannel(formData: FormData) {
   return { success: true };
 }
 
-export async function deleteForEveryoneMesssageGroup(
-  id: String,
-  toUsers: String[],
-  channel: String,
-  messageid: String
-) {
-  // setting delete true for  each user with this channel and message
-  await ChannelMessage.findByIdAndUpdate(id, { delete: true }); // for current user we get the id of the doc having user channel and message so used id to faster find and deletion
-  for (let i = 0; i < toUsers.length; i++) {
-    await ChannelMessage.updateOne(
-      { channel: channel, user: toUsers[i], message: messageid },
-      { delete: true }
-    );
-  }
-  //delete media implementation left
-}
 
 export async function getFileIdByLink(file: any) {
   // used

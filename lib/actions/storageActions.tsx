@@ -3,16 +3,13 @@
 import {
   Channel,
   ChannelMessage,
-  Files,
   Message,
-  User,
   UserFile,
   UserFolder,
 } from "@/models/models";
 import {
   getFileId,
   getUserFile,
-  getUserFileId,
   getUserFolder,
 } from "./chatActions";
 var cryptojs = require("crypto-js");
