@@ -7,7 +7,7 @@ const Layout = async ({ children }) => {
   if (session == null) {
     redirect("/user/signin");
   } else {
-    console.log(session);
+    console.log("SESSION",session);
   }
 
   return (

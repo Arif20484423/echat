@@ -24,20 +24,30 @@ export default function Login() {
       <FormContainer>
         <form action={formAction}>
           <h2 className={styles.head}>Login to eChat</h2>
-          <InputLabel tag="Email" name="email"/>
-          <InputLabel tag="Password" name="password" />
+          <InputLabel tag="Email" name="email" required={true} />
+          <InputLabel tag="Password" name="password" required={true} />
 
-          {error && <ErrorMessage message={state?.message?state?.message:""}/>}
+          {error && (
+            <ErrorMessage message={state?.message ? state?.message : ""} />
+          )}
 
-          <Button tag="Submit" type="submit" disabled={pending}/>
-          <p className={styles.formlink}>New User, <Link href="/user/signup">Signup</Link> </p>
+          <Button tag="Submit" type="submit" disabled={pending} />
+          <p className={styles.formlink}>
+            New User, <Link href="/user/signup">Signup</Link>{" "}
+          </p>
           <div className={styles.icons}>
-            <FaGoogle size={25} onClick={()=>{
-              userSignInGoogle()
-            }}/>
-            <FaGithub size={25} onClick={()=>{
-              userSignInGithub()
-            }}/>
+            <FaGoogle
+              size={25}
+              onClick={() => {
+                userSignInGoogle();
+              }}
+            />
+            <FaGithub
+              size={25}
+              onClick={() => {
+                userSignInGithub();
+              }}
+            />
           </div>
         </form>
       </FormContainer>

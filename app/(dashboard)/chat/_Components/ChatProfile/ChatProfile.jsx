@@ -103,7 +103,7 @@ const ChatProfile = ({ setChatPage }) => {
                     height={100}
                   />
                   <p className={styles.filename}>
-                    {e.file.name.substring(0, 15)}
+                    {e.file.name?e.file.name.substring(0, 15):""}
                   </p>
                 </div>
               );

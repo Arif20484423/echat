@@ -32,11 +32,9 @@ export default function Signup({ next, setEmail }) {
   return (
     <>
       <FormContainer>
-        {"kahsd"}
-        
         <form action={formAction}>
           <h2 className={styles.head}>Signup to eChat</h2>
-          <InputLabel tag="Email" name="email" setValue={setEmail} />
+          <InputLabel tag="Email" name="email" setValue={setEmail} required={true}/>
           {error && (
             <ErrorMessage message={state?.message ? state?.message : ""} />
           )}
