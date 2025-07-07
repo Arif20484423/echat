@@ -29,7 +29,7 @@ const SelectedMenu = ({ setSelectFlag, send, deleteMultiple }) => {
 
       {drop && (
         <OutClick show={drop} setShow={setDrop} caller={dropper}>
-          <div className={styles.dropdown}>
+          <div className={styles.selectedmenudrop}>
             <Dropdown
               options={[
                 { name: "cancel", action: cancel },
