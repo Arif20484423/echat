@@ -9,10 +9,8 @@ import {
   deleteFile,
   deleteFiles,
   deleteFolder,
-  moveMedia,
   renameFile,
   renameFolder,
-  renameMedia,
   sendMedia,
 } from "@/lib/actions/storageActions";
 import SelectedMenu from "./SelectedMenu";
@@ -29,73 +27,63 @@ const FolderFiles = ({
   setChecked,
 }) => {
   const { user, socket } = useContext(Context);
-  // console.log("userin ",user)
-  const [folders, setFolders] = useState(null);
-  const [files, setFiles] = useState(null);
+  const [folders, setFolders] = useState([]);
+  const [files, setFiles] = useState([]);
   const [sendFlag, setSendFlag] = useState(false);
   const [selectFlag, setSelectFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [contacts, setContacts] = useState([]);
 
   async function send() {
-    let files = [];
-    for (let i = 0; i < selected.length; i++) {
-      files.push(selected[i].file);
-    }
-    await sendMedia(files, contacts, user.id);
-    setSendFlag(false);
-    const emitUsers = [];
-    console.log(contacts);
-    for (let i = 0; i < contacts.length; i++) {
-      let tousers = [];
-      for (let j = 0; j < contacts[i].connections.length; j++) {
-        tousers.push(contacts[i].connections[j].user._id);
+    let { newMessages } = await sendMedia(selected, contacts, user);
+    newMessages = JSON.parse(newMessages);
+    for (let userid in newMessages) {
+      if (userid != user._id) {
+        for (let i = 0; i < newMessages[userid].length; i++) {
+          socket.emit("message", {
+            from: newMessages[userid][i].channel,
+            to: userid,
+            message: [newMessages[userid][i]],
+          });
+        }
       }
-      emitUsers.push({
-        channelid: contacts[i].channelid,
-        users: tousers,
-      });
     }
+    setSendFlag(false);
     setContacts([]);
     setSelectFlag(false);
     setSelected([]);
-    socket.emit("messagemultiple", {
-      to: emitUsers,
-      message: "new Message",
-    }); //mesagenotification to other to reload chats
   }
   async function deleteMultiple() {
-    let userFiles = [];
-    for (let i = 0; i < selected.length; i++) {
-      userFiles.push(selected[i].userfile);
-    }
-    await deleteFiles(userFiles);
+    deleteFiles(selected);
+    setFiles((f) =>
+      f.map((fe) => {
+        for (let i = 0; i < selected.length; i++) {
+          if (fe._id == selected[i]._id) {
+            fe.delete = true;
+            break;
+          }
+        }
+        return fe;
+      })
+    );
     setSendFlag(false);
     setContacts([]);
     setSelectFlag(false);
     setSelected([]);
-    setRefetch((t) => !t);
   }
-  useEffect(() => {
-    if (check) {
-      setChecked(selected);
-    }
-  }, [selected]);
 
   useEffect(() => {
     if (check) {
       setSelectFlag(true);
     }
     if (pos >= 0) {
-      //   console.log(pathFolders)
-      //   console.log(pos)
       fetch("/api/user/folders", {
         method: "POST",
         body: JSON.stringify({ folder: pathFolders[pos]._id }),
       })
         .then((d) => d.json())
         .then((d) => {
-          // console.log(d.data);
+          console.log("folder", d.data)
           setFolders(d.data);
         });
       fetch("/api/user/files", {
@@ -104,18 +92,14 @@ const FolderFiles = ({
       })
         .then((d) => d.json())
         .then((d) => {
+          console.log("files", d.data);
           setFiles(d.data);
-          // console.log("datafiles", d.data);
         });
     }
-  }, [pos, refetch]);
+  }, [pos,refetch]);
 
   return (
     <>
-      {/* <div className={styles.movePopup}>
-      <StorageLayout/>
-     </div> */}
-
       {sendFlag && (
         <Popup>
           <div className={styles.contactbox}>
@@ -129,13 +113,15 @@ const FolderFiles = ({
             <button className={styles.send} onClick={send}>
               Send
             </button>
-            <button className={styles.cancel} onClick={()=>{
-              setSendFlag(false)
-              setContacts([])
-              setSelected([])
-              setSelectFlag(false)
-              
-            }}>
+            <button
+              className={styles.cancel}
+              onClick={() => {
+                setSendFlag(false);
+                setContacts([]);
+                setSelected([]);
+                setSelectFlag(false);
+              }}
+            >
               Cancel
             </button>
           </div>
@@ -145,35 +131,15 @@ const FolderFiles = ({
         <SelectedMenu
           setSelectFlag={setSelectFlag}
           send={() => {
-            setSelectFlag(false)
+            setSelectFlag(false);
             setSendFlag(true);
           }}
           deleteMultiple={deleteMultiple}
         />
       )}
-
-      {/* <br />
-    <button onClick={async ()=>{
-        console.log(media)
-        const formData= new FormData();
-        media.map((e)=>{
-            if(e.folder){
-                formData.append("folders",e.id)
-            }
-            else{
-                formData.append("files",e.id)
-            }
-        })
-        await moveMedia(formData,pathFolders[pos]._id)
-        setRefetch((t)=>!t)
-        setMedia([]);
-    }}>here</button>
-    <br /> */}
-
-      {/* <div> */}
-
-      {folders &&
+      {
         folders.map((e, i) => {
+          if( !e.delete)
           return (
             <div key={e._id}>
               <div
@@ -215,21 +181,35 @@ const FolderFiles = ({
                   name={e.name}
                   editable={!(e.name == "upload" || e.name == "received")}
                   deleteItem={async () => {
-                    await deleteFolder(e._id);
-                    setRefetch((t) => !t);
+                    deleteFolder(e._id);
+                    setFolders((f) =>
+                      f.map((fe) => {
+                        if (fe._id == e._id) {
+                          fe.delete = true;
+                        }
+                        return fe;
+                      })
+                    );
                   }}
                   renameItem={async (name) => {
-                    await renameFolder(e._id, name);
-                    setRefetch((t) => !t);
+                    renameFolder(e._id, name);
+                    setFolders((f) =>
+                      f.map((fe) => {
+                        if (fe._id == e._id) {
+                          fe.name = name;
+                        }
+                        return fe;
+                      })
+                    );
                   }}
                 />
               </div>
-              {/* <button >delete</button> */}
             </div>
           );
         })}
-      {files &&
+      {
         files.map((e) => {
+          if(e.file && !e.delete)
           return (
             <div
               key={e._id}
@@ -246,41 +226,49 @@ const FolderFiles = ({
                 type={e.file.type}
                 ext={e.file.extension}
                 selectFlag={selectFlag}
-                selected={selected}
-                setSelected={setSelected}
                 selectFile={() => {
-                  setChecked((c) => [...c, e]);
+                  if (setChecked) setChecked((c) => [...c, e]);
+                  setSelected((c) => [...c, e]);
                 }}
                 deselectFile={() => {
-                  setChecked((c) => c.filter((ce)=>ce._id!=e._id)); 
+                  if (setChecked)
+                    setChecked((c) => c.filter((ce) => ce._id != e._id));
+                  setSelected((c) => c.filter((ce) => ce._id != e._id));
                 }}
                 selectItem={() => {
                   setSelectFlag((t) => !t);
                 }}
                 deleteItem={async () => {
-                  await deleteFile(e._id);
-                  setRefetch((t) => !t);
+                  deleteFile(e._id);
+                  setFiles((f) =>
+                    f.map((fe) => {
+                      if (fe._id == e._id) {
+                        fe.delete = true;
+                      }
+                      console.log(fe)
+                      return fe;
+                    })
+                  );
                 }}
                 renameItem={async (name) => {
-                  await renameFile(e._id, name);
-                  setRefetch((t) => !t);
+                  renameFile(e._id, name);
+                  setFiles((f) =>
+                    f.map((fe) => {
+                      if (fe._id == e._id) {
+                        fe.name = name;
+                      }
+                      return fe;
+                    })
+                  );
                 }}
                 sendItem={() => {
-                  // alert("sshjb")
-                  setChecked((c) => [...c, { file: e.file, userfile: e }]);
+                  setSelected((c) => [e]);
                   setSendFlag(true);
                 }}
               />
-              {/* <button onClick={()=>{
-            setMedia([...media,{id:e._id,folder:false}])
-        }}>move</button> */}
-              {/* <button onClick={()=>{
-            deleteFile(e._id)
-        }}>delete</button> */}
             </div>
           );
         })}
-      {/* </div> */}
     </>
   );
 };

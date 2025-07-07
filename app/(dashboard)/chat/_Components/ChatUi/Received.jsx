@@ -61,7 +61,7 @@ const Received = ({
               link={file}
               type={type}
               extension={extension}
-              name={name.substring(0, 50)}
+              name={name ? name.substring(0, Math.min(50,name.length)):""}
             />
           )}
           <p>{message}</p>

@@ -8,75 +8,54 @@ import { Context } from "@/app/_context/NoteContext";
 import {
   deleteFile,
   deleteFiles,
-  deleteFolder,
-  moveMedia,
   renameFile,
-  renameFolder,
-  renameMedia,
   sendMedia,
 } from "@/lib/actions/storageActions";
 import SelectedMenu from "./SelectedMenu";
-const FolderFiles = ({
-  //   pathFolders,
-  //   setPathFolders,
-  //   pos,
-  //   setPos,
-  //   lastPos,
-  //   setLastPos,
-  //   refetch,
-  //   setRefetch,
-  check,
-  setChecked,
-  fileClick,
-}) => {
-  const { user ,socket} = useContext(Context);
-  // console.log("userin ",user)
-  const [refetch, setRefetch] = useState(false);
-  const [folders, setFolders] = useState(null);
-  const [files, setFiles] = useState(null);
+const FolderFiles = ({ check, setChecked, fileClick }) => {
+  const { user, socket } = useContext(Context);
+  const [files, setFiles] = useState([]);
   const [sendFlag, setSendFlag] = useState(false);
   const [selectFlag, setSelectFlag] = useState(false);
   const [selected, setSelected] = useState([]);
   const [contacts, setContacts] = useState([]);
 
   async function send() {
-    let files = [];
-    for (let i = 0; i < selected.length; i++) {
-      files.push(selected[i].file);
-    }
-    await sendMedia(files, contacts, user.id);
-    setSendFlag(false);
-    const emitUsers = [];
-    console.log(contacts);
-    for (let i = 0; i < contacts.length; i++) {
-      let tousers = [];
-      for (let j = 0; j < contacts[i].connections.length; j++) {
-        tousers.push(contacts[i].connections[j].user._id);
+    let { newMessages } = await sendMedia(selected, contacts, user);
+    newMessages = JSON.parse(newMessages);
+    for (let userid in newMessages) {
+      if (userid != user._id) {
+        for (let i = 0; i < newMessages[userid].length; i++) {
+          socket.emit("message", {
+            from: newMessages[userid][i].channel,
+            to: userid,
+            message: [newMessages[userid][i]],
+          });
+        }
       }
-      emitUsers.push({
-        channelid: contacts[i].channelid,
-        users: tousers,
-      });
     }
+    setSendFlag(false);
     setContacts([]);
     setSelectFlag(false);
     setSelected([]);
-    socket.emit("messagemultiple", {
-      to: emitUsers,
-      message: "new Message",
-    }); //mesagenotification to other to reload chats
   }
   async function deleteMultiple() {
-    let userFiles = [];
-    for (let i = 0; i < selected.length; i++) {
-      userFiles.push(selected[i].userfile);
-    }
-    await deleteFiles(userFiles);
+    deleteFiles(selected);
+    setFiles((f) =>
+      f.map((fe) => {
+        for (let i = 0; i < selected.length; i++) {
+          if (fe._id == selected[i]._id) {
+            fe.delete = true;
+            break;
+          }
+        }
+        return fe;
+      })
+    );
     setSendFlag(false);
     setContacts([]);
     setSelectFlag(false);
     setSelected([]);
-    setRefetch((t) => !t);
   }
   useEffect(() => {
     fetch("http://localhost:3000/api/user/photos", {
@@ -84,23 +63,12 @@ const FolderFiles = ({
     })
       .then((d) => d.json())
       .then((d) => {
-        // console.log("photos", d.data);
         setFiles(() => d.data);
-        // console.log(photos)
       });
-  }, [refetch]);
-  useEffect(() => {
-    if (check) {
-      setSelectFlag(true)
-      setChecked(selected);
-    }
-  }, [selected]);
+  }, []);
+
   return (
     <>
-      {/* <div className={styles.movePopup}>
-      <StorageLayout/>
-     </div> */}
-
       {sendFlag && (
         <Popup>
           <div className={styles.contactbox}>
@@ -138,84 +106,66 @@ const FolderFiles = ({
           deleteMultiple={deleteMultiple}
         />
       )}
-
-      {/* <br />
-    <button onClick={async ()=>{
-        console.log(media)
-        const formData= new FormData();
-        media.map((e)=>{
-            if(e.folder){
-                formData.append("folders",e.id)
-            }
-            else{
-                formData.append("files",e.id)
-            }
-        })
-        await moveMedia(formData,pathFolders[pos]._id)
-        setRefetch((t)=>!t)
-        setMedia([]);
-    }}>here</button>
-    <br /> */}
-
-      {/* <div> */}
-
-      {files &&
-        files.map((e) => {
-          if (e.file)
-            return (
-              <div
-                key={e._id}
-                className=" bg-slate-500"
-                onDoubleClick={() => {
-                  window.open(e.file.file);
+      {files.map((e) => {
+        if (e.file && !e.delete)
+          return (
+            <div
+              key={e._id}
+              className=" bg-slate-500"
+              onDoubleClick={() => {
+                window.open(e.file.file);
+              }}
+            >
+              <StorageItem
+                userfileid={e._id}
+                fileid={e.file._id}
+                name={e.name}
+                src={e.file.file}
+                type={e.file.type}
+                ext={e.file.extension}
+                selectFlag={selectFlag}
+                selectFile={() => {
+                  if (setChecked) setChecked((c) => [...c, e]);
+                  setSelected((c) => [...c, e]);
                 }}
-              >
-                <StorageItem
-                  userfileid={e._id}
-                  fileid={e.file._id}
-                  name={e.name}
-                  src={e.file.file}
-                  type={e.file.type}
-                  ext={e.file.extension}
-                  selectFlag={selectFlag}
-                  selected={selected}
-                  setSelected={setSelected}
-                  selectFile={() => {
-                    setChecked((c) => [...c, e]);
-                  }}
-                  deselectFile={() => {
+                deselectFile={() => {
+                  if (setChecked)
                     setChecked((c) => c.filter((ce) => ce._id != e._id));
-                  }}
-                  selectItem={() => {
-                    setSelectFlag((t) => !t);
-                  }}
-                  deleteItem={async () => {
-                    await deleteFile(e._id);
-                    setRefetch((t) => !t);
-                  }}
-                  renameItem={async (name) => {
-                    await renameFile(e._id, name);
-                    setRefetch((t) => !t);
-                  }}
-                  sendItem={() => {
-                    // alert("sshjb")
-                    setSelected((s) => [
-                      ...s,
-                      { file: e.file, userfile: e._id },
-                    ]);
-                    setSendFlag(true);
-                  }}
-                />
-                {/* <button onClick={()=>{
-            setMedia([...media,{id:e._id,folder:false}])
-        }}>move</button> */}
-                {/* <button onClick={()=>{
-            deleteFile(e._id)
-        }}>delete</button> */}
-              </div>
-            );
-        })}
-      {/* </div> */}
+                  setSelected((c) => c.filter((ce) => ce._id != e._id));
+                }}
+                selectItem={() => {
+                  setSelectFlag((t) => !t);
+                }}
+                deleteItem={async () => {
+                  deleteFile(e._id);
+                  setFiles((f) =>
+                    f.map((fe) => {
+                      if (fe._id == e._id) {
+                        fe.delete = true;
+                      }
+                      return fe;
+                    })
+                  );
+                }}
+                renameItem={async (name) => {
+                  renameFile(e._id, name);
+                  setFiles((f) =>
+                    f.map((fe) => {
+                      if (fe._id == e._id) {
+                        fe.name = name;
+                      }
+                      return fe;
+                    })
+                  );
+                }}
+                sendItem={() => {
+                  setSelected((s) => [e]);
+                  setSendFlag(true);
+                }}
+              />
+            </div>
+          );
+      })}
     </>
   );
 };

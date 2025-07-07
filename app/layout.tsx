@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SetSocket from "./_Components/SetUserSocket";
 import NoteProvider from "./_context/NoteProvider";
-import SetUser from "./_Components/SetUser";
 const inter = Inter({ subsets: ["greek"] });
 
 export const metadata: Metadata = {

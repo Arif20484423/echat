@@ -9,14 +9,10 @@ const Item = ({
   src,
   name,
   ext,
-  userfileid,
-  fileid,
   deleteItem,
   renameItem,
   sendItem,
   selectFlag,
-  selected,
-  setSelected,
   selectItem,
   selectFile,
   deselectFile,
@@ -41,7 +37,6 @@ const Item = ({
           }}
           onChange={(e) => {
             e.stopPropagation();
-            console.log(name);
             if (e.target.checked) {
               selectFile()
             } else {
