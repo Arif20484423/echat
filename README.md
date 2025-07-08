@@ -1,6 +1,94 @@
-## In Development Phase - UI Part remaining backend completed (Implementing UI)
+# eChat (Chat and Storage) 
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#### (Email based Application as like Whatspp is phone number based)
+
+This is a full stack Next and express (for socket) based project and combination of a chat appplication and a file manager.
+
+
+## Reason to build this 
+```bash
+We always use whatsapp or any other chat application for both of our work and also professional work and while doing that all the professionally received files are mixed up with other unnecessary pictures and files.
+
+Thats why i came up with this idea to merge the chat ap and file storage in one piece of application so that 
+first - It can be used professionally 
+second - All the professional talks and thoughts at one place
+third - All the professional files remain at one place 
+fourth - All the files can be managed easily by foldering, deleting, renaming and further file related operations
+
+```
+
+## Target Customers 
+```bash
+All the Remote workers
+SDE
+School Staffs
+Company Staff
+Freelancers
+Lawyers
+All the persons who need to separate their work from other unnecessary stuffs 
+```
+
+## Why this is a competetor of other similar aplication  
+```bash
+The Reason is- 
+The Simple UI
+Similar to other chatapps
+Similar to File manager
+That let it be easily accessible 
+We can provide the easiest user interface to be a competetor for other similar Applications
+
+```
+
+
+## About the application
+
+## Ways to Register
+```bash
+Google signup
+Github signup
+Email signup
+
+```
+
+## Ways to Login
+```bash
+Google signin
+Github signin
+Email and Password based signin
+
+```
+
+## Chat functionalities
+```bash
+Add a friend
+Create a Group 
+Send text message (with emojis)
+Send Images, Videos, files, etc.
+Forward messages
+Delete messages
+Delete messages for everyone
+Select messages (to delete/foward multiple messages in once)
+View other users profile (with their information and the media shared between you and the other user you are chatting)
+Time denoted for all messages
+
+```
+
+## Storage functionalities
+```bash
+View all files and folders
+View Photos separately
+View Videos separately
+View Documents separately
+Create folder
+Upload files
+Delete files and folders
+Rename files and folders
+Send files (from storage location to chats directly)
+Select files (to delete/send multile files in one step )
+
+```
+
+
 
 ## Imp file env.local 
 Code needs some secrets and all that is in .env.local file in the local stoarage pc
