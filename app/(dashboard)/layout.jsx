@@ -12,6 +12,7 @@ const Layout = async ({ children }) => {
 
   return (
     <>
+      
       <SetSocket />
       {children}{" "}
     </>

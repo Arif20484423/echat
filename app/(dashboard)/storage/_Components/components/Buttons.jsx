@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import OutClick from "@/app/_UIComponents/OutClick";
 import styles from "../Component.module.css";
 
-const Buttons = ({ fileref, folder, files, newFolder, setNewFolder }) => {
+const Buttons = ({ fileref, folder, filesUpload,files, newFolder, setNewFolder }) => {
   const [add, setAdd] = useState(false);
   const addref = useRef(null);
   return (
@@ -22,8 +22,9 @@ const Buttons = ({ fileref, folder, files, newFolder, setNewFolder }) => {
           onClick={() => {
             fileref.current.click();
           }}
+          disabled={filesUpload}
         >
-          Upload Files{" "}
+          {filesUpload?"Uploading Files":"Upload Files"}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"

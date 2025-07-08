@@ -12,6 +12,7 @@ export default function NoteProvider({ children }) {
   const [messages, setMessages] = useState([]);
   const [connectedRefetch, setConnectedRefetch] = useState(true);
   const [connected, setConnected] = useState([]);
+  const [online,setOnline] = useState(false)
   const toUserRef = useRef(null);
 
   useEffect(() => {
@@ -19,15 +20,13 @@ export default function NoteProvider({ children }) {
       sessionStorage.setItem("user", JSON.stringify(user));
     }
   }, [user]);
-  useEffect(()=>{
-    console.log(connected)
-  },[connected])
+
   useEffect(() => {
-    toUserRef.current=toUser2;
+    toUserRef.current = toUser2;
     if (toUser2) {
       sessionStorage.setItem("toUser", JSON.stringify(toUser2));
     }
-  }, [toUser, user,toUser2]);
+  }, [toUser, user, toUser2]);
   return (
     <Context.Provider
       value={{
@@ -48,6 +47,8 @@ export default function NoteProvider({ children }) {
         setConnectedRefetch,
         connected,
         setConnected,
+        online,
+        setOnline
       }}
     >
       {children}

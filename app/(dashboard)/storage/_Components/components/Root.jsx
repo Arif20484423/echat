@@ -15,6 +15,7 @@ const Root = ({ fileClick,  check,setChecked }) => {
   const { user } = useContext(Context);
   //folder path related
   const [pathFolders, setPathFolders] = useState([]);
+  const [filesUpload,setFilesUpload] = useState(false)
   const [pos, setPos] = useState(-1);
   const [lastPos, setLastPos] = useState(-1);
 
@@ -79,7 +80,9 @@ const Root = ({ fileClick,  check,setChecked }) => {
         }}
         newFolder={newFolder}
         setNewFolder={setNewFolder}
+        filesUpload={filesUpload}
         files={async () => {
+          setFilesUpload(true)
           const formData = new FormData();
           for (let i = 0; i < fileref.current.files.length; i++) {
             formData.append("files", fileref.current.files[i]);
@@ -91,6 +94,7 @@ const Root = ({ fileClick,  check,setChecked }) => {
             body: formData,
           });
           const data = await res.json();
+          setFilesUpload(false);
           setRefetch((t) => !t);
         }}
       />

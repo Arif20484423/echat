@@ -11,7 +11,8 @@ import { FiUser } from "react-icons/fi";
 import { FiUsers } from "react-icons/fi";
 import { FaRegFolder } from "react-icons/fa";
 const Menu = ({ setPage, page }) => {
-  const { user } = useContext(Context);
+  
+  const { user,online } = useContext(Context);
   const [userinfo, setUserinfo] = useState(false);
   return (
     <>
@@ -64,30 +65,29 @@ const Menu = ({ setPage, page }) => {
           <PiSignOutBold className={`${styles.menuicon} `} />
         </div>
 
-        <img
-          src={
-            user && user.image && user.image.length > 0
-              ? user.image
-              : "/profile.jpg"
-          }
-          alt="user"
-          width={50}
-          onClick={() => {
-            setUserinfo((t) => !t);
-          }}
-        />
+        <div className={styles.userimage}>
+          <img
+            src={
+              user && user.image && user.image.length > 0
+                ? user.image
+                : "/profile.jpg"
+            }
+            alt="user"
+            width={50}
+            onClick={() => {
+              setUserinfo((t) => !t);
+            }}
+          />
+          <div className={`${online ? styles.online : styles.offline}`}></div>
+        </div>
+
         {userinfo && (
-          <>
-            <UserInfo
-              setUserinfo={setUserinfo}
-              name_={user.name}
-              image_={user.image ? user.image : "/profile.jpg"}
-              desc_={user.description}
-            />
-            <div className={`${online ? styles.online : styles.offline}`}>
-              
-            </div>
-          </>
+          <UserInfo
+            setUserinfo={setUserinfo}
+            name_={user.name}
+            image_={user.image ? user.image : "/profile.jpg"}
+            desc_={user.description}
+          />
         )}
       </div>
     </>

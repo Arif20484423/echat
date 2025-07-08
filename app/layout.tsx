@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["greek"] });
 
 export const metadata: Metadata = {
   title: "eChat",
-  description: "Chat Application",
+  description: "Chat Application and Storage",
 };
 
 export default async function RootLayout({

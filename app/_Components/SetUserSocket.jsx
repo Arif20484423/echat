@@ -9,6 +9,7 @@ const SetSocket = () => {
     toUserRef,
     setMessages,
     setConnected,
+    setOnline
   } = useContext(Context);
   // component for connecting and setting up socket
   useEffect(() => {
@@ -24,11 +25,13 @@ const SetSocket = () => {
           setSocket(sock);
 
           sock.on("connect", () => {
-            console.log("Connected");
+            // console.log("Connected");
+            setOnline(true)
             sock.emit("join_room", { room: data.user._id });
           });
           sock.on("disconnect",()=>{
-            console.log("Disconnected")
+            setOnline(false);
+            // console.log("Disconnected")
           });
           sock.on("message", (data) => {
             if (toUserRef.current) {
