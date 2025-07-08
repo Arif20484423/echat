@@ -39,7 +39,10 @@ const Contacts = ({ check, setContacts }) => {
 
   useEffect(() => {
     const fil = connected.filter((e) => {
-      if (e.isgroup) {
+      if(e.deleted){
+        return false;
+      }
+      else if (e.isgroup) {
         if(e.group[0].name)
         return e.group[0].name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
       else
@@ -74,8 +77,9 @@ const Contacts = ({ check, setContacts }) => {
       </div>
       
       <div className={styles.contacts}>
+          {filtered.length==0  && <p className={styles.message}>Seems you are not connected to any of the user so connect by adding user (refer to nav labels at the right)</p>}
         {filtered.map((e, i) => {
-          if(!e.deleted){
+          
             if (e.isgroup) {
               return (
                 <Contact
@@ -122,7 +126,7 @@ const Contacts = ({ check, setContacts }) => {
                 />
               );
             }
-          }
+          
           
         })}
         

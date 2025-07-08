@@ -96,3 +96,9 @@
   background-color: var(--blue);
   border-radius: 100%;
 }
+
+.message{
+  color:grey;
+  text-align: center;
+  margin: 10px;
+}

@@ -40,6 +40,7 @@ const Contacts = ({setPage}) => {
         />
         <IoIosSearch className={styles.searchbutton} size={20} />
       </div>
+      {users.length <=1  && <p className={styles.message}>Seems no user is registered to echat, ask your friends to join echat and then continue with the application</p>}
       <div className={styles.contacts}>
         {users.map((e, i) => {
           {

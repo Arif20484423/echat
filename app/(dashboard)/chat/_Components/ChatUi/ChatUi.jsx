@@ -145,14 +145,29 @@ export default function Chat({ setChatPage }) {
   }
 
   useEffect(() => {
-    if (!sessionStorage.getItem("toUser")) {
-      setClient(true);
-    }
-  }, []);
+    // if (toUser2) {
+    //   setClient(true);
+    // }
+    // if (!sessionStorage.getItem("toUser")) {
+    //   setClient(true);
+    // }
+    setClient(true)
+  }, [toUser2]);
 
   if (toUser2 == null) {
     if (client) {
-      return <div>Hey Everyone </div>;
+      return (
+        <div className={styles.navlabelsmain}>
+          {" "}
+          <div className={styles.navbox}>
+            <img src="/navlabelsmain.png" alt="" />
+            <p>
+              Seems you have not started conversation you can refer to the
+              navbar icons and proceed accordingly
+            </p>
+          </div>{" "}
+        </div>
+      );
     } else {
       return <Skeleton />;
     }
