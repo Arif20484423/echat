@@ -1,97 +1,115 @@
-# eChat (Chat and Storage) 
+# 🚀 eChat (Chat and Storage)
 
-#### (Email based Application as like Whatspp is phone number based)
+### *(Email-Based Application — Like WhatsApp is Phone Number-Based)*
 
-This is a full stack Next and express (for socket) based project and combination of a chat appplication and a file manager.
+A full-stack chat and file storage application built using **Next.js** and **Express (for sockets)**. It combines the power of messaging and file management into one seamless tool.
 
+---
 
-## Reason to build this 
+## 🎯 Purpose Behind Building This
+
 ```bash
-We always use whatsapp or any other chat application for both of our work and also professional work and while doing that all the professionally received files are mixed up with other unnecessary pictures and files.
+We always use WhatsApp or similar chat applications for both personal and professional work.
+During that, professionally received files often get mixed up with unnecessary images and documents.
 
-Thats why i came up with this idea to merge the chat ap and file storage in one piece of application so that 
-first - It can be used professionally 
-second - All the professional talks and thoughts at one place
-third - All the professional files remain at one place 
-fourth - All the files can be managed easily by foldering, deleting, renaming and further file related operations
+That's why I came up with this idea — to merge chat and file storage into one application so that:
 
+1. It can be used professionally.
+2. All professional conversations and thoughts are kept in one place.
+3. All professional files stay organized in one location.
+4. Files can be managed easily with folder creation, deletion, renaming, and other operations.
 ```
 
-## Target Customers 
+---
+
+## 👥 Target Audience
+
 ```bash
-All the Remote workers
-SDE
-School Staffs
-Company Staff
-Freelancers
-Lawyers
-All the persons who need to separate their work from other unnecessary stuffs 
+• Remote Workers
+• Software Developers (SDEs)
+• School Staff
+• Corporate Employees
+• Freelancers
+• Lawyers
+• Anyone who needs to separate work from personal clutter
 ```
 
-## Why this is a competetor of other similar aplication  
-```bash
-The Reason is- 
-The Simple UI
-Similar to other chatapps
-Similar to File manager
-That let it be easily accessible 
-We can provide the easiest user interface to be a competetor for other similar Applications
+---
 
+## 🆚 Why This Competes with Similar Applications
+
+```bash
+The reason is:
+
+• A clean and simple UI
+• Familiar experience like other chat apps
+• File Manager features
+• Extremely accessible
+
+With an intuitive interface, it can stand strong among existing chat and file-sharing apps.
 ```
 
+---
 
-## About the application
+## 🛠️ Application Features
 
-## Ways to Register
+---
+
+### 🔐 Registration Methods
+
 ```bash
-Google signup
-Github signup
-Email signup
-
+• Google Sign Up
+• GitHub Sign Up
+• Email Sign Up
 ```
 
-## Ways to Login
-```bash
-Google signin
-Github signin
-Email and Password based signin
+---
 
+### 🔑 Login Methods
+
+```bash
+• Google Sign In
+• GitHub Sign In
+• Email and Password Login
 ```
 
-## Chat functionalities
-```bash
-Add a friend
-Create a Group 
-Send text message (with emojis)
-Send Images, Videos, files, etc.
-Forward messages
-Delete messages
-Delete messages for everyone
-Select messages (to delete/foward multiple messages in once)
-View other users profile (with their information and the media shared between you and the other user you are chatting)
-Time denoted for all messages
+---
 
+### 💬 Chat Features
+
+```bash
+• Add a Friend
+• Create a Group
+• Send Text Messages (with Emojis)
+• Send Images, Videos, Files, etc.
+• Forward Messages
+• Delete Messages
+• Delete for Everyone
+• Select Multiple Messages (to Delete or Forward in One Action)
+• View User Profile (with shared media history)
+• Timestamps for All Messages
 ```
 
-## Storage functionalities
-```bash
-View all files and folders
-View Photos separately
-View Videos separately
-View Documents separately
-Create folder
-Upload files
-Delete files and folders
-Rename files and folders
-Send files (from storage location to chats directly)
-Select files (to delete/send multile files in one step )
+---
 
+### 🗂️ Storage Features
+
+```bash
+• View All Files and Folders
+• Filter by Photos, Videos, or Documents
+• Create Folders
+• Upload Files
+• Delete Files or Folders
+• Rename Files or Folders
+• Send Files Directly from Storage to Chats
+• Select Multiple Files (to Delete or Send in One Action)
 ```
 
+---
 
-## Important files to start the application 
+## ⚙️ Environment Setup
 
-## Frontend env file with these fields
+### 🔧 Frontend `.env` File
 
 ```bash
 DB_URI
@@ -105,70 +123,79 @@ NEXT_PUBLIC_SOCKET_URL
 NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
 ```
 
-## Backend env file with these fields
+---
+
+### 🔧 Backend `.env` File
 
 ```bash
 CHATAPP_URL="http://localhost:3000"
 ```
 
+---
 
-## Journey Throughout
+## 🧭 Development Journey
 
-Figma design - https://www.figma.com/design/kwJA70CWswiRDP4yCWVBXu/echat?node-id=0-1&p=f&t=YUC3nB5TUUeyq0jZ-0
+[Figma Design](https://www.figma.com/design/kwJA70CWswiRDP4yCWVBXu/echat?node-id=0-1&p=f&t=YUC3nB5TUUeyq0jZ-0)
 
+```bash
+1. Started from my existing backend login/signup template on GitHub.
 
-1- Tookup my own backend login/signup template from my own github repository
+2. Extended authentication to return the user ID and additional session details.
 
-2- Extended the functionalities to make autheentication return id too(some additional info to session)
+3. Began production setup to fix build-specific errors.
 
-3- Started production to resolve production errors beside development
+4. Faced a major Mongoose error in the auth.ts file — it took around 2 days to resolve.
 
-4- Stuck with a major error of mongoose that was running on edge on auth.ts file took so large to configure how to fix(2 days approx) ,
-
-learnings- Proper database connection  with two sites-
+Learning resources:
 https://dev.to/thatanjan/2-ways-to-set-up-nextjs-with-mongodb-and-mongoose-4afo
 https://medium.com/@aniruddh622003/setting-up-mongodb-with-mongoose-and-nextjs-13-3a598609c5d1
 
-Major error to fix -
-shift the database work of auth.ts file to api route and making fetch request resolved from
+Fix found here:
 https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-mongoose-dist-browser-umd-js-in-src-model
 
-5- Performed Imp changes for production from backendtemplate readme file
+5. Applied necessary production changes from my backend template’s README.
 
-6- Added socket in a client component called in root layout to let the socket work in every location througout the web app, (once the socket is being loaded it is asssigned to a state socket via setSocket function of use State)
+6. Initialized socket inside a client component in root layout — made it globally accessible by storing it in state.
 
-7- Designed a database model for our chat application , er diagram link https://app.diagrams.net/#G15HfFKoVb7JMASQf8YkSKYo6MRhmcwnuY#%7B%22pageId%22%3A%22dWDINIOhN6ajU6t8rEm0%22%7D
+7. Designed database schema for chat functionality.
+ER Diagram: https://app.diagrams.net/#G15HfFKoVb7JMASQf8YkSKYo6MRhmcwnuY#%7B%22pageId%22%3A%22dWDINIOhN6ajU6t8rEm0%22%7D
 
-8-Implemented models accordingly via mongoose schema
+8. Implemented schema using Mongoose models.
 
-9-Implemented server actions and api route to handle the creation of connection, group connection, messsage transfer, message delete 
+9. Created server actions and API routes for:
+   - Creating connections
+   - Group creation
+   - Sending messages
+   - Deleting messages
 
-10- For media storage used supabase storage bucket 
+10. Used Supabase storage bucket for media management.
 
-11- Implemented upload functionalities for uploading to supabase storage 
+11. Implemented file upload to Supabase.
 
-12- Updated database models for storing files and also folder management.  
+12. Updated database to store file metadata and support folder management.
 
-13- Also the major functions for uploading, sending and managing files are completed , remaining will be completed parallely with frontend development.
+13. Core features for uploading, managing, and sending files were completed.
 
-14- Started with the frontend part and completed all the UI part and the connections between frontend and backend
+14. Started frontend and connected all backend functionalities.
 
-15- The site was completed but still there was a problem i came up with like, some bugs, and also slow speed for doing any of the task .
+15. Initial version was working but had bugs and performance issues.
 
-16 - And then i decided to make changes to my structure databases and apis to make my app efficient.
+16. Decided to restructure DB and APIs to boost performance.
 
-17 - I read some documentation and blogs to how to make this app the most efficient .
+17. Read articles, blogs, and best practices to improve architecture.
 
-18 - I read the standards of a chat application so that i can come up with best chatapp that is highly effficient and scalable.
- 
-19 - After that i modified my databases , apis, some fetching startegies, some rendering strategies gone through the whole site again rebuild messed and finally completed the application that was mostly according to standard chat application .
+18. Studied chat app standards to make this app scalable and production-ready.
 
-20 - An that's it my whole journey for this application , next looking for further good and deep projects to apply and strengthen my skills learn more and enjoy .
+19. Rebuilt everything with optimized APIs, data fetching strategies, and rendering logic.
 
+20. Project completed. Looking forward to building more complex and impactful applications to grow my skills!
+```
 
-## Getting Started
+---
 
-First, run the development server:
+## ▶️ Getting Started
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -180,23 +207,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Start editing by modifying:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+app/page.tsx
+```
 
-## Learn More
+The app auto-updates as you save changes.
 
-To learn more about Next.js, take a look at the following resources:
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) for font performance.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## 📚 Learn More
 
-## Deploy on Vercel
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Next.js GitHub Repo](https://github.com/vercel/next.js/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 🚀 Deploy on Vercel
+
+The easiest way to deploy your Next.js app is via [Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+Learn more: [Deployment Docs](https://nextjs.org/docs/deployment)
