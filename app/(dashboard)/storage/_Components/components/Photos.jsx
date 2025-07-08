@@ -67,8 +67,7 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
           method: "POST",
         });
         let data = await res.json();
-        data = JSON.parse(data)
-        setFiles(data.data);  
+        console.log(data)
       } catch (error) {
         console.error(error)
       }
