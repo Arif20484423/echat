@@ -30,7 +30,6 @@ const Contacts = ({ check, setContacts }) => {
       })
       .then((d) => {
         setConnected(d.data);
-        console.log(d.data)
         setLoading(false);
         if (toUser2 == null && sessionStorage.getItem("toUser")) {
           setToUser2(() => JSON.parse(sessionStorage.getItem("toUser")));
@@ -126,6 +125,7 @@ const Contacts = ({ check, setContacts }) => {
           }
           
         })}
+        
       </div>
     </>
   );

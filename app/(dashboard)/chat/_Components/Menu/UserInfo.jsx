@@ -5,7 +5,6 @@ import styles from "./Menu.module.css";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 const UserInfo = ({ setUserinfo, name_, email_, image_, desc_ }) => {
-  console.log("CHECKING IMAGE ", image_);
   const router = useRouter();
   const ref = useRef(null);
   const imageRef = useRef(null);

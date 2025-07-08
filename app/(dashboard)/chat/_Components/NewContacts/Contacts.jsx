@@ -5,7 +5,9 @@ import styles from "../Contacts/Contacts.module.css";
 import compStyles from "../Component.module.css";
 import { IoIosSearch } from "react-icons/io";
 import LoadingSkeleton from "./LoadingSkeleton"
+import { Context } from "@/app/_context/NoteContext";
 const Contacts = ({setPage}) => {
+  const {user} = useContext(Context)
   const [loading,setLoading] = useState(true);
   const [key, setKey] = useState("");
   const [users, setUsers] = useState([]);
@@ -41,6 +43,7 @@ const Contacts = ({setPage}) => {
       <div className={styles.contacts}>
         {users.map((e, i) => {
           {
+            if(user._id!=e._id)
              return <Contact key={e._id} name={e.name} id={e._id}  email={e.email} image={e.image} setPage={setPage}/>; 
           }
         })}

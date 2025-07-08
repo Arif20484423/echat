@@ -28,13 +28,8 @@ export default function Chat({ setChatPage }) {
   const [showStorage, setShowStorage] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const storageRef = useRef(null);
-  const {
-    toUser2,
-    user,
-    socket,
-    setMessages,
-    setConnected,
-  } = useContext(Context);
+  const { toUser2, user, socket, setMessages, setConnected } =
+    useContext(Context);
 
   async function getFileLink(file) {
     let imagelink = null;
@@ -144,7 +139,7 @@ export default function Chat({ setChatPage }) {
           from: toUser2.channelid,
           to: emitUsers,
           message: d.newMessages[toUser2.connections[0].user._id],
-        });        
+        });
       }
     }
   }
@@ -416,15 +411,17 @@ export default function Chat({ setChatPage }) {
             ref={messageRef}
             onKeyUp={async (e) => {
               if (e.key == "Enter") {
-                setSending(true);
-                await sendMessage();
-                setSending(false);
-                messageRef.current.value = "";
+                if (messageRef.current.value.trim().length > 0) {
+                  setSending(true);
+                  await sendMessage();
+                  setSending(false);
+                  messageRef.current.value = "";
+                }
               }
             }}
             className={compStyles.input}
             style={{ width: "80%" }}
-            placeholder="your message here"
+            placeholder="your message here (cannot send empty messages)"
           />
 
           {sending ? (
@@ -432,10 +429,12 @@ export default function Chat({ setChatPage }) {
           ) : (
             <svg
               onClick={async () => {
-                setSending(true);
-                await sendMessage();
-                messageRef.current.value = "";
-                setSending(false);
+                if (messageRef.current.value.trim().length > 0) {
+                  setSending(true);
+                  await sendMessage();
+                  messageRef.current.value = "";
+                  setSending(false);
+                }
               }}
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
