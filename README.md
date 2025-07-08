@@ -89,7 +89,27 @@ Select files (to delete/send multile files in one step )
 ```
 
 
+## Important files to start the application 
 
+## Frontend env file with these fields
+
+```bash
+DB_URI
+AUTH_SECRET
+AUTH_GOOGLE_ID
+AUTH_GOOGLE_SECRET
+AUTH_GITHUB_ID
+AUTH_GITHUB_SECRET
+DOMAIN_URL_BASE
+NEXT_PUBLIC_SOCKET_URL
+NEXT_PUBLIC_MESSAGE_ENCRYPT_KEY
+```
+
+## Backend env file with these fields
+
+```bash
+CHATAPP_URL="http://localhost:3000"
+```
 
 
 ## Journey Throughout
@@ -137,7 +157,13 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 16 - And then i decided to make changes to my structure databases and apis to make my app efficient.
 
-17 - 
+17 - I read some documentation and blogs to how to make this app the most efficient .
+
+18 - I read the standards of a chat application so that i can come up with best chatapp that is highly effficient and scalable.
+ 
+19 - After that i modified my databases , apis, some fetching startegies, some rendering strategies gone through the whole site again rebuild messed and finally completed the application that was mostly according to standard chat application .
+
+20 - An that's it my whole journey for this application , next looking for further good and deep projects to apply and strengthen my skills learn more and enjoy .
 
 
 ## Getting Started
