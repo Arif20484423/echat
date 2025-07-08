@@ -9,7 +9,6 @@ export async function POST(req:NextRequest){
         const {userid}  = await req.json()
           const data = await UserFile.find({
             user: userid,
-            delete: { $ne: true },
           }).populate({ path: "file", match: { type: "image" } });
           return NextResponse.json(
             JSON.stringify({ success: true, data:data })

@@ -89,7 +89,7 @@ const Root = ({ fileClick,  check,setChecked }) => {
           }
           formData.append("user", user.id);
           formData.append("folder", pathFolders[pos]._id);
-          const res = await fetch("http://localhost:3000/api/user/media", {
+          const res = await fetch("/api/user/media", {
             method: "POST",
             body: formData,
           });

@@ -62,7 +62,7 @@ const FolderFiles = ({ check, setChecked }) => {
     if(check){
       setSelectFlag(true);
     }
-    fetch("http://localhost:3000/api/user/documents", {
+    fetch("/api/user/documents", {
       method: "POST",
     })
       .then((d) => d.json())

@@ -61,28 +61,13 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
     if (check) {
       setSelectFlag(true);
     }
-    async function fetchFiles(){
-      try {
-        const res = await fetch("http://localhost:3000/api/user/photos", {
-          method: "POST",
-          body:JSON.stringify({userid:user._id})
-        });
-        console.log(res)
-        if(res.ok){
-          let data = await res.json();
-          console.log(data)
-        console.log(JSON.parse(data));
-        }
-        else{
-          console.error("Error occured")
-        }
-        
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchFiles()
-
+    fetch("/api/user/photos", {
+      method: "POST",
+    })
+      .then((d) => d.json())
+      .then((d) => {
+        setFiles(() => d.data);
+      });
   }, []);
 
   return (
