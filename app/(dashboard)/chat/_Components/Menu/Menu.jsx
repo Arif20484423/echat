@@ -81,10 +81,11 @@ const Menu = ({ setPage, page }) => {
           <div className={`${online ? styles.online : styles.offline}`}></div>
         </div>
 
-        {userinfo && (
+        { user && userinfo && (
           <UserInfo
             setUserinfo={setUserinfo}
             name_={user.name}
+            email_={user.email}
             image_={user.image ? user.image : "/profile.jpg"}
             desc_={user.description}
           />

@@ -76,7 +76,7 @@ const FolderFiles = ({
     if (check) {
       setSelectFlag(true);
     }
-    if (pos >= 0) {
+    if (pos >= 0 && pathFolders.length > 0) {
       fetch("/api/user/folders", {
         method: "POST",
         body: JSON.stringify({ folder: pathFolders[pos]._id }),
@@ -94,7 +94,7 @@ const FolderFiles = ({
           setFiles(d.data);
         });
     }
-  }, [pos,refetch]);
+  }, [pos, refetch, pathFolders]);
 
   return (
     <>
@@ -135,9 +135,8 @@ const FolderFiles = ({
           deleteMultiple={deleteMultiple}
         />
       )}
-      {
-        folders.map((e, i) => {
-          if( !e.delete)
+      {folders.map((e, i) => {
+        if (!e.delete)
           return (
             <div key={e._id}>
               <div
@@ -204,10 +203,9 @@ const FolderFiles = ({
               </div>
             </div>
           );
-        })}
-      {
-        files.map((e) => {
-          if(e.file && !e.delete)
+      })}
+      {files.map((e) => {
+        if (e.file && !e.delete)
           return (
             <div
               key={e._id}
@@ -243,7 +241,6 @@ const FolderFiles = ({
                       if (fe._id == e._id) {
                         fe.delete = true;
                       }
-                      console.log(fe)
                       return fe;
                     })
                   );
@@ -266,7 +263,7 @@ const FolderFiles = ({
               />
             </div>
           );
-        })}
+      })}
     </>
   );
 };

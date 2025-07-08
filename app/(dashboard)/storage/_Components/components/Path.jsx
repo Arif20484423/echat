@@ -4,7 +4,7 @@ const Path = ({pathFolders,setPathFolders,pos,setPos,setLastPos}) => {
   return (
     <div className={styles.path}>
       {pathFolders.map((e, i) => {
-        if(i<=pos){
+        if(e && i<=pos ){
           return (
           <p
             key={e._id}

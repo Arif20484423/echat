@@ -32,17 +32,17 @@ const Root = ({ fileClick,  check,setChecked }) => {
       } else {
         fetch("/api/user/root", {
           method: "POST",
-          body: JSON.stringify({ user: user.id }),
+          body: JSON.stringify({ user: user._id }),
         })
           .then((d) => d.json())
           .then((d) => {
-            const pathFolders = [d.data];
-            sessionStorage.setItem("pathFolders", JSON.stringify(pathFolders));
+           const tempFolders = [d.data];
+            sessionStorage.setItem("pathFolders", JSON.stringify(tempFolders));
             sessionStorage.setItem("pos", JSON.stringify(0));
             sessionStorage.setItem("lastPos", JSON.stringify(0));
             setPos(() => 0);
             setLastPos(() => 0);
-            setPathFolders(() => pathFolders);
+            setPathFolders(() => tempFolders);
           });
       }
     }
