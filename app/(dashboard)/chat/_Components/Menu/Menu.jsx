@@ -2,7 +2,7 @@
 import React, { useContext, useState } from "react";
 import Link from "next/link";
 import styles from "./Menu.module.css";
-import UserInfo from "./UserInfo"
+import UserInfo from "./UserInfo";
 import { PiSignOutBold } from "react-icons/pi";
 import { Context } from "@/app/_context/NoteContext";
 import { userSignOut } from "@/lib/actions/userActions";
@@ -12,7 +12,7 @@ import { FiUsers } from "react-icons/fi";
 import { FaRegFolder } from "react-icons/fa";
 const Menu = ({ setPage, page }) => {
   const { user } = useContext(Context);
-  const [userinfo,setUserinfo] =useState(false);
+  const [userinfo, setUserinfo] = useState(false);
   return (
     <>
       <br />
@@ -61,7 +61,6 @@ const Menu = ({ setPage, page }) => {
             userSignOut();
           }}
         >
-        
           <PiSignOutBold className={`${styles.menuicon} `} />
         </div>
 
@@ -78,12 +77,17 @@ const Menu = ({ setPage, page }) => {
           }}
         />
         {userinfo && (
-          <UserInfo
-            setUserinfo={setUserinfo}
-            name_={user.name}
-            image_={user.image ? user.image : "/profile.jpg"}
-            desc_={user.description}
-          />
+          <>
+            <UserInfo
+              setUserinfo={setUserinfo}
+              name_={user.name}
+              image_={user.image ? user.image : "/profile.jpg"}
+              desc_={user.description}
+            />
+            <div className={`${online ? styles.online : styles.offline}`}>
+              
+            </div>
+          </>
         )}
       </div>
     </>

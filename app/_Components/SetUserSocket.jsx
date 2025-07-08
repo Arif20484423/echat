@@ -7,7 +7,6 @@ const SetSocket = () => {
     setUser,
     setSocket,
     toUserRef,
-    setConnectedRefetch,
     setMessages,
     setConnected,
   } = useContext(Context);
@@ -25,7 +24,11 @@ const SetSocket = () => {
           setSocket(sock);
 
           sock.on("connect", () => {
+            console.log("Connected");
             sock.emit("join_room", { room: data.user._id });
+          });
+          sock.on("disconnect",()=>{
+            console.log("Disconnected")
           });
           sock.on("message", (data) => {
             if (toUserRef.current) {

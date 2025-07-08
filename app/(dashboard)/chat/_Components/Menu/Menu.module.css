@@ -1,111 +1,116 @@
-.selectfiles{
-    width: 500px;
-    height: 500px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: goldenrod;
+.selectfiles {
+  width: 500px;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: goldenrod;
 }
 
-
-.iconbox{
-    width: 90%;
-    height: 45px;
-    position: relative;
-    margin: 2px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    
+.iconbox {
+  width: 90%;
+  height: 45px;
+  position: relative;
+  margin: 2px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.selectedicon{
-    background-color: var(--blueBorder);
+.selectedicon {
+  background-color: var(--blueBorder);
 }
-.iconbox:hover{
-    background-color: var(--blueBorder);
+.iconbox:hover {
+  background-color: var(--blueBorder);
 }
 
-.menuicon{
-    width: 22px;
-    height: 22px;
+.menuicon {
+  width: 22px;
+  height: 22px;
 
-    color: var(--grey);
-}
-
-.user{
-    position: absolute;
-
-    bottom: 5px;
-}
-.user > img{
-    margin-top: 5px;
-    border-radius: 100%;
-    width: 48px;
-    height: 48px;
-    object-fit: cover;
+  color: var(--grey);
 }
 
-.userinfo{
-    width: 500px;
-    /* height: 200px; */
-    
+.user {
+  position: absolute;
+
+  bottom: 5px;
 }
-.userinfo img{
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 100%;
+.user > img {
+  margin-top: 5px;
+  border-radius: 100%;
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
 }
 
-.profilewrapper{
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0px;
-    z-index: 2;
-    backdrop-filter: blur(1px);
-        
+.userinfo {
+  width: 500px;
+  /* height: 200px; */
+}
+.userinfo img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 100%;
 }
 
-.image{
-    text-align: center;
-    margin-bottom: 20px;
-    position: relative;
+.profilewrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  z-index: 2;
+  backdrop-filter: blur(1px);
 }
 
+.image {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
 
-.userinfo label{
-    font-weight: 600;
+.userinfo label {
+  font-weight: 600;
 }
-.edit{
-    float: right;
+.edit {
+  float: right;
 }
-.userinfo input{
-    
-    padding: 7px;
-    display: block;
-    margin-bottom: px;
-    border: 1px solid var(--grey);
-    border-radius: 5px;
-    font-size: 16px;
-    margin-bottom: 13px;
-    font-weight: 500;
-    width: 95%;
-    margin-top: 3px;
+.userinfo input {
+  padding: 7px;
+  display: block;
+  margin-bottom: px;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 13px;
+  font-weight: 500;
+  width: 95%;
+  margin-top: 3px;
 }
-.userinfo svg{
-    cursor: pointer;
+.userinfo svg {
+  cursor: pointer;
 }
-.imageedit{
-    background-color: white;
-    position: relative;
-    bottom: 25px;
-    right: 35px;
+.imageedit {
+  background-color: white;
+  position: relative;
+  bottom: 25px;
+  right: 35px;
+}
+.info {
+  clear: both;
+}
 
+.online {
+  color: var(--blue);
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
 }
-.info{
-    clear: both;
+.online {
+  color: red;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
 }
