@@ -66,7 +66,8 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
         const res = await fetch("http://localhost:3000/api/user/photos", {
           method: "POST",
         });
-        const data = await res.json();
+        let data = await res.json();
+        data = JSON.parse(data)
         setFiles(data.data);  
       } catch (error) {
         console.error(error)
