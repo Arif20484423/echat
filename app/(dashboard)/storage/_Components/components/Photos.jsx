@@ -64,9 +64,14 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
     fetch("http://localhost:3000/api/user/photos", {
       method: "POST",
     })
-      .then((d) => d.json())
+      .then((d) => {
+        console.log(d)
+        return d.json();
+      })
       .then((d) => {
         setFiles(() => d.data);
+      }).catch((error)=>{
+        console.log(error)
       });
   }, []);
 
