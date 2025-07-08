@@ -64,6 +64,7 @@ const FolderFiles = ({ check, setChecked }) => {
     }
     fetch("/api/user/documents", {
       method: "POST",
+      body:JSON.stringify({"userid":user._id})
     })
       .then((d) => d.json())
       .then((d) => {

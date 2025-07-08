@@ -83,7 +83,6 @@ const FolderFiles = ({
       })
         .then((d) => d.json())
         .then((d) => {
-          console.log("folder", d.data)
           setFolders(d.data);
         });
       fetch("/api/user/files", {
@@ -92,7 +91,6 @@ const FolderFiles = ({
       })
         .then((d) => d.json())
         .then((d) => {
-          console.log("files", d.data);
           setFiles(d.data);
         });
     }

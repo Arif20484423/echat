@@ -63,6 +63,7 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
     }
     fetch("/api/user/photos", {
       method: "POST",
+      body:JSON.stringify({"userid":user._id})
     })
       .then((d) => d.json())
       .then((d) => {
