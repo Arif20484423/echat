@@ -61,18 +61,19 @@ const FolderFiles = ({ check, setChecked, fileClick }) => {
     if (check) {
       setSelectFlag(true);
     }
-    fetch("http://localhost:3000/api/user/photos", {
-      method: "POST",
-    })
-      .then((d) => {
-        console.log(d)
-        return d.json();
-      })
-      .then((d) => {
-        setFiles(() => d.data);
-      }).catch((error)=>{
-        console.log(error)
-      });
+    async function fetchFiles(){
+      try {
+        const res = await fetch("http://localhost:3000/api/user/photos", {
+          method: "POST",
+        });
+        const data = await res.json();
+        setFiles(data.data);  
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchFiles()
+
   }, []);
 
   return (
