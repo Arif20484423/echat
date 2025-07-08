@@ -157,7 +157,7 @@ export default function Chat({ setChatPage }) {
 
   if (toUser2 == null) {
     if (client) {
-      return <></>;
+      return <div>Hey Everyone </div>;
     } else {
       return <Skeleton />;
     }

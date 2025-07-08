@@ -59,6 +59,7 @@ const Contact = ({
     }
   }
   useEffect(() => {
+    console.log("!")
     document.addEventListener("click", handleClick);
   }, []);
   if (isgroup) {

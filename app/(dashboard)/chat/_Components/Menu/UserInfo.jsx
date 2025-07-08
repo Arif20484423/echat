@@ -4,7 +4,7 @@ import FunctionButton from "../../../../_UIComponents/FunctionButton";
 import styles from "./Menu.module.css";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-const UserInfo = ({ setUserinfo, name_, image_, desc_ }) => {
+const UserInfo = ({ setUserinfo, name_, email_, image_, desc_ }) => {
   console.log("CHECKING IMAGE ", image_);
   const router = useRouter();
   const ref = useRef(null);
@@ -173,7 +173,7 @@ const UserInfo = ({ setUserinfo, name_, image_, desc_ }) => {
             <div className={styles.info}>
               {" "}
               <label htmlFor="">Email</label>
-              <input type="text" value="arif7862016aa@gmail.com" disabled />
+              <input type="text" value={email_} disabled />
             </div>
 
             <FunctionButton

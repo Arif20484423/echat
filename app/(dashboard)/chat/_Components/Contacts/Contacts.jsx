@@ -30,6 +30,7 @@ const Contacts = ({ check, setContacts }) => {
       })
       .then((d) => {
         setConnected(d.data);
+        console.log(d.data)
         setLoading(false);
         if (toUser2 == null && sessionStorage.getItem("toUser")) {
           setToUser2(() => JSON.parse(sessionStorage.getItem("toUser")));
@@ -40,9 +41,15 @@ const Contacts = ({ check, setContacts }) => {
   useEffect(() => {
     const fil = connected.filter((e) => {
       if (e.isgroup) {
+        if(e.group[0].name)
         return e.group[0].name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
+      else
+      return true;
       } else {
+        if(e.connections[0].name)
         return e.connections[0].user.name.substring(0, filter.length).toUpperCase() == filter.toUpperCase();
+      else
+      return true
       }
     });
     fil.sort((a,b)=>{
