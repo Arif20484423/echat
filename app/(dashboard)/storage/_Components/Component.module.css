@@ -184,11 +184,15 @@
     
 }
 .uploadfile{
-    background-color: #2176FF;
+    background-color: var(--blue);
     margin-right: 10px;
     display: flex;
     align-items: center;
     
+}
+.uploadfile:disabled{
+    background-color: var(--lightBlue);
+    cursor:not-allowed;
 }
 .newfolder{
     width: auto;
