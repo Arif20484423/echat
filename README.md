@@ -90,34 +90,11 @@ Select files (to delete/send multile files in one step )
 
 
 
-## Imp file env.local 
-Code needs some secrets and all that is in .env.local file in the local stoarage pc
-that is in Web folder backendtemplate_login_signup_providers
-
-## Challenges
 
 
+## Journey Throughout
 
-
-## Routes login/signup
-
-/user/signin -> credentials, providers
-
-/user/signup  --- email -> otp-> password set
-
-/user/password  -reset password once logged in
-
-/dashboard --- signout button
-
-
-
-## Steps and Resources
-
-Links
-
-database design- https://app.diagrams.net/#G15HfFKoVb7JMASQf8YkSKYo6MRhmcwnuY#%7B%22pageId%22%3A%22dWDINIOhN6ajU6t8rEm0%22%7D
-
-figma design - https://www.figma.com/design/kwJA70CWswiRDP4yCWVBXu/echat?node-id=0-1&p=f&t=YUC3nB5TUUeyq0jZ-0
+Figma design - https://www.figma.com/design/kwJA70CWswiRDP4yCWVBXu/echat?node-id=0-1&p=f&t=YUC3nB5TUUeyq0jZ-0
 
 
 1- Tookup my own backend login/signup template from my own github repository
@@ -154,7 +131,13 @@ https://stackoverflow.com/questions/78407469/the-error-was-caused-by-importing-m
 
 13- Also the major functions for uploading, sending and managing files are completed , remaining will be completed parallely with frontend development.
 
-14- Started with the frontend part currently developing UI's. 
+14- Started with the frontend part and completed all the UI part and the connections between frontend and backend
+
+15- The site was completed but still there was a problem i came up with like, some bugs, and also slow speed for doing any of the task .
+
+16 - And then i decided to make changes to my structure databases and apis to make my app efficient.
+
+17 - 
 
 
 ## Getting Started
