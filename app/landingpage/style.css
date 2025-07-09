@@ -1,0 +1,157 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-icon {
+  font-size: 20px;
+  margin-top: 4px;
+  color: #2563eb; /* blue-600 */
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  color: #4b5563; /* text-gray-700 */
+  margin-top: 4px;
+}
+
+.nav-links p {
+  cursor: pointer;
+}
+
+.nav-links p:hover {
+  font-weight: 500;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.signup-btn {
+  padding: 8px 20px;
+  border: 2px solid #bfdbfe; /* border-blue-200 */
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.login-btn {
+  padding: 8px 20px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Banner */
+.main-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 30px;
+}
+
+@media (min-width: 640px) {
+  .main-banner {
+    flex-direction: row;
+  }
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.gradient-text {
+  font-size: 40px;
+  font-weight: bold;
+  background: linear-gradient(to right, #3b82f6, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #4b5563; /* text-gray-600 */
+}
+
+.get-started-btn {
+  padding: 8px 20px;
+  font-size: 12px;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 5px;
+  width: max-content;
+  margin-top: 20px;
+  border: none;
+}
+
+.icon-area {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .icon-area {
+    display: flex;
+    font-size: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .icon-area {
+    font-size: 300px;
+  }
+}
+
+.banner-icon {
+  color: #2563eb;
+}
+
+/* Section: Introduction & Developers */
+.introduction,
+.developers {
+  background-color: #f3f4f6;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-heading {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.developer-card-container {
+  padding-top: 10px;
+}
