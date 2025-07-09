@@ -12,12 +12,23 @@
 // }
 
 // export default Developers
-
-import React from 'react';
-import DevCard from './DevCard';
-import './Developers.css'; // Import the external CSS file
+"use client";
+import { React, useEffect } from "react";
+import DevCard from "./DevCard";
+import "./Developers.css"; // Import the external CSS file
 
 const Developers = ({ data }) => {
+  useEffect(() => {
+    const scrollContainer = document.querySelector(".developers-grid");
+    const interval = setInterval(() => {
+      if (scrollContainer) {
+        scrollContainer.scrollLeft += 1; // scrolls right 1px
+      }
+    }, 20); // scroll speed
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="developers-grid">
       {data.map((devData) => (
@@ -35,4 +46,3 @@ const Developers = ({ data }) => {
 };
 
 export default Developers;
-

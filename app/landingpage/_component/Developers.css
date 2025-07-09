@@ -1,19 +1,29 @@
+/* Developer grid: horizontal scroll and center alignment */
 .developers-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  justify-content: center;     /* Horizontally center */
+  align-items: flex-start;     /* Align to top */
   gap: 24px;
   padding: 20px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  max-width: 100%;
+  box-sizing: border-box;
+
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
 }
 
-/* Responsive Grid */
-@media (min-width: 640px) {
-  .developers-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+/* Hide scrollbar in WebKit browsers (Chrome, Safari) */
+.developers-grid::-webkit-scrollbar {
+  display: none;
 }
 
-@media (min-width: 1024px) {
-  .developers-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+/* Each card */
+.developers-grid > div {
+  flex: 0 0 auto;
+  width: 250px;                /* Or whatever card width you prefer */
 }
