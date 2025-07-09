@@ -49,20 +49,30 @@
   gap: 8px;
   font-size: 12px;
 }
-
-.signup-btn {
+.login-button {
   padding: 8px 20px;
-  border: 2px solid #bfdbfe; /* border-blue-200 */
-  border-radius: 5px;
-  background-color: transparent;
-}
-
-.login-btn {
-  padding: 8px 20px;
+  font-size: 12px;
   background-color: #2563eb;
   color: white;
   border-radius: 5px;
+  width: max-content;
+  margin-top: 20px;
   border: none;
+}
+.signup-button {
+  all: unset;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  /* background-color: #2563eb; */
+  background-color: #dae5ff;
+  /* border: 1px solid #2563eb; */
+  color: #2563eb;
+  /* color: white; */
+  border-radius: 5px;
+  width: max-content;
+  margin-top: 20px;
+  /* border: none; */
 }
 
 /* Banner */

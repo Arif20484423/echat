@@ -205,8 +205,8 @@ const LandingPage = () => {
           <p>Contact</p>
         </div>
         <div className="auth-buttons">
-          <button className="signup-btn">Sign Up</button>
-          <button className="login-btn">Login</button>
+          <button className="signup-button">Sign Up</button>
+          <button className="login-button">Login</button>
         </div>
       </div>
 
