@@ -1,0 +1,27 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-size: 15px;
+  padding: 20px;
+  min-width: 250px;
+  max-width: 400px;
+  width: 100%;
+  border-radius: 10px;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1); /* Shadow-blue-050 equivalent */
+}
+
+.card-icon {
+  color: #3b82f6; /* text-blue-500 */
+}
+
+.card-heading {
+  font-weight: bold;
+}
+
+.card-text {
+  font-weight: normal;
+  color: #9ca3af; /* text-gray-400 */
+  font-size: 12px;
+}
