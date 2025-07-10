@@ -1,0 +1,29 @@
+/* Developer grid: horizontal scroll and center alignment */
+.developers-grid {
+  display: flex;
+  justify-content: center;     /* Horizontally center */
+  align-items: flex-start;     /* Align to top */
+  gap: 24px;
+  padding: 20px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  max-width: 100%;
+  box-sizing: border-box;
+
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
+}
+
+/* Hide scrollbar in WebKit browsers (Chrome, Safari) */
+.developers-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each card */
+.developers-grid > div {
+  flex: 0 0 auto;
+  width: 250px;                /* Or whatever card width you prefer */
+}

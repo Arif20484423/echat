@@ -1,0 +1,20 @@
+.zigzag-section {
+  display: flex;
+  flex-direction: column;
+  background-color: #f3f4f6; /* bg-gray-100 */
+  gap: 12px;
+  padding: 40px 20px;
+}
+
+.card-row {
+  display: flex;
+  width: 100%;
+}
+
+.card-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.card-row.normal {
+  flex-direction: row;
+}
