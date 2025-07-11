@@ -56,7 +56,12 @@
   gap: 8px;
   font-size: 12px;
 }
+a{
+  text-decoration: none;
+}
 .login-button {
+  all: unset;
+  
   cursor: pointer;
   padding: 10px 20px;
   font-size: 12px;
@@ -68,6 +73,7 @@
 }
 .signup-button {
   all: unset;
+  
   cursor: pointer;
   padding: 10px 20px;
   font-size: 12px;
@@ -89,6 +95,7 @@
   justify-content: space-between;
   padding: 0 20px;
   margin-top: 30px;
+  padding-bottom: 50px;
 }
 
 @media (min-width: 640px) {
@@ -112,6 +119,12 @@
   margin-bottom: 0;
 }
 
+.subtitle2 {
+  margin-top: 3px;
+  font-size: 17px;
+  color: #4b5563; /* text-gray-600 */
+  font-weight: 500;
+}
 .subtitle1 {
   margin-top: 5px;
   font-size: 17px;
@@ -130,12 +143,10 @@
   margin-top: 20px;
   cursor: pointer;
   border: none;
-}
-.get-started-btn a {
-  text-decoration: none;
   color: white;
   font-size: 14px;
 }
+
 .get-started-btn a:visited {
   text-decoration: none;
   color: white;
@@ -221,7 +232,7 @@ footer > .leftPart > h2 {
 
 footer .iconContainer svg {
   color: white;
-  margin-right: 20x;
+  margin-right: 10px;
 }
 footer > .rightPart {
   display: flex;

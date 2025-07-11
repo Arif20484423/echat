@@ -1,18 +1,15 @@
-"use client";
 import React from "react";
 import { AiFillMessage } from "react-icons/ai";
 import { FiMessageCircle } from "react-icons/fi";
-import { TiFlashOutline } from "react-icons/ti";
-import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa6";
 import { FiGithub } from "react-icons/fi";
 import ZigzagSection from "./_component/ZigzagSection";
 import Developers from "./_component/Developers";
 import Link from "next/link";
-import "./style.css"; //
+import "./style.css"; 
 
-const LandingPage = () => {
+const LandingPage = ({logged}) => {
   const cardData = [
     {
       id: 1,
@@ -168,6 +165,7 @@ const LandingPage = () => {
     },
   ];
 
+ 
   return (
     <div className="landing">
       <div className="navbar">
@@ -181,35 +179,51 @@ const LandingPage = () => {
           <a href="#contact">Contact</a>
         </div>
         <div className="auth-buttons">
-          <button className="signup-button">Sign Up</button>
-          <button className="login-button">Login</button>
+          {logged ? (
+            <>
+              <a href="/chat">
+                <button className="signup-button">Chat</button>
+              </a>
+              <a href="/storage">
+                <button className="login-button">Storage</button>
+              </a>
+            </>
+          ) : (
+            <>
+              <a href="/user/signup">
+                <button className="signup-button">Sign Up</button>
+              </a>
+              <a href="/user/signin">
+                <button className="login-button">Login</button>
+              </a>
+            </>
+          )}
         </div>
       </div>
 
       <div className="main-banner">
         <div className="text-content">
           <div>
-            <h1 className="gradient-text">eChat (Chat and Storage)</h1>
-
+            <h1 className="gradient-text">eChat </h1>
+            <p className="subtitle2">Chat and Storage</p>
             <p className="subtitle1">
-              (Email-Based Application — Like WhatsApp is Phone Number-Based)
+              Email-Based Application Like WhatsApp is Phone Number-Based
             </p>
           </div>
           <p className="subtitle">
             A full-stack chat and file storage application built using Next.js
             and Express.
             <br />
-            <br /> It combines the power of messaging and file management into
-            one seamless tool.
+            It combines the power of messaging and file management into one
+            seamless tool.
           </p>
-          <button className="get-started-btn">
-            <a href="https://github.com/Arif20484423/echat" target="_blank">
-              Github
-            </a>
-          </button>
+
+          <a href="https://github.com/Arif20484423/echat" target="_blank">
+            <button className="get-started-btn">Github</button>
+          </a>
         </div>
         <div className="icon-area">
-          <AiFillMessage className="banner-icon" />
+          <AiFillMessage className="banner-icon" size={250} />
         </div>
       </div>
 
@@ -231,7 +245,6 @@ const LandingPage = () => {
         </div>
       </div>
       <div className="contactUs">
-        <h2>Contact Details</h2>
         <footer>
           <div className="leftPart">
             <h2>eChat</h2>
@@ -251,7 +264,7 @@ const LandingPage = () => {
               </a>
             </div>
           </div>
-          <div className="rightPart">
+          {/* <div className="rightPart">
             <ul>
               <li>
                 <a href="">Features</a>
@@ -266,7 +279,7 @@ const LandingPage = () => {
                 <a href="">Roadmap</a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </footer>
       </div>
     </div>

@@ -1,11 +1,12 @@
+import { auth } from "@/auth"
 import LandingPage from "./_Components/landingpage/LandingPage"
 import React from 'react'
 
-const page = () => {
-  
+const page = async () => {
+  const session = await auth();  
   return (
     <div>
-      <LandingPage />
+      <LandingPage  logged={session?true:false}/>
     </div>
   )
 }
