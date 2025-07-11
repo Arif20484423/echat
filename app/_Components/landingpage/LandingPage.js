@@ -195,10 +195,10 @@ const LandingPage = () => {
       <div className="main-banner">
         <div className="text-content">
           <div>
-            <h1 className="gradient-text">eChat (Chat and Storage)</h1>
+            <h1 className="gradient-text">eChat: Chat and Storage</h1>
 
             <p className="subtitle1">
-              (Email-Based Application — Like WhatsApp is Phone Number-Based)
+              Email-Based Application — Like WhatsApp is Phone Number-Based
             </p>
           </div>
           <p className="subtitle">
