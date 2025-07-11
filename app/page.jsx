@@ -1,4 +1,4 @@
-import LandingPage from "./landingpage/LandingPage"
+import LandingPage from "./_Components/landingpage/LandingPage"
 import React from 'react'
 
 const page = () => {

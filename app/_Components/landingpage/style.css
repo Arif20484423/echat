@@ -1,5 +1,5 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 .landing {
   display: flex;
@@ -10,7 +10,8 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 8px 20px;
+  align-items: center;
+  padding: 0px 20px;
   width: 100%;
 }
 
@@ -53,17 +54,19 @@
   font-size: 12px;
 }
 .login-button {
+  cursor: pointer;
   padding: 8px 20px;
   font-size: 12px;
   background-color: #2563eb;
   color: white;
   border-radius: 5px;
   width: max-content;
-  margin-top: 20px;
   border: none;
 }
 .signup-button {
+  
   all: unset;
+  cursor: pointer;
   padding: 8px 20px;
   font-size: 12px;
   font-weight: 500;
@@ -74,7 +77,6 @@
   /* color: white; */
   border-radius: 5px;
   width: max-content;
-  margin-top: 20px;
   /* border: none; */
 }
 
@@ -104,10 +106,18 @@
   background: linear-gradient(to right, #3b82f6, #1e40af);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-bottom: 0;
 }
 
+.subtitle1 {
+  margin-top: 5px;
+  font-size: 17px;
+  background: linear-gradient(to right, #3b82f6, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: #4b5563; /* text-gray-600 */
 }
 
@@ -169,65 +179,67 @@
   padding-top: 10px;
 }
 
-.contactUs{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.contactUs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.contactUs > h2{
-    font-size: 25px;
+.contactUs > h2 {
+  font-size: 25px;
 }
-footer{
-    display: flex;
-    background-color: #041834;
-    padding: 30px 50px;
-    width: 100%;
+footer {
+  display: flex;
+  background-color: #041834;
+  padding: 30px 50px;
+  width: 100%;
 }
-footer > .leftPart{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    max-width: 350px;
+footer > .leftPart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 350px;
 }
-footer > .leftPart > p{
-    font-size: 12px;
-    color: #576d8e;
+footer > .leftPart > p {
+  font-size: 12px;
+  color: #576d8e;
 }
-footer > .leftPart > h2{
-    padding: 0px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
+footer > .leftPart > h2 {
+  padding: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
 }
-footer .iconContainer svg{
-    color: white;
+footer .iconContainer svg {
+  color: white;
 }
-footer > .rightPart{
-    display: flex;
-    flex-direction: column;
+footer > .rightPart {
+  display: flex;
+  flex-direction: column;
 }
-footer > .leftPart > .iconContainer{
-    display: flex;
-    gap: 5px;
-    margin-top:20px;
+footer > .leftPart > .iconContainer {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
 }
-footer > .rightPart ul{
-    list-style-type: none;
-    font-size: 12px;
-    color: #576d8e;
-    gap: 5px;
-    display: flex;
-    flex-direction: column;
-    padding: 0px;
-    margin: 0px;
+footer > .rightPart ul {
+  list-style-type: none;
+  font-size: 12px;
+  color: #576d8e;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  margin: 0px;
 }
-footer > .rightPart a:link, a:visited, a:active, a:focus{
-    color: #576d8e;
-    text-decoration: none;
-
+footer > .rightPart a:link,
+a:visited,
+a:active,
+a:focus {
+  color: #576d8e;
+  text-decoration: none;
 }
-footer > .rightPart a:hover{
-    font-weight: bold;
-    color: #576d8e;
-    text-decoration: none;
+footer > .rightPart a:hover {
+  font-weight: bold;
+  color: #576d8e;
+  text-decoration: none;
 }

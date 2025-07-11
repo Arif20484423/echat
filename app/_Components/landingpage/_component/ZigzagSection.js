@@ -25,13 +25,21 @@ const ZigzagSection = ({ data }) => {
       {data.map((cardData) => (
         <div
           key={cardData.id}
-          className={`card-row ${cardData.id % 2 === 1 ? 'normal' : 'reverse'}`}
+          className={`card-row ${cardData.id % 2 === 1 ? "normal" : "reverse"}`}
         >
+        {cardData.ele && cardData.ele}
           <Card
             icon={cardData.icon}
             heading={cardData.heading}
             text={cardData.text}
           />
+          <div>
+            <img
+              className="cardimage"
+                src={cardData.img}
+              alt={cardData.imgAlt}
+            />
+          </div>
         </div>
       ))}
     </div>

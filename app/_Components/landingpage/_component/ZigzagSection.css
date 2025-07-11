@@ -1,0 +1,36 @@
+.zigzag-section {
+  display: flex;
+  flex-direction: column;
+  background-color: #f3f4f6; /* bg-gray-100 */
+  gap: 50px;
+  padding: 40px 20px;
+}
+
+.card-row {
+  display: flex;
+  gap: 50px;
+  justify-content:center;
+  width: 100%;
+}
+
+.card-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.card-row.normal {
+  flex-direction: row;
+}
+
+.cardimage{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-size: 15px;
+  padding: 20px;
+  min-width: 250px;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 10px;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.1); /* Shadow-blue-050 equivalent */
+}
