@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SetSocket from "./_Components/SetUserSocket";
+import WakeServer from "./_Components/WakeServer"
 import NoteProvider from "./_context/NoteProvider";
 const inter = Inter({ subsets: ["greek"] });
 
@@ -19,6 +19,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <WakeServer></WakeServer>
         <NoteProvider>{children}</NoteProvider>
       </body>
     </html>
