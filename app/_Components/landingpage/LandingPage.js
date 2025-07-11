@@ -146,31 +146,25 @@ const LandingPage = () => {
   const developers = [
     {
       id: 1,
-      name: "Sudip Das",
-      designation: "Manager",
+      name: "Md Arif",
+      designation: "Full Stack Developer",
       gitLink: "https://github.com/Arif20484423",
-      imageSrc: "/devImages/devSudip.jpg",
+      imageSrc: "arif.png",
     },
     {
       id: 2,
-      name: "Mohammad Arif",
-      designation: "Manager",
+      name: "Sakshi Dewangan",
+      designation: "Frontend Developer",
       gitLink: "https://github.com/Arif20484423",
-      imageSrc: "/devImages/devArif.jpg",
+      imageSrc: "sakshi.jpg",
     },
+
     {
       id: 3,
-      name: "Sakshi Dewangan",
-      designation: "Manager",
+      name: "Sudip Das",
+      designation: "Frontend Developer & Designer",
       gitLink: "https://github.com/Arif20484423",
-      imageSrc: "/devImages/devSakshi.jpg",
-    },
-    {
-      id: 4,
-      name: "Sangeeta Bhargava",
-      designation: "Manager",
-      gitLink: "https://github.com/Arif20484423",
-      imageSrc: "/devImages/devSangeeta.jpg",
+      imageSrc: "sudip.png",
     },
   ];
 
@@ -182,9 +176,9 @@ const LandingPage = () => {
           <p className="logo-text">eChat</p>
         </div>
         <div className="nav-links">
-          <p>Introduction</p>
-          <p>Developers</p>
-          <p>Contact</p>
+          <a href="#application">Application</a>
+          <a href="#developers">Developers</a>
+          <a href="#contact">Contact</a>
         </div>
         <div className="auth-buttons">
           <button className="signup-button">Sign Up</button>
@@ -208,14 +202,18 @@ const LandingPage = () => {
             <br /> It combines the power of messaging and file management into
             one seamless tool.
           </p>
-          <button className="get-started-btn">Get Started</button>
+          <button className="get-started-btn">
+            <a href="https://github.com/Arif20484423/echat" target="_blank">
+              Github
+            </a>
+          </button>
         </div>
         <div className="icon-area">
           <AiFillMessage className="banner-icon" />
         </div>
       </div>
 
-      <div className="introduction">
+      <div id="application" className="introduction">
         <h1 className="section-heading">Application Interface</h1>
         <p className="section-subtitle">
           Everything you need to know to use the application
@@ -223,7 +221,7 @@ const LandingPage = () => {
         <ZigzagSection data={cardData} />
       </div>
 
-      <div className="developers">
+      <div id="developers" className="developers">
         <div className="text-content">
           <h2 className="section-heading">Developers</h2>
           <p className="section-subtitle">Meet the developers of our site</p>
@@ -241,10 +239,16 @@ const LandingPage = () => {
               place for the communication with your teammates, colleagues etc
             </p>
             <div className="iconContainer">
-              <FaXTwitter />
-              <FaFacebookF />
-              <FaInstagram />
-              <FiGithub />
+              <a href="">
+                <FiGithub />
+              </a>
+              <a href="">
+                <FaInstagram />
+              </a>
+
+              <a href="">
+                <FaFacebookF />
+              </a>
             </div>
           </div>
           <div className="rightPart">

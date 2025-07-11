@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;     /* Horizontally center */
   align-items: flex-start;     /* Align to top */
-  gap: 24px;
+  gap: 70px;
   padding: 20px;
 
   overflow-x: auto;

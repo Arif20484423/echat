@@ -28,20 +28,23 @@
 }
 
 .logo-text {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
+
+  margin: 20px auto;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
-  font-size: 15px;
-  color: #4b5563; /* text-gray-700 */
+  gap: 25px;
   margin-top: 4px;
 }
 
-.nav-links p {
+.nav-links a {
   cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  color: #4b5563; /* text-gray-700 */
 }
 
 .nav-links p:hover {
@@ -55,7 +58,7 @@
 }
 .login-button {
   cursor: pointer;
-  padding: 8px 20px;
+  padding: 10px 20px;
   font-size: 12px;
   background-color: #2563eb;
   color: white;
@@ -64,10 +67,9 @@
   border: none;
 }
 .signup-button {
-  
   all: unset;
   cursor: pointer;
-  padding: 8px 20px;
+  padding: 10px 20px;
   font-size: 12px;
   font-weight: 500;
   /* background-color: #2563eb; */
@@ -98,6 +100,7 @@
 .text-content {
   display: flex;
   flex-direction: column;
+  margin-left: 60px;
 }
 
 .gradient-text {
@@ -112,9 +115,7 @@
 .subtitle1 {
   margin-top: 5px;
   font-size: 17px;
-  background: linear-gradient(to right, #3b82f6, #1e40af);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #4b5563; /* text-gray-600 */
 }
 .subtitle {
   font-size: 14px;
@@ -122,16 +123,24 @@
 }
 
 .get-started-btn {
-  padding: 8px 20px;
-  font-size: 12px;
+  padding: 10px 20px;
   background-color: #2563eb;
-  color: white;
   border-radius: 5px;
   width: max-content;
   margin-top: 20px;
+  cursor: pointer;
   border: none;
 }
-
+.get-started-btn a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+.get-started-btn a:visited {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
 .icon-area {
   display: none;
 }
@@ -209,8 +218,10 @@ footer > .leftPart > h2 {
   font-weight: bold;
   color: white;
 }
+
 footer .iconContainer svg {
   color: white;
+  margin-right: 20x;
 }
 footer > .rightPart {
   display: flex;
